@@ -10,10 +10,39 @@ public class Main {
 
         printWelcome(accountBalance, "Alex Doe");
         printBufferHeader("FinCore CLI Banking Menu");
-        printMenu();
-        System.out.print("Please enter the number corresponding your choice: ");
-        menuChoice = getMenuChoice(sysInScanObj);
+        while (true) {
+            printMenu();
+            System.out.print("Please enter the number corresponding your choice: ");
+            menuChoice = getMenuChoice(sysInScanObj);
+            switch (menuChoice) {
+                case 1 -> accountBalance = deposit(accountBalance, sysInScanObj);
+                case 2 -> accountBalance = withdraw(accountBalance, sysInScanObj);
+                case 3 -> printBalance(accountBalance);
+                case 0 -> System.exit(0);
+            };
+        }
+    }
 
+    public static double deposit(double balance, Scanner input) {
+        System.out.print("Enter amount to deposit: ");
+        return balance + getDoubleInput(input);
+    }
+
+    public static double withdraw(double balance, Scanner input) {
+        System.out.print("Enter amount to withdraw: ");
+        return balance - getDoubleInput(input);
+    }
+
+    public static void printBalance(double balance) {
+        String balanceMsg = "Current balance: $%,.2f";
+        System.out.printf((balanceMsg) + "%n", balance);
+    }
+
+    public static double getDoubleInput(Scanner input) {
+        while (!input.hasNextDouble()) {
+            input.next();
+        }
+        return input.nextDouble();
     }
 
     public static int getMenuChoice(Scanner input) {
