@@ -19,18 +19,27 @@ public class Main {
                 case 2 -> accountBalance = withdraw(accountBalance, sysInScanObj);
                 case 3 -> printBalance(accountBalance);
                 case 0 -> System.exit(0);
-            };
+            }
+
         }
     }
 
     public static double deposit(double balance, Scanner input) {
-        System.out.print("Enter amount to deposit: ");
-        return balance + getDoubleInput(input);
+        double userInput;
+        do {
+            System.out.print("Enter amount to deposit: ");
+            userInput = getDoubleInput(input);
+        } while (userInput < 0);
+        return balance + userInput;
     }
 
     public static double withdraw(double balance, Scanner input) {
-        System.out.print("Enter amount to withdraw: ");
-        return balance - getDoubleInput(input);
+        double userInput;
+        do {
+            System.out.print("Enter amount to withdraw: ");
+            userInput = getDoubleInput(input);
+        } while (userInput < 0);
+        return balance - userInput;
     }
 
     public static void printBalance(double balance) {
@@ -41,6 +50,7 @@ public class Main {
     public static double getDoubleInput(Scanner input) {
         while (!input.hasNextDouble()) {
             input.next();
+            System.out.print("Please enter a valid amount: ");
         }
         return input.nextDouble();
     }
