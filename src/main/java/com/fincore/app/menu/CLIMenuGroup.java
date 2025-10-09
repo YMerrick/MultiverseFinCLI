@@ -26,8 +26,8 @@ public class CLIMenuGroup implements CLIMenuComponent {
     }
 
     @Override
-    public void display() {
-        System.out.println(label);
+    public String display() {
+        return label;
     }
 
     public void addMenuItem(CLIMenuComponent item) {
