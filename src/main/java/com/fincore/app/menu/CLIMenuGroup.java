@@ -18,10 +18,11 @@ public class CLIMenuGroup implements CLIMenuComponent {
 
     // Runs the submenu
     @Override
-    public void select() {
+    public MenuDirective select() {
         for (CLIMenuComponent item : menuItemList) {
             item.display();
         }
+        return MenuDirective.GOTO_CHILD;
     }
 
     @Override
