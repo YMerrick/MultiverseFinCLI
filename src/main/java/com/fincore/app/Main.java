@@ -1,6 +1,7 @@
 package com.fincore.app;
 
 import com.fincore.app.controller.CommandHandler;
+import com.fincore.app.controller.MenuController;
 import com.fincore.app.model.Account;
 import com.fincore.app.factory.CommandFactory;
 import com.fincore.app.menu.CLIMenuGroup;
@@ -20,11 +21,13 @@ public class Main {
         mainMenu.addMenuItem(new CLIMenuItem("Withdraw", controller::handleWithdraw));
 
         CLIMenuGroup accountMenu = new CLIMenuGroup("Accounts");
-        accountMenu.addMenuItem(new CLIMenuItem("Check Balance", ));
+//        accountMenu.addMenuItem(new CLIMenuItem("Check Balance", ));
 
         mainMenu.addMenuItem(accountMenu);
 
-        mainMenu.select();
+        MenuController menuRunner = new MenuController(mainMenu);
+        menuRunner.start();
+
 
         Scanner sysInScanObj = new Scanner(System.in);
         int menuChoice;

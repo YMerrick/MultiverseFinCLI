@@ -27,7 +27,7 @@ public class MenuController {
             stackSize = menuStack.size();
             if (Objects.isNull(currentMenu)) throw new NullPointerException("Menu does not exist");
 
-            renderMenu(currentMenu);
+            System.out.print(renderMenu(currentMenu));
             userInput = getInput(sysIn, currentMenu.getMenuSize());
             directive = interpretCommandOrExit(userInput, stackSize, currentMenu);
             switch (directive) {
@@ -39,7 +39,7 @@ public class MenuController {
         }
     }
 
-    public int getInput(Scanner inStream, int menuSize) {
+    private int getInput(Scanner inStream, int menuSize) {
         int userInput = -1;
         boolean isValid = false;
         
@@ -62,32 +62,58 @@ public class MenuController {
         return userInput;
     }
 
-    public void renderMenu(CLIMenuGroup currentMenu) {
+    private String createBreadcrumbPath() {
+        return menuStack.reversed()
+                .stream()
+                .map(CLIMenuGroup::render)
+                .collect(Collectors.joining(" > "));
+    }
+
+    private String renderBackOrExit() {
+        String output = "0. ";
+        if (menuStack.size() > 1) output += "Back";
+        else output += "Exit";
+        return output;
+    }
+
+    private String renderInputPrompt() {
+        return "Please enter a number corresponding to your choice: ";
+    }
+
+    private String renderMenuOptions(CLIMenuGroup currentMenu) {
+        ArrayList<String> menuList = new ArrayList<>(currentMenu.getChildrenLabels());
+        return IntStream.range(0, currentMenu.getMenuSize())
+                .mapToObj(i -> i+1 + ". " + menuList.get(i))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String renderMenu(CLIMenuGroup currentMenu) {
         // Get all options
-        String breadcrumb = menuStack.stream().map(CLIMenuGroup::render).collect(Collectors.joining(" > "));
+        ArrayList<String> stringListToBeOutput = new ArrayList<String>();
         String outputBody;
 
-        System.out.println(breadcrumb);
+        stringListToBeOutput.add(createBreadcrumbPath());
 
-        ArrayList<CLIMenuComponent> menuList = currentMenu.getChildren();
+        stringListToBeOutput.add(renderMenuOptions(currentMenu));
 
-        outputBody = IntStream.range(0, currentMenu.getMenuSize())
-                .mapToObj(i -> i + ". " + menuList.get(i).render())
-                .collect(Collectors.joining("\n"));
+        stringListToBeOutput.add(renderBackOrExit());
+        stringListToBeOutput.add("");
+        stringListToBeOutput.add(renderInputPrompt());
 
-        System.out.println(outputBody);
-        // Compose the output string
+        outputBody = String.join("\n", stringListToBeOutput);
+
+        return outputBody;
     }
 
-    public MenuDirective interpretCommandOrExit(int choice, int stackSize, CLIMenuGroup currentMenu) {
+    private MenuDirective interpretCommandOrExit(int choice, int stackSize, CLIMenuGroup currentMenu) {
         if (choice == 0) {
-            if (stackSize > 1) return MenuDirective.EXIT;
-            else return MenuDirective.EXIT;
+            if (stackSize > 1) return MenuDirective.BACK;
+            return MenuDirective.EXIT;
         }
-        return callChild(choice, currentMenu);
+        return callChild(choice - 1, currentMenu);
     }
 
-    public MenuDirective callChild(int index, CLIMenuGroup currentMenu) {
+    private MenuDirective callChild(int index, CLIMenuGroup currentMenu) {
         // Add menu component on to the stack
         CLIMenuComponent child = currentMenu.getChild(index);
         if (child.isGroup()) menuStack.push((CLIMenuGroup) child);

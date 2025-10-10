@@ -1,6 +1,8 @@
 package com.fincore.app.menu;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class CLIMenuGroup implements CLIMenuComponent {
     private final String label;
@@ -47,8 +49,8 @@ public class CLIMenuGroup implements CLIMenuComponent {
         return true;
     }
 
-    public ArrayList<CLIMenuComponent> getChildren() {
-        return menuItemList;
+    public List<String> getChildrenLabels() {
+        return menuItemList.stream().map(CLIMenuComponent::render).collect(Collectors.toList());
     }
 
     public CLIMenuComponent getChild(int index) {
