@@ -93,7 +93,7 @@ public class MenuController {
 
     private MenuDirective interpretCommandOrExit(int choice, CLIMenuGroup currentMenu) {
         if (choice == 0) {
-            if (currentMenu.getMenuSize() > 1) return MenuDirective.BACK;
+            if (menuStack.size() > 1) return MenuDirective.BACK;
             return MenuDirective.EXIT;
         }
         return callChild(choice - 1, currentMenu);
