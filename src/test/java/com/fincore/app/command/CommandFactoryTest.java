@@ -1,4 +1,4 @@
-package com.fincore.app.factory;
+package com.fincore.app.command;
 
 public class CommandFactoryTest {
 }
