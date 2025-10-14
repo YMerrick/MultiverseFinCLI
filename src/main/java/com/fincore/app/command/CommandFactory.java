@@ -1,9 +1,6 @@
-package com.fincore.app.factory;
+package com.fincore.app.command;
 
-import com.fincore.app.command.WithdrawCommand;
 import com.fincore.app.model.Account;
-import com.fincore.app.command.Command;
-import com.fincore.app.command.DepositCommand;
 
 public class CommandFactory {
     private final Account account;

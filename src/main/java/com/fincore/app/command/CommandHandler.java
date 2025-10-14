@@ -1,7 +1,4 @@
-package com.fincore.app.controller;
-
-import com.fincore.app.command.Command;
-import com.fincore.app.factory.CommandFactory;
+package com.fincore.app.command;
 
 public class CommandHandler {
     private final CommandFactory factory;
