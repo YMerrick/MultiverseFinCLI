@@ -18,7 +18,7 @@ final class Money {
     }
 
     public String get() {
-        String displayAmount = BigDecimal.valueOf(amount).scaleByPowerOfTen(-2).toString();
+        String displayAmount = BigDecimal.valueOf(amount,2).toString();
         return currency.getSymbol() + displayAmount;
     }
 }
