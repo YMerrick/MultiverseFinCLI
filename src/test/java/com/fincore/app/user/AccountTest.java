@@ -54,6 +54,18 @@ public class AccountTest {
     }
 
     @Test
+    public void testOverWithdrawl() {
+        Account stubAccount = new Account();
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    stubAccount.withdraw(1);
+                },
+                EXCEPTION_EXPECTED
+        );
+    }
+
+    @Test
     public void testNegativeWithdraw() {
         Account stub = new Account();
         assertThrows(
