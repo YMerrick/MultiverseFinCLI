@@ -84,6 +84,6 @@ public class Account {
                 Account Holder: %s
                 Balance: %s
                 UUID: %s""",
-                accountHolder, getBalance(), id.idToString());
+                accountHolder, MoneyFormatter.format(balance), id.idToString());
     }
 }
