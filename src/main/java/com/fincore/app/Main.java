@@ -10,7 +10,7 @@ import com.fincore.app.menu.CLIMenuItem;
 public class Main {
     public static void main(String[] args) {
 
-        Account user = new Account(10_000);
+        Account user = new Account("TestUser",10_000);
         CommandFactory factory = new CommandFactory(user);
         CommandHandler controller = new CommandHandler(factory);
 
