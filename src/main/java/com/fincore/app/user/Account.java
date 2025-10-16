@@ -1,5 +1,8 @@
 package com.fincore.app.user;
 
+import com.fincore.app.common.Money;
+import com.fincore.app.common.MoneyBuilder;
+import com.fincore.app.common.MoneyFormatter;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -7,7 +10,8 @@ import java.util.UUID;
 
 public class Account {
     private final AccountId id;
-    private final Money balance;
+    @Getter
+    private Money balance;
     @Getter
     String accountHolder;
 
@@ -26,9 +30,7 @@ public class Account {
     }
 
     public Account(UUID id, String accountHolder, double balance) {
-        this.accountHolder = accountHolder;
-        this.balance = new MoneyBuilder().setAmount(BigDecimal.valueOf(balance)).createMoney();
-        this.id = new AccountId(id);
+        this(id, accountHolder, (long) (balance * 100));
     }
 
     public Account(String accountHolder, double balance) {
@@ -39,49 +41,42 @@ public class Account {
         throw new IllegalArgumentException("Amount can not be negative");
     }
 
+    public void deposit(Money amount) {
+        balance = balance.plus(amount);
+    }
+
     public void deposit(double amountInCurrencyUnit) {
         if (amountInCurrencyUnit < 0) throwNegativeException();
-        long originalAmount = balance.getAmount();
-        long depositingAmount = (long) (amountInCurrencyUnit * 100);
-        balance.setAmount(depositingAmount + originalAmount);
+        deposit(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
     }
 
     public void deposit(long amountInMinorUnits) {
         if (amountInMinorUnits < 0) throwNegativeException();
-        balance.setAmount(balance.getAmount() + amountInMinorUnits);
+        deposit(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
     }
 
     public void deposit(BigDecimal amountInCurrencyUnit) {
         if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
-        long depositingAmount = amountInCurrencyUnit.scaleByPowerOfTen(2).longValue();
-        balance.setAmount(depositingAmount + balance.getAmount());
+        deposit(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
+    }
+
+    public void withdraw(Money amount) {
+        balance = balance.minus(amount);
     }
 
     public void withdraw(double amountInCurrencyUnit) {
         if (amountInCurrencyUnit < 0) throwNegativeException();
-        long originalAmount = balance.getAmount();
-        long withdrawingAmount = (long) (amountInCurrencyUnit * 100);
-        if (withdrawingAmount > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
-        balance.setAmount(originalAmount - withdrawingAmount);
+        withdraw(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
     }
 
     public void withdraw(long amountInMinorUnits) {
         if (amountInMinorUnits < 0) throwNegativeException();
-        long originalAmount = balance.getAmount();
-        if (amountInMinorUnits > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
-        balance.setAmount(originalAmount - amountInMinorUnits);
+        withdraw(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
     }
 
     public void withdraw(BigDecimal amountInCurrencyUnit) {
         if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
-        long withdrawingAmount = amountInCurrencyUnit.scaleByPowerOfTen(2).longValue();
-        long originalAmount = balance.getAmount();
-        if (withdrawingAmount > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
-        balance.setAmount(originalAmount - withdrawingAmount);
-    }
-
-    public String getBalance() {
-        return balance.get();
+        withdraw(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
     }
 
     public String toString() {
