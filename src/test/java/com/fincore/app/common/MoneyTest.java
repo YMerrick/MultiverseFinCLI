@@ -1,4 +1,4 @@
-package com.fincore.app.user;
+package com.fincore.app.common;
 
 import org.junit.jupiter.api.Test;
 
