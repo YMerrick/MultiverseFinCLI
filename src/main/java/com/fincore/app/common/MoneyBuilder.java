@@ -1,4 +1,4 @@
-package com.fincore.app.user;
+package com.fincore.app.common;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -33,7 +33,7 @@ public class MoneyBuilder {
         throw new IllegalArgumentException("Value can not be negative");
     }
 
-    Money createMoney() {
+    public Money createMoney() {
         return new Money(amount, currency);
     }
 }
