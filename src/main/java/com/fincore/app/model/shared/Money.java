@@ -30,6 +30,7 @@ public final class Money {
 
     public Money minus(Money other) {
         if (!currency.equals(other.currency)) throw new RuntimeException("Currencies are not the same");
+        if (other.minorUnits > minorUnits) throw new InsufficientFundsException("Insufficient funds");
         return ofMinor(Math.subtractExact(minorUnits, other.minorUnits), currency);
     }
 
