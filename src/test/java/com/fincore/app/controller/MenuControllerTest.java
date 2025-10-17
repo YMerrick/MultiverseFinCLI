@@ -1,4 +1,4 @@
-package com.fincore.app.menu;
+package com.fincore.app.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
