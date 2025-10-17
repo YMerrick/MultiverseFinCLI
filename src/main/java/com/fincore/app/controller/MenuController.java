@@ -19,31 +19,12 @@ public class MenuController {
         Scanner sysIn = new Scanner(System.in);
         // Menu Loop
         for (;;) {
-            
+
         }
     }
 
     public int getInput(Scanner inStream, int menuSize) {
-        int userInput = -1;
-        boolean isValid = false;
-        
-        while (!isValid) {
-            if (!inStream.hasNextInt()) {
-                System.out.print("Please enter a valid option: ");
-                inStream.next();
-                continue;
-            }
-            
-            userInput = inStream.nextInt();
-            if (userInput < 1 || userInput > menuSize) {
-                System.out.print("Please enter a valid option: ");
-                inStream.next();
-                continue;
-            }
-            
-            isValid = true;
-        }
-        return userInput;
+        return 1;
     }
 
     public void renderMenu() {
