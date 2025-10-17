@@ -20,16 +20,18 @@ public class MenuController {
         CLIMenuGroup currentMenu;
         int userInput;
         MenuDirective directive;
+        int stackSize;
 
         for (;;) {
             currentMenu = menuStack.peek();
-            if (Objects.isNull(currentMenu)) return;
+            stackSize = menuStack.size();
+            if (Objects.isNull(currentMenu)) throw new NullPointerException("Menu does not exist");
 
             System.out.print(renderMenu(currentMenu));
             userInput = getInput(sysIn, currentMenu.getMenuSize());
-            directive = interpretCommandOrExit(userInput, currentMenu);
+            directive = interpretCommandOrExit(userInput, stackSize, currentMenu);
             switch (directive) {
-                case EXIT -> {return;}
+                case EXIT -> System.exit(0);
                 case BACK -> menuStack.pop();
                 case GOTO_CHILD, STAY -> {}
             }
@@ -39,16 +41,25 @@ public class MenuController {
 
     private int getInput(Scanner inStream, int menuSize) {
         int userInput = -1;
-        String line;
-
-        while (true) {
-            line = inStream.nextLine().trim();
-            try {
-                userInput = Integer.parseInt(line);
-                if ((userInput >= 0) && (userInput <= menuSize)) return userInput;
-            } catch (NumberFormatException ignored) {}
-            System.out.print("Please enter a valid option: ");
+        boolean isValid = false;
+        
+        while (!isValid) {
+            if (!inStream.hasNextInt()) {
+                System.out.print("Please enter a valid option: ");
+                inStream.next();
+                continue;
+            }
+            
+            userInput = inStream.nextInt();
+            if (userInput < 0 || userInput > menuSize) {
+                System.out.print("Please enter a valid option: ");
+                inStream.next();
+                continue;
+            }
+            
+            isValid = true;
         }
+        return userInput;
     }
 
     private String createBreadcrumbPath() {
@@ -59,7 +70,10 @@ public class MenuController {
     }
 
     private String renderBackOrExit() {
-        return "0. " + (menuStack.size() > 1 ? "Back" : "Exit");
+        String output = "0. ";
+        if (menuStack.size() > 1) output += "Back";
+        else output += "Exit";
+        return output;
     }
 
     private String renderInputPrompt() {
@@ -91,16 +105,16 @@ public class MenuController {
         return outputBody;
     }
 
-    private MenuDirective interpretCommandOrExit(int choice, CLIMenuGroup currentMenu) {
+    private MenuDirective interpretCommandOrExit(int choice, int stackSize, CLIMenuGroup currentMenu) {
         if (choice == 0) {
-            if (currentMenu.getMenuSize() > 1) return MenuDirective.BACK;
+            if (stackSize > 1) return MenuDirective.BACK;
             return MenuDirective.EXIT;
         }
         return callChild(choice - 1, currentMenu);
     }
 
     private MenuDirective callChild(int index, CLIMenuGroup currentMenu) {
-        if (index < 0 || index >= currentMenu.getMenuSize()) return MenuDirective.STAY;
+        // Add menu component on to the stack
         CLIMenuComponent child = currentMenu.getChild(index);
         if (child.isGroup()) menuStack.push((CLIMenuGroup) child);
 
