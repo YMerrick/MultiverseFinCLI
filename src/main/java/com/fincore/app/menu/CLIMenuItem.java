@@ -10,8 +10,8 @@ public class CLIMenuItem implements CLIMenuComponent {
     }
 
     @Override
-    public String display() {
-        return label;
+    public void display() {
+        System.out.println(label);
     }
 
     @Override
