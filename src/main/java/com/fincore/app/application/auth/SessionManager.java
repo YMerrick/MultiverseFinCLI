@@ -1,36 +1,51 @@
 package com.fincore.app.application.auth;
 
+import com.fincore.app.model.account.Account;
 import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.Session;
 import com.fincore.app.model.identity.SessionStore;
 
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 
 public class SessionManager {
-    SessionStore storage;
+    private SessionStore seshStore;
+    private Map<UUID, Session> sessionStore;
+    // Credential repository
+    // Account repository
 
-    public SessionManager(SessionStore seshStore) {
-        this.storage = seshStore;
-    }
-
-    public UUID issue(AccountId accId) {
+    public UUID login(String username, String password) {
         UUID sessionId = UUID.randomUUID();
+        // Authenticate
 
-        Session newSession = new Session(accId, sessionId);
+
+
+        // Retrieve account from somewhere
+        Account user = new Account(UUID.fromString("1234"), "Test", 0);
+        AccountId userId = user.getId();
+        // Create Session
+        // After authentication get user id
+        Session newSession = new Session(userId, sessionId);
         // Store Session in session store
-        storage.save(sessionId, newSession);
+        sessionStore.putIfAbsent(sessionId, newSession);
         // Return session ID
-        return newSession.id();
+        return sessionId;
     }
 
     // Removes session from session store
-    public void terminate(UUID sessionId) {
-        storage.dismiss(sessionId);
+    public void logout(UUID sessionId) {
+        sessionStore.remove(sessionId);
     }
 
-    public Optional<Session> validate(UUID sessionId) {
-        return storage.getById(sessionId);
+    /**
+     * Used to validate and return current session
+     * Otherwise returns null
+     * @param sessionId
+     * UUID of session to get from store
+     * @return Session
+     */
+    public Session validate(UUID sessionId) {
+        return sessionStore.getOrDefault(sessionId, null);
     }
 
 }
