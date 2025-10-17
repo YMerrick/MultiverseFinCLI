@@ -1,6 +1,6 @@
 package com.fincore.app.command;
 
-import com.fincore.app.user.Account;
+import com.fincore.app.model.Account;
 
 public record WithdrawCommand( double amount, Account account) implements Command {
     @Override

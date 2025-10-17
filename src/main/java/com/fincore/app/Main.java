@@ -2,7 +2,7 @@ package com.fincore.app;
 
 import com.fincore.app.command.CommandHandler;
 import com.fincore.app.menu.MenuController;
-import com.fincore.app.user.Account;
+import com.fincore.app.model.Account;
 import com.fincore.app.command.CommandFactory;
 import com.fincore.app.menu.CLIMenuGroup;
 import com.fincore.app.menu.CLIMenuItem;

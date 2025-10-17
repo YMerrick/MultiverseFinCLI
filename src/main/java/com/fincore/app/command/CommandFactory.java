@@ -1,6 +1,6 @@
 package com.fincore.app.command;
 
-import com.fincore.app.user.Account;
+import com.fincore.app.model.Account;
 
 public class CommandFactory {
     private final Account account;
