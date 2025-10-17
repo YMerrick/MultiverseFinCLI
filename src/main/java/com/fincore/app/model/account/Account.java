@@ -1,8 +1,8 @@
-package com.fincore.app.user;
+package com.fincore.app.model.account;
 
-import com.fincore.app.common.Money;
-import com.fincore.app.common.MoneyBuilder;
-import com.fincore.app.common.MoneyFormatter;
+import com.fincore.app.model.common.Money;
+import com.fincore.app.model.common.MoneyBuilder;
+import com.fincore.app.model.common.MoneyFormatter;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -16,10 +16,14 @@ public class Account {
     @Getter
     String accountHolder;
 
-    public Account(UUID id, String accountHolder, long balanceInMinorUnit) {
-        this.id = new AccountId(id);
+    public Account(AccountId id, String accountHolder, long balanceInMinorUnit) {
+        this.id = id;
         this.accountHolder = accountHolder;
         this.balance = new MoneyBuilder().setAmount(balanceInMinorUnit).createMoney();
+    }
+
+    public Account(UUID id, String accountHolder, long balanceInMinorUnits) {
+        this(new AccountId(id), accountHolder, balanceInMinorUnits);
     }
 
     public Account(String accountHolder, long balanceInMinorUnit) {

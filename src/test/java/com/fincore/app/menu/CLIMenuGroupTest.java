@@ -1,11 +1,14 @@
 package com.fincore.app.menu;
 
+import com.fincore.app.cli.menu.CLIMenuComponent;
+import com.fincore.app.cli.menu.CLIMenuGroup;
+import com.fincore.app.cli.menu.CLIMenuItem;
+import com.fincore.app.cli.menu.MenuDirective;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

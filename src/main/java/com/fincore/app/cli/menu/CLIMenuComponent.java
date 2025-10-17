@@ -1,4 +1,4 @@
-package com.fincore.app.menu;
+package com.fincore.app.cli.menu;
 
 public interface CLIMenuComponent {
     public String render();

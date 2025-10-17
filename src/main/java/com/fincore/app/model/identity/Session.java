@@ -1,4 +1,6 @@
-package com.fincore.app.user;
+package com.fincore.app.model.identity;
+
+import com.fincore.app.model.account.AccountId;
 
 import java.util.UUID;
 
