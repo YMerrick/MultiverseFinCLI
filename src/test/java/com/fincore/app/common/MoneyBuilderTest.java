@@ -15,8 +15,10 @@ class MoneyBuilderTest {
     @Test
     public void testDefaultBuildValues() {
         Money result = new MoneyBuilder().createMoney();
+        String expected = "£0.00";
 
-        assertEquals(0, result.asMinorUnits());
+        assertEquals(0, result.getAmount());
+        assertEquals(expected, result.get());
     }
 
     @Test

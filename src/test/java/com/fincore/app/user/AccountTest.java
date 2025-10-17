@@ -1,6 +1,5 @@
 package com.fincore.app.user;
 
-import com.fincore.app.common.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -15,13 +14,13 @@ public class AccountTest {
     @Test
     public void testDeposit() {
         Account stubAccount = new Account("Test");
-        long previousState = stubAccount.getBalance().asMinorUnits();
+        String previousState = stubAccount.getBalance();
 
         stubAccount.deposit(1);
-        long result = stubAccount.getBalance().asMinorUnits();
+        String result = stubAccount.getBalance();
 
         assertNotEquals(previousState, result);
-        assertEquals(1, result);
+        assertEquals("£0.01", result);
     }
 
     @Test
@@ -46,20 +45,20 @@ public class AccountTest {
     @Test
     public void testWithdraw() {
         Account stubAccount = new Account("Test",2.5);
-        long previousState = stubAccount.getBalance().asMinorUnits();
+        String previousState = stubAccount.getBalance();
 
         stubAccount.withdraw(2.0);
-        long result = stubAccount.getBalance().asMinorUnits();
+        String result = stubAccount.getBalance();
 
         assertNotEquals(previousState, result);
-        assertEquals(50, result);
+        assertEquals("£0.50", result);
     }
 
     @Test
     public void testOverWithdrawl() {
         Account stubAccount = new Account("Test");
         assertThrows(
-                RuntimeException.class,
+                IllegalArgumentException.class,
                 () -> {
                     stubAccount.withdraw(1);
                 },
@@ -71,7 +70,7 @@ public class AccountTest {
     public void testNegativeWithdraw() {
         Account stub = new Account("Test");
         assertThrows(
-                RuntimeException.class,
+                IllegalArgumentException.class,
                 () -> {
                     stub.withdraw(-1);
                 },
