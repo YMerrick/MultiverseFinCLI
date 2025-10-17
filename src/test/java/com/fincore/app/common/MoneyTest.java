@@ -1,5 +1,6 @@
-package com.fincore.app.model.shared;
+package com.fincore.app.common;
 
+import com.fincore.app.model.shared.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
