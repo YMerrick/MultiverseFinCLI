@@ -1,7 +1,7 @@
 package com.fincore.app.user;
 
 import com.fincore.app.model.account.Account;
-import com.fincore.app.model.common.InsufficientFundsException;
+import com.fincore.app.model.shared.InsufficientFundsException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
