@@ -48,23 +48,18 @@ public class Account {
         if (amountInCurrencyUnit < 0) throwNegativeException();
         long originalAmount = balance.getAmount();
         long withdrawingAmount = (long) (amountInCurrencyUnit * 100);
-        if (withdrawingAmount > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
         balance.setAmount(originalAmount - withdrawingAmount);
     }
 
     public void withdraw(long amountInMinorUnits) {
         if (amountInMinorUnits < 0) throwNegativeException();
-        long originalAmount = balance.getAmount();
-        if (amountInMinorUnits > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
-        balance.setAmount(originalAmount - amountInMinorUnits);
+        balance.setAmount(balance.getAmount() - amountInMinorUnits);
     }
 
     public void withdraw(BigDecimal amountInCurrencyUnit) {
         if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
         long withdrawingAmount = amountInCurrencyUnit.scaleByPowerOfTen(2).longValue();
-        long originalAmount = balance.getAmount();
-        if (withdrawingAmount > originalAmount) throw new IllegalArgumentException("Value can not be more than current balance");
-        balance.setAmount(originalAmount - withdrawingAmount);
+        balance.setAmount(balance.getAmount() - withdrawingAmount);
     }
 
     public String getBalance() {
