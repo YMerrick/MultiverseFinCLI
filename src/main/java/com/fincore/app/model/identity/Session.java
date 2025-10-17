@@ -4,15 +4,8 @@ import com.fincore.app.model.account.AccountId;
 
 import java.util.UUID;
 
-public class Session {
-    private final UUID sessionId;
-    private final AccountId userId;
+public record Session(AccountId accId, UUID id) {
     // private roles field
-
-    public Session(AccountId user, UUID sessionId) {
-        this.sessionId = sessionId;
-        this.userId = user;
-    }
 
 
 }
