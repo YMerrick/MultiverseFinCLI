@@ -1,11 +1,13 @@
 package com.fincore.app;
 
-import com.fincore.app.command.CommandHandler;
-import com.fincore.app.menu.MenuController;
+import com.fincore.app.controller.CommandHandler;
+import com.fincore.app.controller.MenuController;
 import com.fincore.app.model.Account;
-import com.fincore.app.command.CommandFactory;
+import com.fincore.app.factory.CommandFactory;
 import com.fincore.app.menu.CLIMenuGroup;
 import com.fincore.app.menu.CLIMenuItem;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
