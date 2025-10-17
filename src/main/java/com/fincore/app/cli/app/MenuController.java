@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 
 public class MenuController {
     private final Deque<CLIMenuGroup> menuStack = new ArrayDeque<CLIMenuGroup>();;
+    private UUID currentSessionToken;
 
     public MenuController(CLIMenuGroup root) {
         menuStack.push(root);
