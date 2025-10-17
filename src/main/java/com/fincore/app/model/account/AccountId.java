@@ -1,8 +1,8 @@
-package com.fincore.app.user;
+package com.fincore.app.model.account;
 
 import java.util.UUID;
 
-record AccountId(UUID idValue) {
+public record AccountId(UUID idValue) {
     public String idToString() {
         return idValue.toString();
     }

@@ -1,5 +1,7 @@
 package com.fincore.app.menu;
 
+import com.fincore.app.cli.menu.CLIMenuItem;
+import com.fincore.app.cli.menu.MenuDirective;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
