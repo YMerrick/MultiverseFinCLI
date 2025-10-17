@@ -1,4 +1,4 @@
-package com.fincore.app.model.common;
+package com.fincore.app.model.shared;
 
 import lombok.Getter;
 
