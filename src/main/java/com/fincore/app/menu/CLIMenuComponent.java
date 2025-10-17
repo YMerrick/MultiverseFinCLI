@@ -1,6 +1,6 @@
 package com.fincore.app.menu;
 
 public interface CLIMenuComponent {
-    public String render();
+    public String display();
     public MenuDirective select();
 }

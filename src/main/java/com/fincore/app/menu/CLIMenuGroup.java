@@ -1,50 +1,33 @@
 package com.fincore.app.menu;
 
-import java.util.List;
 import java.util.ArrayList;
 
 public class CLIMenuGroup implements CLIMenuComponent {
     private final String label;
-    private final List<CLIMenuComponent> menuItemList;
-    private final boolean enabled;
-
-    public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems, boolean isEnabled) {
-        this.label = label;
-        this.menuItemList = new ArrayList<>(menuItems);
-        this.enabled = isEnabled;
-    }
-
-    public CLIMenuGroup(String label, boolean isEnabled) {
-        this.label = label;
-        this.enabled = isEnabled;
-        this.menuItemList = new ArrayList<CLIMenuComponent>();
-    }
+    private final ArrayList<CLIMenuComponent> menuItemList;
 
     public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems) {
         this.label = label;
-        this.enabled = true;
-        this.menuItemList = new ArrayList<>(menuItems);
+        this.menuItemList = menuItems;
     }
 
     public CLIMenuGroup(String label) {
         this.label = label;
         this.menuItemList = new ArrayList<CLIMenuComponent>();
-        this.enabled = true;
     }
 
     // Runs the submenu
     @Override
     public MenuDirective select() {
+        for (CLIMenuComponent item : menuItemList) {
+            item.display();
+        }
         return MenuDirective.GOTO_CHILD;
     }
 
     @Override
-    public String render() {
+    public String display() {
         return label;
-    }
-
-    public CLIMenuComponent getChild(int index) {
-        return menuItemList.get(index);
     }
 
     public void addMenuItem(CLIMenuComponent item) {
@@ -55,10 +38,7 @@ public class CLIMenuGroup implements CLIMenuComponent {
         menuItemList.remove(item);
     }
 
-    public void removeMenuItem(int index) throws ArrayIndexOutOfBoundsException {
-        if (index < 0 || index >= menuItemList.size()) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+    public void removeMenuItem(int index) {
         menuItemList.remove(index);
     }
 }
