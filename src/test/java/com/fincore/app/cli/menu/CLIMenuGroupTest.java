@@ -1,4 +1,4 @@
-package com.fincore.app.menu;
+package com.fincore.app.cli.menu;
 
 import com.fincore.app.cli.menu.CLIMenuComponent;
 import com.fincore.app.cli.menu.CLIMenuGroup;
