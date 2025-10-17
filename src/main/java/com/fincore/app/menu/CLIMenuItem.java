@@ -15,8 +15,7 @@ public class CLIMenuItem implements CLIMenuComponent {
     }
 
     @Override
-    public MenuDirective select() {
+    public void select() {
         action.run();
-        return MenuDirective.STAY;
     }
 }
