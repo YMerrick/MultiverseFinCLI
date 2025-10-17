@@ -9,7 +9,6 @@ import org.junit.platform.suite.api.Suite;
         "com.fincore.app.menu",
         "com.fincore.app.user",
         "com.fincore.app.command",
-        "com.fincore.app.common",
 })
 public class TestRunner {
 }
