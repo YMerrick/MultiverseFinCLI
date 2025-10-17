@@ -1,4 +1,4 @@
-package com.fincore.app.model.common;
+package com.fincore.app.common;
 
 public final class MoneyFormatter {
     public static String format(Money m) {

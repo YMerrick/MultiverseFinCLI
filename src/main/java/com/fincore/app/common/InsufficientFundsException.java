@@ -1,4 +1,4 @@
-package com.fincore.app.model.common;
+package com.fincore.app.common;
 
 public class InsufficientFundsException extends RuntimeException {
     public InsufficientFundsException(String message) {

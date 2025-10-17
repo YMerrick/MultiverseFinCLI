@@ -1,11 +1,11 @@
 package com.fincore.app;
 
-import com.fincore.app.cli.command.CommandHandler;
-import com.fincore.app.cli.app.MenuController;
-import com.fincore.app.model.account.Account;
-import com.fincore.app.cli.command.CommandFactory;
-import com.fincore.app.cli.menu.CLIMenuGroup;
-import com.fincore.app.cli.menu.CLIMenuItem;
+import com.fincore.app.command.CommandHandler;
+import com.fincore.app.menu.MenuController;
+import com.fincore.app.user.Account;
+import com.fincore.app.command.CommandFactory;
+import com.fincore.app.menu.CLIMenuGroup;
+import com.fincore.app.menu.CLIMenuItem;
 
 public class Main {
     public static void main(String[] args) {

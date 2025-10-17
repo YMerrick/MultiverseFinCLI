@@ -1,8 +1,4 @@
-package com.fincore.app.cli.app;
-
-import com.fincore.app.cli.menu.CLIMenuComponent;
-import com.fincore.app.cli.menu.CLIMenuGroup;
-import com.fincore.app.cli.menu.MenuDirective;
+package com.fincore.app.menu;
 
 import java.util.*;
 import java.util.stream.Collectors;

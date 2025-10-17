@@ -1,4 +1,4 @@
-package com.fincore.app.cli.menu;
+package com.fincore.app.menu;
 
 public class CLIMenuItem implements CLIMenuComponent {
     private final String label;

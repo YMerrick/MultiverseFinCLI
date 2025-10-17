@@ -1,6 +1,6 @@
-package com.fincore.app.cli.command;
+package com.fincore.app.command;
 
-import com.fincore.app.model.account.Account;
+import com.fincore.app.user.Account;
 
 public record DepositCommand(double amount, Account account) implements Command {
     @Override

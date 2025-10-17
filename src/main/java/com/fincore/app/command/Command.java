@@ -1,4 +1,4 @@
-package com.fincore.app.cli.command;
+package com.fincore.app.command;
 
 public interface Command {
     public void execute();
