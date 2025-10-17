@@ -31,7 +31,7 @@ public final class Money {
 
     public Money minus(Money other) {
         if (!currency.equals(other.currency)) throw new RuntimeException("Currencies are not the same");
-        if (other.minorUnits > minorUnits) throw new InsufficientFundsException("Insufficient funds");
+        if (other.minorUnits > minorUnits) throw new RuntimeException("Insufficient funds");
         return ofMinor(Math.subtractExact(minorUnits, other.minorUnits), currency);
     }
 
@@ -39,15 +39,7 @@ public final class Money {
         return new Money(minor, cur);
     }
 
-    public static Money ofMinor(long minor, String cur) {
-        return ofMinor(minor, Currency.getInstance(cur));
-    }
-
     public static Money ofMajor(BigDecimal major, Currency cur) {
         return new Money(major.scaleByPowerOfTen(2).longValue(), cur);
-    }
-
-    public static Money ofMajor(BigDecimal major, String cur) {
-        return ofMajor(major, Currency.getInstance(cur));
     }
 }
