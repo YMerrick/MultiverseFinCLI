@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Account {
-    @Getter
     private final AccountId id;
     @Getter
     private Money balance;
