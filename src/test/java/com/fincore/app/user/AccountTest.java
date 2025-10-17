@@ -1,5 +1,6 @@
 package com.fincore.app.user;
 
+import com.fincore.app.common.InsufficientFundsException;
 import com.fincore.app.common.Money;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +60,7 @@ public class AccountTest {
     public void testOverWithdrawl() {
         Account stubAccount = new Account("Test");
         assertThrows(
-                RuntimeException.class,
+                InsufficientFundsException.class,
                 () -> {
                     stubAccount.withdraw(1);
                 },
@@ -79,7 +80,7 @@ public class AccountTest {
         );
 
         assertThrows(
-                IllegalArgumentException.class,
+                RuntimeException.class,
                 () -> {
                     stub.withdraw(BigDecimal.valueOf(-1.1));
                 },
