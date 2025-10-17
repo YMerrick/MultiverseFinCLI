@@ -54,7 +54,6 @@ public class CLIMenuGroup implements CLIMenuComponent {
     }
 
     public CLIMenuComponent getChild(int index) {
-        if (menuItemList.isEmpty()) throw new ArrayIndexOutOfBoundsException("The menu is empty");
         return menuItemList.get(index);
     }
 
