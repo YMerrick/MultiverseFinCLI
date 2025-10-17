@@ -1,4 +1,4 @@
-package com.fincore.app.common;
+package com.fincore.app.model.common;
 
 import java.math.BigDecimal;
 import java.util.Currency;

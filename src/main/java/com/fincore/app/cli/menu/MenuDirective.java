@@ -1,4 +1,4 @@
-package com.fincore.app.menu;
+package com.fincore.app.cli.menu;
 
 public enum MenuDirective {
     STAY,

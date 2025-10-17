@@ -1,4 +1,4 @@
-package com.fincore.app.menu;
+package com.fincore.app.cli.menu;
 
 import java.util.List;
 import java.util.ArrayList;

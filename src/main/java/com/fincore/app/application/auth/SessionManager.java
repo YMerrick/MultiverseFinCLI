@@ -1,9 +1,15 @@
-package com.fincore.app.user;
+package com.fincore.app.application.auth;
+
+import com.fincore.app.model.account.Account;
+import com.fincore.app.model.account.AccountId;
+import com.fincore.app.model.identity.Session;
+import com.fincore.app.model.identity.SessionStore;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class SessionManager {
+    private SessionStore seshStore;
     private Map<UUID, Session> sessionStore;
     // Credential repository
     // Account repository

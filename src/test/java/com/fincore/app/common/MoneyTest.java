@@ -1,12 +1,12 @@
 package com.fincore.app.common;
 
+import com.fincore.app.model.common.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class MoneyTest {
     @Test

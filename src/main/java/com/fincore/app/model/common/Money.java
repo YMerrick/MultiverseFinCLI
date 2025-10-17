@@ -1,7 +1,6 @@
-package com.fincore.app.common;
+package com.fincore.app.model.common;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Currency;

@@ -1,5 +1,7 @@
 package com.fincore.app.common;
 
+import com.fincore.app.model.common.Money;
+import com.fincore.app.model.common.MoneyFormatter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
