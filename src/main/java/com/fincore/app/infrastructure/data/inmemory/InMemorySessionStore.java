@@ -1,4 +1,4 @@
-package com.fincore.app.data.inmemory;
+package com.fincore.app.infrastructure.data.inmemory;
 
 import com.fincore.app.model.identity.SessionStore;
 

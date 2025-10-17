@@ -1,8 +1,8 @@
 package com.fincore.app.model.account;
 
-import com.fincore.app.model.shared.Money;
-import com.fincore.app.model.shared.MoneyBuilder;
-import com.fincore.app.model.shared.MoneyFormatter;
+import com.fincore.app.model.common.Money;
+import com.fincore.app.model.common.MoneyBuilder;
+import com.fincore.app.model.common.MoneyFormatter;
 import lombok.Getter;
 
 import java.math.BigDecimal;
