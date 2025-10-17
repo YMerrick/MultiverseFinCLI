@@ -1,10 +1,11 @@
 package com.fincore.app.menu;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class CLIMenuGroup implements CLIMenuComponent {
     private final String label;
-    private final ArrayList<CLIMenuComponent> menuItemList;
+    private final List<CLIMenuComponent> menuItemList;
     private final boolean enabled;
 
     public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems, boolean isEnabled) {
@@ -42,25 +43,12 @@ public class CLIMenuGroup implements CLIMenuComponent {
         return label;
     }
 
-    @Override
-    public boolean isGroup() {
-        return true;
-    }
-
-    public ArrayList<CLIMenuComponent> getChildren() {
-        return menuItemList;
-    }
-
     public CLIMenuComponent getChild(int index) {
         return menuItemList.get(index);
     }
 
     public void addMenuItem(CLIMenuComponent item) {
         menuItemList.add(item);
-    }
-
-    public int getMenuSize() {
-        return menuItemList.size();
     }
 
     public void removeMenuItem(CLIMenuComponent item) {

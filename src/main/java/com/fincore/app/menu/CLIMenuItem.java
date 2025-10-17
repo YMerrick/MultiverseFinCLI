@@ -10,11 +10,6 @@ public class CLIMenuItem implements CLIMenuComponent {
     }
 
     @Override
-    public boolean isGroup() {
-        return false;
-    }
-
-    @Override
     public String render() {
         return label;
     }
