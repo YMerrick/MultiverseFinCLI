@@ -3,36 +3,23 @@ package com.fincore.app.user;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class Account {
-    private final AccountId id;
+    private final AccountId id = new AccountId();
     private final Money balance;
     @Getter
     String accountHolder;
 
-    public Account(UUID id, String accountHolder, long balanceInMinorUnit) {
-        this.id = new AccountId(id);
-        this.accountHolder = accountHolder;
+    public Account(double balance) {
+        this.balance = new MoneyBuilder().setAmount(BigDecimal.valueOf(balance)).createMoney();
+    }
+
+    public Account(long balanceInMinorUnit) {
         this.balance = new MoneyBuilder().setAmount(balanceInMinorUnit).createMoney();
     }
 
-    public Account(String accountHolder, long balanceInMinorUnit) {
-        this(UUID.randomUUID(), accountHolder, balanceInMinorUnit);
-    }
-
-    public Account(String accountHolder) {
-        this(UUID.randomUUID(), accountHolder, 0);
-    }
-
-    public Account(UUID id, String accountHolder, double balance) {
-        this.accountHolder = accountHolder;
-        this.balance = new MoneyBuilder().setAmount(BigDecimal.valueOf(balance)).createMoney();
-        this.id = new AccountId(id);
-    }
-
-    public Account(String accountHolder, double balance) {
-        this(UUID.randomUUID(), accountHolder, balance);
+    public Account() {
+        this.balance = new MoneyBuilder().createMoney();
     }
 
     private void throwNegativeException() throws IllegalArgumentException {
@@ -82,13 +69,5 @@ public class Account {
 
     public String getBalance() {
         return balance.get();
-    }
-
-    public String toString() {
-        return String.format("""
-                Account Holder: %s
-                Balance: %s
-                UUID: %s""",
-                accountHolder, getBalance(), id.idToString());
     }
 }
