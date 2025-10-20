@@ -1,6 +1,5 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.Session;
 import com.fincore.app.model.identity.SessionStore;
 
@@ -15,7 +14,7 @@ public class SessionManager {
         this.storage = seshStore;
     }
 
-    public UUID issue(AccountId accId) {
+    public UUID issue(UUID accId) {
         if (Objects.isNull(accId)) throw new IllegalArgumentException();
         UUID sessionId = UUID.randomUUID();
 

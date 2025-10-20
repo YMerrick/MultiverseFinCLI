@@ -1,6 +1,5 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.CredentialStore;
 import com.fincore.app.model.identity.Credentials;
 import com.fincore.app.model.identity.PasswordHasher;
@@ -26,14 +25,14 @@ public class AuthService {
 
         if (!hasher.verify(password, userCred.passwordHash())) throw new AuthException("Invalid credentials");
 
-        return userCred.accId().idValue();
+        return userCred.accId();
     }
 
     private Optional<Credentials> getCredentials(String username) {
         return credsRepo.findByUsername(username);
     }
 
-    public void register(String username, char[] password, AccountId accId) {
+    public void register(String username, char[] password, UUID accId) {
         if (getCredentials(username).isPresent()) throw new AuthException("Username already exists");
         String hashedPassword = hasher.hash(password);
         Credentials newCredentials = new Credentials(username, hashedPassword, accId);

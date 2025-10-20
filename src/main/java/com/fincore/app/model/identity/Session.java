@@ -1,9 +1,7 @@
 package com.fincore.app.model.identity;
 
-import com.fincore.app.model.account.AccountId;
-
 import java.util.UUID;
 
-public record Session(AccountId accId, UUID id) {
+public record Session(UUID accId, UUID id) {
     // private roles field
 }

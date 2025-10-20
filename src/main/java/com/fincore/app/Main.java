@@ -7,10 +7,12 @@ import com.fincore.app.cli.command.CommandFactory;
 import com.fincore.app.cli.menu.CLIMenuGroup;
 import com.fincore.app.cli.menu.CLIMenuItem;
 
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) {
 
-        Account user = new Account("TestUser",10_000);
+        Account user = new Account(UUID.randomUUID(), "TestUser",10_000);
         CommandFactory factory = new CommandFactory(user);
         CommandHandler controller = new CommandHandler(factory);
 

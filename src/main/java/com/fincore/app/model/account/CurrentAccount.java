@@ -7,12 +7,8 @@ import java.util.UUID;
 
 public class CurrentAccount extends Account{
 
-    public CurrentAccount(AccountId id, String accountHolder, long balanceInMinorUnit) {
+    public CurrentAccount(UUID id, String accountHolder, long balanceInMinorUnit) {
         super(id, accountHolder, balanceInMinorUnit);
-    }
-
-    public CurrentAccount(UUID id, String accountHolder, long balanceInMinorUnits) {
-        super(id, accountHolder, balanceInMinorUnits);
     }
 
     public CurrentAccount(String accountHolder, long balanceInMinorUnit) {

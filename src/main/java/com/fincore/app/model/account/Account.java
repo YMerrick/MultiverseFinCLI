@@ -10,20 +10,16 @@ import java.util.UUID;
 
 public class Account {
     @Getter
-    private final AccountId id;
+    private final UUID id;
     @Getter
     private Money balance;
     @Getter
     String accountHolder;
 
-    public Account(AccountId id, String accountHolder, long balanceInMinorUnit) {
+    public Account(UUID id, String accountHolder, long balanceInMinorUnit) {
         this.id = id;
         this.accountHolder = accountHolder;
         this.balance = new MoneyBuilder().setAmount(balanceInMinorUnit).createMoney();
-    }
-
-    public Account(UUID id, String accountHolder, long balanceInMinorUnits) {
-        this(new AccountId(id), accountHolder, balanceInMinorUnits);
     }
 
     public Account(String accountHolder, long balanceInMinorUnit) {
@@ -89,6 +85,6 @@ public class Account {
                 Account Holder: %s
                 Balance: %s
                 UUID: %s""",
-                accountHolder, MoneyFormatter.format(balance), id.idToString());
+                accountHolder, MoneyFormatter.format(balance), id.toString());
     }
 }

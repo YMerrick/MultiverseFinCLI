@@ -1,6 +1,5 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.SessionStore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,7 +15,7 @@ public class SessionManagerTest {
         SessionStore stubStore = mock(SessionStore.class);
         SessionManager stubManager = new SessionManager(stubStore);
 
-        assertInstanceOf(UUID.class, stubManager.issue(new AccountId(UUID.randomUUID())));
+        assertInstanceOf(UUID.class, stubManager.issue(UUID.randomUUID()));
         verify(stubStore, times(1)).save(Mockito.any(), Mockito.any());
     }
 

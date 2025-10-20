@@ -1,6 +1,5 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.CredentialStore;
 import com.fincore.app.model.identity.Credentials;
 import com.fincore.app.model.identity.PasswordHasher;
@@ -18,25 +17,23 @@ import static org.mockito.Mockito.*;
 public class AuthServiceTest {
     @Test
     public void testLogin() {
-        AccountId stubId = mock(AccountId.class);
+        UUID stubAccId = UUID.randomUUID();
         String stubUsername = "TestUser";
         char[] emptyCharArray = {};
         CredentialStore stubCredStore = mock(CredentialStore.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
-        UUID stubUUID = UUID.randomUUID();
         when(stubCredStore.findByUsername(stubUsername))
                 .thenReturn(
-                        Optional.of(new Credentials(stubUsername, "random", stubId))
+                        Optional.of(new Credentials(stubUsername, "random", stubAccId))
                 );
         when(stubHasher.verify(emptyCharArray, "random")).thenReturn(true);
-        when(stubId.idValue()).thenReturn(stubUUID);
 
         UUID result = null;
         try {
             result = new AuthService(stubCredStore, stubHasher).login(stubUsername, emptyCharArray);
         } catch (AuthException ignored) {}
 
-        assertEquals(stubUUID, result);
+        assertEquals(stubAccId, result);
     }
 
     @Test
@@ -72,7 +69,7 @@ public class AuthServiceTest {
         // Test whether AuthService calls save?
         CredentialStore stubCredStore = mock(CredentialStore.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
-        AccountId stubId = new AccountId(UUID.randomUUID());
+        UUID stubId = UUID.randomUUID();
 
         AuthService testAuth = new AuthService(stubCredStore, stubHasher);
         testAuth.register("", new char[] {}, stubId);
@@ -94,7 +91,7 @@ public class AuthServiceTest {
 
         assertThrows(
                 AuthException.class,
-                () -> testAuth.register("Test", new char[] {}, new AccountId(UUID.randomUUID()))
+                () -> testAuth.register("Test", new char[] {}, UUID.randomUUID())
         );
     }
 }

@@ -3,10 +3,12 @@ package com.fincore.app.model.account;
 import com.fincore.app.model.shared.InsufficientFundsException;
 import com.fincore.app.model.shared.Money;
 
+import java.util.UUID;
+
 public class OverdraftAccount extends Account{
     private final long overdraftLimit;
 
-    public OverdraftAccount(AccountId id, String accountHolder, long balanceInMinorUnit, long overdraftLimitInMinorUnits) {
+    public OverdraftAccount(UUID id, String accountHolder, long balanceInMinorUnit, long overdraftLimitInMinorUnits) {
         super(id, accountHolder, balanceInMinorUnit);
         this.overdraftLimit = overdraftLimitInMinorUnits;
     }
