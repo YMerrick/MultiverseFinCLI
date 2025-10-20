@@ -4,6 +4,7 @@ import com.fincore.app.model.account.AccountId;
 import com.fincore.app.model.identity.Session;
 import com.fincore.app.model.identity.SessionStore;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class SessionManager {
     }
 
     public UUID issue(AccountId accId) {
+        if (Objects.isNull(accId)) throw new IllegalArgumentException();
         UUID sessionId = UUID.randomUUID();
 
         Session newSession = new Session(accId, sessionId);
