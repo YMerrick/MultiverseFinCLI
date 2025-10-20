@@ -6,6 +6,4 @@ import java.util.UUID;
 
 public record Session(AccountId accId, UUID id) {
     // private roles field
-
-
 }

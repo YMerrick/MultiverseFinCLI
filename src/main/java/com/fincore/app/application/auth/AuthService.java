@@ -1,24 +1,42 @@
 package com.fincore.app.application.auth;
 
 import com.fincore.app.model.account.AccountId;
-import com.fincore.app.model.identity.Session;
+import com.fincore.app.model.identity.CredentialStore;
+import com.fincore.app.model.identity.Credentials;
+import com.fincore.app.model.identity.PasswordHasher;
+import com.fincore.app.model.shared.AuthException;
 
+import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class AuthService {
-    private SessionManager sessionManager;
-    public UUID login(String username, String password) {
-        // Get credentials from repository with username
+    private CredentialStore credsRepo;
+    private PasswordHasher hasher;
 
-        // Verify or authenticate password is correct
-
-        // retrieve user id from credential repo
-
-        AccountId accId = new AccountId(UUID.randomUUID());
-        return sessionManager.issue(accId);
+    public AuthService(CredentialStore credsRepo, PasswordHasher hasher) {
+        this.credsRepo = credsRepo;
+        this.hasher = hasher;
     }
 
-    public void logout(UUID sessionId) {
-        sessionManager.terminate(sessionId);
+    public UUID login(String username, char[] password) throws AuthException {
+        Optional<Credentials> credOrNull = getCredentials(username);
+        if (credOrNull.isEmpty()) throw new AuthException("User does not exist");
+        Credentials userCred = credOrNull.get();
+
+        if (!hasher.verify(password, userCred.passwordHash())) throw new AuthException("Invalid credentials");
+
+        return userCred.accId().idValue();
+    }
+
+    private Optional<Credentials> getCredentials(String username) {
+        return credsRepo.findByUsername(username);
+    }
+
+    public void register(String username, char[] password, AccountId accId) {
+        if (getCredentials(username).isPresent()) throw new AuthException("Username already exists");
+        String hashedPassword = hasher.hash(password);
+        Credentials newCredentials = new Credentials(username, hashedPassword, accId);
+        credsRepo.save(newCredentials);
     }
 }
