@@ -47,14 +47,14 @@ public class InMemoryCredentialStoreTest {
 
     @Test
     void testFindByUsername() {
-        Optional<Credentials> result = testStore.findByUsername("Test");
+        Optional<Credentials> result = testStore.getByUsername("Test");
         assertEquals(stubCred, result.orElseThrow(RuntimeException::new));
         assertInstanceOf(Optional.class, result);
     }
 
     @Test
     void testFindByUsernameNotFound() {
-        Optional<Credentials> result = testStore.findByUsername("Nothing");
+        Optional<Credentials> result = testStore.getByUsername("Nothing");
         assertTrue(result.isEmpty());
     }
 
@@ -62,7 +62,7 @@ public class InMemoryCredentialStoreTest {
     void testFindByUsernameEmptyString() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> testStore.findByUsername("")
+                () -> testStore.getByUsername("")
         );
     }
 }

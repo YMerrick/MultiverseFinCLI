@@ -22,7 +22,7 @@ public class AuthServiceTest {
         char[] emptyCharArray = {};
         CredentialStore stubCredStore = mock(CredentialStore.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
-        when(stubCredStore.findByUsername(stubUsername))
+        when(stubCredStore.getByUsername(stubUsername))
                 .thenReturn(
                         Optional.of(new Credentials(stubUsername, "random", stubAccId))
                 );
@@ -40,7 +40,7 @@ public class AuthServiceTest {
     public void testNoUserLogin() {
         CredentialStore stubCredStore = mock(CredentialStore.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
-        when(stubCredStore.findByUsername(Mockito.any())).thenReturn(Optional.empty());
+        when(stubCredStore.getByUsername(Mockito.any())).thenReturn(Optional.empty());
 
         AuthService authTest = new AuthService(stubCredStore, stubHasher);
         assertThrows(
@@ -55,7 +55,7 @@ public class AuthServiceTest {
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         Credentials stubCredential = mock(Credentials.class);
         when(stubHasher.verify(Mockito.any(), Mockito.any())).thenReturn(false);
-        when(stubCredStore.findByUsername(Mockito.any())).thenReturn(Optional.of(stubCredential));
+        when(stubCredStore.getByUsername(Mockito.any())).thenReturn(Optional.of(stubCredential));
 
         AuthService authTest = new AuthService(stubCredStore, stubHasher);
         assertThrows(
@@ -85,7 +85,7 @@ public class AuthServiceTest {
         Credentials stubCreds = mock(Credentials.class);
         Optional<Credentials> stubOptional = Optional.ofNullable(stubCreds);
 
-        when(stubCredStore.findByUsername(Mockito.any())).thenReturn(stubOptional);
+        when(stubCredStore.getByUsername(Mockito.any())).thenReturn(stubOptional);
 
         AuthService testAuth = new AuthService(stubCredStore, stubHasher);
 

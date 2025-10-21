@@ -51,14 +51,14 @@ public class InMemoryAccountStoreTest {
 
     @Test
     void testFindById() {
-        Optional<Account> result = testStore.findById(stubId);
+        Optional<Account> result = testStore.getById(stubId);
         assertEquals(stubAcc, result.orElseThrow(RuntimeException::new));
         assertInstanceOf(Optional.class, result);
     }
 
     @Test
     void testFindByIdNotFound() {
-        Optional<Account> result = testStore.findById(UUID.randomUUID());
+        Optional<Account> result = testStore.getById(UUID.randomUUID());
         assertTrue(result.isEmpty());
     }
 
@@ -66,7 +66,7 @@ public class InMemoryAccountStoreTest {
     void testFindByIdNullInput() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> testStore.findById(null)
+                () -> testStore.getById(null)
         );
     }
 }

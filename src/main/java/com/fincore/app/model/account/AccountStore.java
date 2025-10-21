@@ -5,5 +5,5 @@ import java.util.UUID;
 
 public interface AccountStore {
     void save(Account account);
-    Optional<Account> findById(UUID id);
+    Optional<Account> getById(UUID id);
 }

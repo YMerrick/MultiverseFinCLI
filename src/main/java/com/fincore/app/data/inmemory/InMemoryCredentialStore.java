@@ -12,7 +12,7 @@ public class InMemoryCredentialStore implements CredentialStore {
     private final HashMap<String, Credentials> store = new HashMap<String, Credentials>();
 
     @Override
-    public Optional<Credentials> findByUsername(String username) {
+    public Optional<Credentials> getByUsername(String username) {
         if (username.isBlank()) throw new IllegalArgumentException("Username can not be empty");
         return Optional.ofNullable(store.get(username));
     }

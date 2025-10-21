@@ -12,14 +12,14 @@ import java.util.UUID;
 public class InMemoryAccountStore implements AccountStore {
     private final HashMap<UUID, Account> store = new HashMap<>();
 
-    public Optional<Account> findById(UUID id) {
+    public Optional<Account> getById(UUID id) {
         if (Objects.isNull(id)) throw new IllegalArgumentException("Id can not be null");
         return Optional.ofNullable(store.get(id));
     }
 
     public Optional<Account> findById(String id) {
         UUID convertToUuid = UUID.fromString(id);
-        return findById(convertToUuid);
+        return getById(convertToUuid);
     }
 
     public void save(Account account) {

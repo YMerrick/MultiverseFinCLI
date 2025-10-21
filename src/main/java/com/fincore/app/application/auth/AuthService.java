@@ -29,7 +29,7 @@ public class AuthService {
     }
 
     private Optional<Credentials> getCredentials(String username) {
-        return credsRepo.findByUsername(username);
+        return credsRepo.getByUsername(username);
     }
 
     public void register(String username, char[] password, UUID accId) {
