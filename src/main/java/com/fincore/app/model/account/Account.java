@@ -8,12 +8,10 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
 public class Account {
-    @Getter
     private final UUID id;
-    @Getter
     private Money balance;
-    @Getter
     String accountHolder;
 
     public Account(UUID id, String accountHolder, long balanceInMinorUnit) {
