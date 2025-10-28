@@ -1,9 +1,5 @@
 package com.fincore.app.cli.menu;
 
-import com.fincore.app.cli.menu.CLIMenuComponent;
-import com.fincore.app.cli.menu.CLIMenuGroup;
-import com.fincore.app.cli.menu.CLIMenuItem;
-import com.fincore.app.cli.menu.MenuDirective;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,7 +28,7 @@ public class CLIMenuGroupTest {
         CLIMenuItem mockItem = mock(CLIMenuItem.class);
         ArrayList<CLIMenuComponent> mockList= new ArrayList<CLIMenuComponent>();
         mockList.add(mockItem);
-        when(mockItem.render()).thenReturn(testLabel);
+        when(mockItem.getLabel()).thenReturn(testLabel);
         testMenuGroup = new CLIMenuGroup("test", mockList);
 
         result = testMenuGroup.getChildrenLabels();

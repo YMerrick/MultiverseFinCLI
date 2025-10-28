@@ -2,6 +2,7 @@ package com.fincore.app;
 
 import com.fincore.app.cli.command.CommandHandler;
 import com.fincore.app.cli.app.MenuController;
+import com.fincore.app.cli.io.NumberedIO;
 import com.fincore.app.model.account.Account;
 import com.fincore.app.cli.command.CommandFactory;
 import com.fincore.app.cli.menu.CLIMenuGroup;
@@ -16,7 +17,10 @@ public class Main {
         CommandFactory factory = new CommandFactory(user);
         CommandHandler controller = new CommandHandler(factory);
 
-        CLIMenuGroup mainMenu = new CLIMenuGroup("Main Menu");
+        NumberedIO numberMenu = new NumberedIO(System.out, System.in);
+        numberMenu.getPasswordInput();
+
+        CLIMenuGroup mainMenu = new CLIMenuGroup("Main Menu", numberMenu);
         mainMenu.addMenuItem(new CLIMenuItem("Deposit", controller::handleDeposit));
         mainMenu.addMenuItem(new CLIMenuItem("Withdraw", controller::handleWithdraw));
 
@@ -24,6 +28,7 @@ public class Main {
 //        accountMenu.addMenuItem(new CLIMenuItem("Check Balance", ));
 
         mainMenu.addMenuItem(accountMenu);
+
 
         MenuController menuRunner = new MenuController(mainMenu);
         menuRunner.start();

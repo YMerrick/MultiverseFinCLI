@@ -1,7 +1,7 @@
 package com.fincore.app.cli.menu;
 
 public interface CLIMenuComponent {
-    public String render();
+    public String getLabel();
     public MenuDirective select();
     public boolean isGroup();
 }

@@ -15,7 +15,7 @@ public class CLIMenuItem implements CLIMenuComponent {
     }
 
     @Override
-    public String render() {
+    public String getLabel() {
         return label;
     }
 

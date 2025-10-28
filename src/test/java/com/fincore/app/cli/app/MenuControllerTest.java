@@ -9,7 +9,7 @@ public class MenuControllerTest {
 //    private final MenuController menuRunner = new MenuController();
 
     @Test
-    void renderBackOrExit() {
+    void renderReturnLabel() {
         // Arrange
 
         // Act

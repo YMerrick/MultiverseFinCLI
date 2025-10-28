@@ -1,36 +1,40 @@
 package com.fincore.app.cli.menu;
 
+import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.cli.io.NumberedIO;
+
+import java.util.Deque;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CLIMenuGroup implements CLIMenuComponent {
     private final String label;
-    private final ArrayList<CLIMenuComponent> menuItemList;
+    private final List<CLIMenuComponent> menuItemList;
     private final boolean enabled;
+    private final IOHandler ioHandler;
 
-    public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems, boolean isEnabled) {
+    public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems, boolean isEnabled, IOHandler ioHandler) {
         this.label = label;
         this.menuItemList = new ArrayList<>(menuItems);
         this.enabled = isEnabled;
+        this.ioHandler = ioHandler;
     }
 
     public CLIMenuGroup(String label, boolean isEnabled) {
-        this.label = label;
-        this.enabled = isEnabled;
-        this.menuItemList = new ArrayList<CLIMenuComponent>();
+        this(label, new ArrayList<>(), isEnabled, new NumberedIO(System.out, System.in));
     }
 
     public CLIMenuGroup(String label, ArrayList<CLIMenuComponent> menuItems) {
-        this.label = label;
-        this.enabled = true;
-        this.menuItemList = new ArrayList<>(menuItems);
+        this(label, menuItems, true, new NumberedIO(System.out, System.in));
     }
 
     public CLIMenuGroup(String label) {
-        this.label = label;
-        this.menuItemList = new ArrayList<CLIMenuComponent>();
-        this.enabled = true;
+        this(label, new ArrayList<>(), true, new NumberedIO(System.out, System.in));
+    }
+
+    public CLIMenuGroup(String label, IOHandler handler) {
+        this(label, new ArrayList<>(), true, handler);
     }
 
     // Runs the submenu
@@ -40,7 +44,7 @@ public class CLIMenuGroup implements CLIMenuComponent {
     }
 
     @Override
-    public String render() {
+    public String getLabel() {
         return label;
     }
 
@@ -49,8 +53,29 @@ public class CLIMenuGroup implements CLIMenuComponent {
         return true;
     }
 
+    // Returns the choice of the user
+    public int getMenuChoice() {
+        // Validate input
+        int userInput;
+        String line;
+
+        while (true) {
+            line = ioHandler.getInput();
+            try {
+                userInput = Integer.parseInt(line);
+                if ((userInput >= 0) && (userInput <= menuItemList.size())) return userInput;
+            } catch (NumberFormatException ignored) {}
+            System.out.print("Please enter a valid option: ");
+        }
+    }
+
+    // Renders the menu
+    public void render(List<String> menuStack) {
+        ioHandler.renderMenu(menuStack, getChildrenLabels());
+    }
+
     public List<String> getChildrenLabels() {
-        return menuItemList.stream().map(CLIMenuComponent::render).collect(Collectors.toList());
+        return menuItemList.stream().map(CLIMenuComponent::getLabel).collect(Collectors.toList());
     }
 
     public CLIMenuComponent getChild(int index) {
