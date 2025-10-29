@@ -18,27 +18,6 @@ public class CLIMenuGroupTest {
     }
 
     @Test
-    public void testGetChildrenLabels() {
-        CLIMenuGroup testMenuGroup = new CLIMenuGroup("test");
-        List<String> result = testMenuGroup.getChildrenLabels();
-        assertTrue(result.isEmpty());
-
-        String testLabel = "testLabel";
-
-        CLIMenuItem mockItem = mock(CLIMenuItem.class);
-        ArrayList<CLIMenuComponent> mockList= new ArrayList<CLIMenuComponent>();
-        mockList.add(mockItem);
-        when(mockItem.getLabel()).thenReturn(testLabel);
-        testMenuGroup = new CLIMenuGroup("test", mockList);
-
-        result = testMenuGroup.getChildrenLabels();
-
-        for (String resultLabel : result) {
-            assertEquals(testLabel, resultLabel);
-        }
-    }
-
-    @Test
     public void testGetMenuSize() {
         ArrayList<CLIMenuComponent> mockList = new ArrayList<CLIMenuComponent>();
         mockList.add(mock(CLIMenuItem.class));
