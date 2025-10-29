@@ -32,4 +32,10 @@ public class CommandHandler {
         getBalance.execute();
         // Log command here
     }
+
+    public void handleLogin() {
+
+        Command loginCommand = factory.createLogin(username, password);
+        loginCommand.execute();
+    }
 }
