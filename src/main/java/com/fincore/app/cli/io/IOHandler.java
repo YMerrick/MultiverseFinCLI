@@ -9,4 +9,5 @@ public interface IOHandler {
     char[] getPasswordInput();
     String getInput();
     void renderMenu(List<String> menuStack, List<String> childrenLabels);
+    void renderOutput(String output);
 }

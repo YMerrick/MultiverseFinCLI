@@ -13,17 +13,17 @@ public class AccountService {
         this.accountStorage = accountStorage;
     }
 
-    void deposit(UUID accId, double amount) {
+    public void deposit(UUID accId, double amount) {
         Account acc = accountStorage.getById(accId).get();
         acc.deposit(amount);
     }
 
-    void withdraw(UUID accId, double amount) {
+    public void withdraw(UUID accId, double amount) {
         Account acc = accountStorage.getById(accId).get();
         acc.withdraw(amount);
     }
 
-    Money getBalance(UUID accId) {
+    public Money getBalance(UUID accId) {
         return accountStorage.getById(accId).get().getBalance();
     }
 }

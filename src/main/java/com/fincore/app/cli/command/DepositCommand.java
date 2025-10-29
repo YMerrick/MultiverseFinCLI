@@ -1,10 +1,12 @@
 package com.fincore.app.cli.command;
 
-import com.fincore.app.model.account.Account;
+import com.fincore.app.application.accounts.AccountService;
 
-public record DepositCommand(double amount, Account account) implements Command {
+import java.util.UUID;
+
+public record DepositCommand(double amount, AccountService serviceHandler, UUID accId) implements Command {
     @Override
     public void execute() {
-        account.deposit(amount);
+        serviceHandler.deposit(accId, amount);
     }
 }

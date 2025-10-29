@@ -1,10 +1,12 @@
 package com.fincore.app.cli.command;
 
-import com.fincore.app.model.account.Account;
+import com.fincore.app.application.accounts.AccountService;
 
-public record WithdrawCommand( double amount, Account account) implements Command {
+import java.util.UUID;
+
+public record WithdrawCommand(double amount, AccountService service, UUID accId) implements Command {
     @Override
     public void execute() {
-        account.withdraw(amount);
+        service.withdraw(accId, amount);
     }
 }

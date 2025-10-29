@@ -1,18 +1,38 @@
 package com.fincore.app.cli.command;
 
-import com.fincore.app.model.account.Account;
+import com.fincore.app.application.accounts.AccountService;
+import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.model.identity.Session;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class CommandFactory {
-    private final Account account;
-    public CommandFactory(Account account) {
-        this.account = account;
+    private SessionManager sessionManager;
+    private AccountService service;
+    private IOHandler io;
+    public CommandFactory() {
     }
 
-    public Command createDepositCommand(double amount) {
-        return new DepositCommand(amount, account);
+    public Command createDepositCommand(double amount, UUID sessionId) {
+        UUID accId = getAccId(sessionId);
+        return new DepositCommand(amount, service, accId);
     }
 
-    public Command createWithdrawCommand(double amount) {
-        return new WithdrawCommand(amount, account);
+    public Command createWithdrawCommand(double amount, UUID sessionId) {
+        UUID accId = getAccId(sessionId);
+        return new WithdrawCommand(amount, service, accId);
+    }
+
+    public Command createGetBalance(UUID sessionId) {
+        UUID accId = getAccId(sessionId);
+        return new GetBalanceCommand(io, service, accId);
+    }
+
+    private UUID getAccId(UUID sessionId) {
+        Optional<Session> session = sessionManager.validate(sessionId);
+        if (session.isEmpty()) throw new RuntimeException();
+        return session.get().accId();
     }
 }

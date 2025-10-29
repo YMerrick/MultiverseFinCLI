@@ -23,19 +23,18 @@ public class NumberedIO implements IOHandler {
         ArrayList<String> stringListToBeOutput = new ArrayList<String>();
         String breadCrumb = createBreadcrumbPath(menuStack);
         String outputBody;
-
+        stringListToBeOutput.addAll(List.of("", "", "", ""));
         stringListToBeOutput.add(breadCrumb);
 
         stringListToBeOutput.add(renderMenuOptions(childrenLabels));
 
-        stringListToBeOutput.add(renderReturnLabel(childrenLabels.size()));
+        stringListToBeOutput.add(renderReturnLabel(menuStack.size()));
         stringListToBeOutput.add("");
         stringListToBeOutput.add(renderInputPrompt());
 
         outputBody = String.join("\n", stringListToBeOutput);
 
         this.out.print(outputBody);
-        this.out.println("\n\n");
     }
 
     private static String createBreadcrumbPath(List<String> menuStack) {
@@ -50,8 +49,8 @@ public class NumberedIO implements IOHandler {
 
     private String renderReturnLabel(int stackSize) {
         String terminationLabel = switch (stackSize) {
-            case 0 -> "Exit";
-            case 1 -> "Logout";
+            case 1 -> "Exit";
+            case 2 -> "Logout";
             default -> "Back";
         };
         return "0. " + terminationLabel;
@@ -67,5 +66,9 @@ public class NumberedIO implements IOHandler {
 
     public char[] getPasswordInput() {
         return System.console().readPassword();
+    }
+
+    public void renderOutput(String output) {
+        System.out.println(output);
     }
 }
