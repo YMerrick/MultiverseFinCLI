@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CLIMenuGroupTest {
 
@@ -14,7 +13,7 @@ public class CLIMenuGroupTest {
     public void testSelect() {
         CLIMenuGroup testMenuGroup = new CLIMenuGroup("test");
         MenuDirective result = testMenuGroup.select();
-        assertEquals(MenuDirective.GOTO_CHILD, result);
+        assertEquals(MenuDirective.GOTO_MENU, result);
     }
 
     @Test

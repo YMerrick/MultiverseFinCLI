@@ -18,23 +18,24 @@ public class NumberedIO implements IOHandler {
         reader = new Scanner(in);
     }
 
-    public void renderMenu(List<String> menuStack, List<String> childrenLabels) {
+    public void renderMenu(List<String> childrenLabels) {
         // Get all options
         ArrayList<String> stringListToBeOutput = new ArrayList<String>();
-        String breadCrumb = createBreadcrumbPath(menuStack);
         String outputBody;
         stringListToBeOutput.addAll(List.of("", "", "", ""));
-        stringListToBeOutput.add(breadCrumb);
 
         stringListToBeOutput.add(renderMenuOptions(childrenLabels));
 
-        stringListToBeOutput.add(renderReturnLabel(menuStack.size()));
         stringListToBeOutput.add("");
         stringListToBeOutput.add(renderInputPrompt());
 
         outputBody = String.join("\n", stringListToBeOutput);
 
         this.out.print(outputBody);
+    }
+
+    public void renderBreadcrumb(List<String> menuStack) {
+        out.println(createBreadcrumbPath(menuStack));
     }
 
     private static String createBreadcrumbPath(List<String> menuStack) {

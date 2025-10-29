@@ -3,11 +3,13 @@ package com.fincore.app;
 import com.fincore.app.cli.command.CommandHandler;
 import com.fincore.app.cli.app.MenuController;
 import com.fincore.app.cli.io.NumberedIO;
-import com.fincore.app.cli.menu.CLIMenuComponent;
+import com.fincore.app.cli.menu.Menu;
+import com.fincore.app.cli.menu.MenuDirective;
+import com.fincore.app.cli.menu.subMenuTraverseItem;
 import com.fincore.app.model.account.Account;
 import com.fincore.app.cli.command.CommandFactory;
-import com.fincore.app.cli.menu.CLIMenuGroup;
-import com.fincore.app.cli.menu.CLIMenuItem;
+import com.fincore.app.cli.menu.MenuItem;
+import com.fincore.app.model.menu.MenuComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +24,37 @@ public class Main {
 
         NumberedIO numberMenu = new NumberedIO(System.out, System.in);
 
-        List<CLIMenuComponent> authMenuList = new ArrayList<>();
+        MenuItem exit = MenuItem.builder().subMenu(null).label("Exit").directive(MenuDirective.EXIT).build();
 
-        List<CLIMenuComponent> mainMenuList = new ArrayList<>();
-        mainMenuList.add(new CLIMenuItem("Deposit", controller::handleDeposit));
-        mainMenuList.add(new CLIMenuItem("Withdraw", controller::handleWithdraw));
+        MenuItem back = MenuItem.builder().subMenu(null).label("Back").directive(MenuDirective.BACK).build();
 
-        CLIMenuGroup accountMenu = new CLIMenuGroup(
+
+        List<MenuItem> mainMenuList = new ArrayList<>();
+
+        Menu accountMenu = new Menu(
                 "Account",
                 numberMenu
         );
-        accountMenu.addMenuItem(new CLIMenuItem("Check Balance", controller::handleGetBalance));
+        MenuItem accSubMenuItem = MenuItem.builder().subMenu(accountMenu).label("Accounts").directive(MenuDirective.GOTO_MENU).build();
+        accountMenu.addMenuItem(back);
 
-        mainMenuList.add(accountMenu);
 
-        CLIMenuGroup mainMenu = new CLIMenuGroup(
+        Menu mainMenu = new Menu(
                 "Main Menu",
                 mainMenuList,
                 numberMenu
         );
+        mainMenu.addMenuItem(back);
+        MenuItem mainMenuItem = MenuItem.builder().subMenu(mainMenu).label("Login").directive(MenuDirective.GOTO_MENU).build();
+        mainMenu.addMenuItem(accSubMenuItem);
 
-        authMenuList.add(mainMenu);
 
-        CLIMenuGroup authMenu = new CLIMenuGroup(
+        Menu authMenu = new Menu(
                 "User",
-                authMenuList,
                 numberMenu
         );
+        authMenu.addMenuItem(exit);
+        authMenu.addMenuItem(mainMenuItem);
 
         MenuController menuRunner = new MenuController(authMenu);
         menuRunner.start();

@@ -4,5 +4,5 @@ public enum MenuDirective {
     STAY,
     BACK,
     EXIT,
-    GOTO_CHILD,
+    GOTO_MENU,
 }

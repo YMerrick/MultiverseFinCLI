@@ -32,10 +32,6 @@ public class CommandFactory {
         return new GetBalanceCommand(io, accService, accId);
     }
 
-    public Command createLogin() {
-        return new LoginCommand(username, password);
-    }
-
     private UUID getAccId(UUID sessionId) {
         Optional<Session> session = sessionManager.validate(sessionId);
         if (session.isEmpty()) throw new RuntimeException();

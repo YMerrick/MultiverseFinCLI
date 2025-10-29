@@ -1,39 +1,39 @@
 package com.fincore.app.cli.app;
 
-import com.fincore.app.cli.menu.CLIMenuComponent;
-import com.fincore.app.cli.menu.CLIMenuGroup;
-import com.fincore.app.cli.menu.MenuDirective;
+import com.fincore.app.cli.menu.*;
+import com.fincore.app.model.menu.MenuComponent;
+import com.fincore.app.model.menu.MenuItemRunnable;
 import lombok.Setter;
 
 import java.util.*;
 
 public class MenuController {
-    private final Deque<CLIMenuGroup> menuStack = new ArrayDeque<CLIMenuGroup>();
+    private final Deque<Menu> menuStack = new ArrayDeque<Menu>();
     @Setter
     private UUID currentSessionToken;
 
-    public MenuController(CLIMenuGroup root) {
+    public MenuController(Menu root) {
         menuStack.push(root);
     }
 
     public void start() {
-        CLIMenuGroup currentMenu;
+        Menu currentMenu;
         int userInput;
-        MenuDirective directive;
 
         for (;;) {
             currentMenu = menuStack.peek();
             if (Objects.isNull(currentMenu)) return;
 
-            currentMenu.render(menuStack.stream().map(CLIMenuComponent::getLabel).toList());
+            currentMenu.render(menuStack.stream().map(MenuComponent::getLabel).toList());
             userInput = currentMenu.getMenuChoice();
-            directive = interpretCommandOrExit(userInput, currentMenu);
-            switch (directive) {
+
+            MenuResponse res = callChild(currentMenu.getItem(userInput - 1));
+            switch (res.directive()) {
                 case EXIT -> {return;}
                 case BACK -> menuStack.pop();
-                case GOTO_CHILD -> {
-                    CLIMenuGroup child = (CLIMenuGroup) currentMenu.getChild(userInput - 1);
-                    menuStack.push(child);
+                case GOTO_MENU -> {
+                    if (res.submenu().isEmpty()) throw new RuntimeException();
+                    menuStack.push(res.submenu().get());
                 }
                 case STAY -> {}
             }
@@ -41,15 +41,7 @@ public class MenuController {
         }
     }
 
-    private MenuDirective interpretCommandOrExit(int choice, CLIMenuGroup currentMenu) {
-        if (choice == 0) {
-            if (menuStack.size() > 1) return MenuDirective.BACK;
-            return MenuDirective.EXIT;
-        }
-        return callChild(currentMenu.getChild(choice - 1));
-    }
-
-    private MenuDirective callChild(CLIMenuComponent child) {
-        return child.select();
+    private MenuResponse callChild(MenuItemRunnable child) {
+        return child.run();
     }
 }
