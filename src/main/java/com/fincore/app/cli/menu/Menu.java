@@ -30,7 +30,6 @@ public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider 
 
     public void render(List<String> listOfMenuStack) {
         io.renderBreadcrumb(listOfMenuStack);
-        // Pass the io the output
         io.renderMenu(menuItems.stream().map(MenuItem::getLabel).toList());
     }
 
@@ -48,7 +47,7 @@ public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider 
             line = io.getInput();
             try {
                 userInput = Integer.parseInt(line);
-                if ((userInput >= 1) && (userInput <= menuItems.size())) return userInput;
+                if ((userInput >= 0) && (userInput < menuItems.size())) return userInput;
             } catch (NumberFormatException ignored) {}
             System.out.print("Please enter a valid option: ");
         }

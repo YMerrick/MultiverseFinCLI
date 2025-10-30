@@ -1,16 +1,15 @@
 package com.fincore.app.cli.app;
 
+import com.fincore.app.application.auth.Context;
 import com.fincore.app.cli.menu.*;
 import com.fincore.app.model.menu.MenuComponent;
 import com.fincore.app.model.menu.MenuItemRunnable;
-import lombok.Setter;
 
 import java.util.*;
 
 public class MenuController {
-    private final Deque<Menu> menuStack = new ArrayDeque<Menu>();
-    @Setter
-    private UUID currentSessionToken;
+    private final Deque<Menu> menuStack = new ArrayDeque<>();
+    private final Context ctx = new Context();
 
     public MenuController(Menu root) {
         menuStack.push(root);
@@ -19,6 +18,7 @@ public class MenuController {
     public void start() {
         Menu currentMenu;
         int userInput;
+        MenuResponse res;
 
         for (;;) {
             currentMenu = menuStack.peek();
@@ -27,21 +27,22 @@ public class MenuController {
             currentMenu.render(menuStack.stream().map(MenuComponent::getLabel).toList());
             userInput = currentMenu.getMenuChoice();
 
-            MenuResponse res = callChild(currentMenu.getItem(userInput - 1));
+            res = callChild(currentMenu.getItem(userInput), ctx);
             switch (res.directive()) {
                 case EXIT -> {return;}
                 case BACK -> menuStack.pop();
-                case GOTO_MENU -> {
-                    if (res.submenu().isEmpty()) throw new RuntimeException();
-                    menuStack.push(res.submenu().get());
-                }
+                case GOTO_MENU -> moveToMenu(res);
                 case STAY -> {}
             }
 
         }
     }
 
-    private MenuResponse callChild(MenuItemRunnable child) {
-        return child.run();
+    private MenuResponse callChild(MenuItemRunnable child, Context ctx) {
+        return child.run(ctx);
+    }
+
+    private void moveToMenu(MenuResponse response) {
+        menuStack.push(response.submenu().orElseThrow(RuntimeException::new));
     }
 }

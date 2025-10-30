@@ -1,14 +1,14 @@
 package com.fincore.app.cli.command;
 
-import com.fincore.app.application.auth.AuthService;
+import com.fincore.app.application.auth.*;
 
 import java.util.UUID;
 
-public record LoginCommand(AuthService service, String username, char[] password) implements Command{
+public record LoginCommand(AuthService authService, SessionManager seshService, String username, char[] password) implements Command{
     @Override
-    public void execute() {
-        UUID accId = service.login(username, password);
-        // Create session
-
+    public void execute(Context ctx) {
+        UUID accId = authService.login(username, password);
+        UUID sessionId = seshService.issue(accId);
+        ctx.setSession(sessionId);
     }
 }

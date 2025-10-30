@@ -26,4 +26,9 @@ public class AccountService {
     public Money getBalance(UUID accId) {
         return accountStorage.getById(accId).get().getBalance();
     }
+
+    public void register(String accHolder, UUID accId, long amount) {
+        Account acc = new Account(accId, accHolder, amount);
+        accountStorage.save(acc);
+    }
 }

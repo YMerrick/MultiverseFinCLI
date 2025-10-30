@@ -9,32 +9,55 @@ import com.fincore.app.model.identity.Session;
 import java.util.Optional;
 import java.util.UUID;
 
+// Needs to worry only about creating commands
+// Does not contain fields pertaining to services
+// Pass the services to the methods instead
 public class CommandFactory {
-    private SessionManager sessionManager;
-    private AccountService accService;
-    private IOHandler io;
-    private AuthService authService;
-    public CommandFactory() {
+
+    public static Command createDepositCommand(double amount, AccountService accService, SessionManager sessionManager) {
+        return new DepositCommand(amount, accService, sessionManager);
     }
 
-    public Command createDepositCommand(double amount, UUID sessionId) {
-        UUID accId = getAccId(sessionId);
-        return new DepositCommand(amount, accService, accId);
+    public static Command createWithdrawCommand(double amount, AccountService accService, SessionManager sessionManager) {
+        return new WithdrawCommand(amount, accService, sessionManager);
     }
 
-    public Command createWithdrawCommand(double amount, UUID sessionId) {
-        UUID accId = getAccId(sessionId);
-        return new WithdrawCommand(amount, accService, accId);
+    public static Command createTransactionCommand(
+            double amount,
+            AccountService accService,
+            SessionManager sessionManager,
+            String type
+    ) {
+        return switch (type) {
+            case "DEPOSIT" -> new DepositCommand(amount, accService, sessionManager);
+            case "WITHDRAW" -> new WithdrawCommand(amount, accService, sessionManager);
+            case null, default -> throw new IllegalArgumentException();
+        };
     }
 
-    public Command createGetBalance(UUID sessionId) {
-        UUID accId = getAccId(sessionId);
-        return new GetBalanceCommand(io, accService, accId);
+    public static Command createGetBalance(IOHandler io, AccountService accService, SessionManager sessionManager) {
+        return new GetBalanceCommand(io, accService, sessionManager);
     }
 
-    private UUID getAccId(UUID sessionId) {
-        Optional<Session> session = sessionManager.validate(sessionId);
-        if (session.isEmpty()) throw new RuntimeException();
-        return session.get().accId();
+    public static Command createLogout(SessionManager sessionManager) {
+        return new LogoutCommand(sessionManager);
+    }
+
+    public static Command createLogin(AuthService authService, SessionManager sessionManager, String username, char[] password) {
+        return new LoginCommand(authService, sessionManager, username, password);
+    }
+
+    public static Command createRegister(
+            AuthService authService,
+            AccountService accountService,
+            String username,
+            char[] password
+    ) {
+        return new RegisterCommand(
+                authService,
+                accountService,
+                username,
+                password
+        );
     }
 }

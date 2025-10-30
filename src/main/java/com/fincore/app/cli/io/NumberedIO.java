@@ -20,10 +20,8 @@ public class NumberedIO implements IOHandler {
 
     public void renderMenu(List<String> childrenLabels) {
         // Get all options
-        ArrayList<String> stringListToBeOutput = new ArrayList<String>();
+        ArrayList<String> stringListToBeOutput = new ArrayList<>();
         String outputBody;
-        stringListToBeOutput.addAll(List.of("", "", "", ""));
-
         stringListToBeOutput.add(renderMenuOptions(childrenLabels));
 
         stringListToBeOutput.add("");
@@ -44,17 +42,8 @@ public class NumberedIO implements IOHandler {
 
     private String renderMenuOptions(List<String> labels) {
         return IntStream.range(0, labels.size())
-                .mapToObj(i -> i+1 + ". " + labels.get(i))
+                .mapToObj(i -> i + ". " + labels.get(i))
                 .collect(Collectors.joining("\n"));
-    }
-
-    private String renderReturnLabel(int stackSize) {
-        String terminationLabel = switch (stackSize) {
-            case 1 -> "Exit";
-            case 2 -> "Logout";
-            default -> "Back";
-        };
-        return "0. " + terminationLabel;
     }
 
     private String renderInputPrompt() {
