@@ -28,6 +28,7 @@ public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider 
         this(label, new ArrayList<>(), io);
     }
 
+    @Override
     public void render(List<String> listOfMenuStack) {
         io.renderBreadcrumb(listOfMenuStack);
         io.renderMenu(menuItems.stream().map(MenuItem::getLabel).toList());

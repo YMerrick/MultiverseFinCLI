@@ -55,4 +55,13 @@ public class AccountServiceTest {
         verify(stubAccStore).getById(stubId);
         verify(stubAccount).withdraw(withdrawingAmount);
     }
+
+    @Test
+    void testRegister() {
+        String username = "Test";
+        UUID stubId = UUID.randomUUID();
+        long amount = 0;
+        stubService.register(username, stubId, amount);
+        verify(stubAccStore).save(Mockito.any());
+    }
 }
