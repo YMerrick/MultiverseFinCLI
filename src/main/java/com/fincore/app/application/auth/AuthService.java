@@ -8,7 +8,6 @@ import com.fincore.app.model.shared.AuthException;
 import java.util.Optional;
 import java.util.UUID;
 
-@SuppressWarnings("SpellCheckingInspection")
 public class AuthService {
     private CredentialStore credsRepo;
     private PasswordHasher hasher;

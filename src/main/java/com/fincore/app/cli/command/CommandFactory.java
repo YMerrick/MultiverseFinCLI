@@ -4,24 +4,11 @@ import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.cli.io.IOHandler;
-import com.fincore.app.model.identity.Session;
-
-import java.util.Optional;
-import java.util.UUID;
 
 // Needs to worry only about creating commands
 // Does not contain fields pertaining to services
 // Pass the services to the methods instead
 public class CommandFactory {
-
-    public static Command createDepositCommand(double amount, AccountService accService, SessionManager sessionManager) {
-        return new DepositCommand(amount, accService, sessionManager);
-    }
-
-    public static Command createWithdrawCommand(double amount, AccountService accService, SessionManager sessionManager) {
-        return new WithdrawCommand(amount, accService, sessionManager);
-    }
-
     public static Command createTransactionCommand(
             double amount,
             AccountService accService,

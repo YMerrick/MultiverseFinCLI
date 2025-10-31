@@ -10,7 +10,7 @@ import com.fincore.app.cli.menu.LoginItem;
 import com.fincore.app.cli.menu.Menu;
 import com.fincore.app.cli.menu.MenuDirective;
 import com.fincore.app.data.inmemory.*;
-import com.fincore.app.data.security.BCryptHasher;
+import com.fincore.app.data.security.*;
 import com.fincore.app.model.account.Account;
 import com.fincore.app.cli.menu.MenuItem;
 import com.fincore.app.model.account.AccountStore;
@@ -18,8 +18,6 @@ import com.fincore.app.model.identity.CredentialStore;
 import com.fincore.app.model.identity.PasswordHasher;
 import com.fincore.app.model.identity.SessionStore;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Main {
@@ -91,9 +89,13 @@ public class Main {
                 io
         );
         mainMenu.addMenuItem(logout);
-        MenuItem login = new LoginItem(MenuDirective.GOTO_MENU, "Login", mainMenu, controller::handleLogin);
+        MenuItem login = new LoginItem(
+                MenuDirective.GOTO_MENU,
+                "Login",
+                mainMenu,
+                controller::handleLogin
+        );
         mainMenu.addMenuItem(goToAccMenu);
-
 
         Menu authMenu = new Menu(
                 "User",

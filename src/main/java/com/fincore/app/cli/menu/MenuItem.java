@@ -1,7 +1,6 @@
 package com.fincore.app.cli.menu;
 
 import com.fincore.app.application.auth.Context;
-import com.fincore.app.cli.command.Command;
 import com.fincore.app.model.menu.MenuComponent;
 import com.fincore.app.model.menu.MenuItemRunnable;
 import lombok.AllArgsConstructor;

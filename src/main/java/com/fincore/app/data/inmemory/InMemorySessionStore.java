@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class InMemorySessionStore implements SessionStore {
-    private final Map<UUID, Session> cache = new HashMap<UUID, Session>();
+    private final Map<UUID, Session> cache = new HashMap<>();
     @Override
     public void save(UUID sessionID, Session sessionData) {
         cache.put(sessionID, sessionData);

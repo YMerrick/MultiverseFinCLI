@@ -17,7 +17,7 @@ public class InMemoryAccountStore implements AccountStore {
         return Optional.ofNullable(store.get(id));
     }
 
-    public Optional<Account> findById(String id) {
+    public Optional<Account> getById(String id) {
         UUID convertToUuid = UUID.fromString(id);
         return getById(convertToUuid);
     }

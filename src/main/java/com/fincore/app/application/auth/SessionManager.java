@@ -19,9 +19,7 @@ public class SessionManager {
         UUID sessionId = UUID.randomUUID();
 
         Session newSession = new Session(accId, sessionId);
-        // Store Session in session store
         storage.save(sessionId, newSession);
-        // Return session ID
         return newSession.id();
     }
 

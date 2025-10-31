@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SessionStore {
-    public void save(UUID sessionID, Session sessionData);
-    public void dismiss(UUID sessionID);
-    public Optional<Session> getById(UUID sessionID);
+    void save(UUID sessionID, Session sessionData);
+    void dismiss(UUID sessionID);
+    Optional<Session> getById(UUID sessionID);
 }
