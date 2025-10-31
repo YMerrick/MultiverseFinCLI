@@ -14,8 +14,17 @@ public class CommandHandler {
 
     public void handleDeposit(Context ctx) {
         // Get user input
-        double amount = 0.0;
-        Command depositCommand = CommandFactory.createTransactionCommand(
+        String line;
+        double amount = -1;
+        Command depositCommand;
+
+        do {
+            line = io.getInput("Please enter the amount you would like to deposit: ");
+            try {
+                amount = Double.parseDouble(line);
+            } catch (NumberFormatException ignored) {}
+        } while (amount < 0.0);
+        depositCommand = CommandFactory.createTransactionCommand(
                 amount,
                 accService,
                 sessionManager,
