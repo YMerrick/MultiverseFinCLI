@@ -30,16 +30,116 @@ FinCore CLI banking is a comprehensive command-line banking system that allows u
 ## Project Structure
 
 ```
-finecore-cli-banking/
-├── src/
-│    └─── main/
-│          └──── java/
-│                 └──── com/
-│                        └─── fincore/
-│                               └────── app/
-│                                        └─── Main.java
-├── .gitignore
-└── README.md
+MultiverseFinCLI/
+├── LICENSE
+├── README.md
+├── pom.xml
+├── src
+│   ├── main
+│   │   └── java
+│   │       └── com
+│   │           └── fincore
+│   │               └── app
+│   │                   ├── Main.java
+│   │                   ├── application
+│   │                   │   ├── accounts
+│   │                   │   │   └── AccountService.java
+│   │                   │   └── auth
+│   │                   │       ├── AuthService.java
+│   │                   │       ├── Context.java
+│   │                   │       └── SessionManager.java
+│   │                   ├── cli
+│   │                   │   ├── app
+│   │                   │   │   └── MenuController.java
+│   │                   │   ├── command
+│   │                   │   │   ├── Command.java
+│   │                   │   │   ├── CommandFactory.java
+│   │                   │   │   ├── CommandHandler.java
+│   │                   │   │   ├── DepositCommand.java
+│   │                   │   │   ├── GetBalanceCommand.java
+│   │                   │   │   ├── LoginCommand.java
+│   │                   │   │   ├── LogoutCommand.java
+│   │                   │   │   ├── RegisterCommand.java
+│   │                   │   │   └── WithdrawCommand.java
+│   │                   │   ├── io
+│   │                   │   │   ├── IOHandler.java
+│   │                   │   │   └── NumberedIO.java
+│   │                   │   └── menu
+│   │                   │       ├── LoginItem.java
+│   │                   │       ├── Menu.java
+│   │                   │       ├── MenuDirective.java
+│   │                   │       ├── MenuItem.java
+│   │                   │       └── MenuResponse.java
+│   │                   ├── data
+│   │                   │   ├── file
+│   │                   │   │   └── FileSessionStore.java
+│   │                   │   ├── inmemory
+│   │                   │   │   ├── InMemoryAccountStore.java
+│   │                   │   │   ├── InMemoryCredentialStore.java
+│   │                   │   │   └── InMemorySessionStore.java
+│   │                   │   └── security
+│   │                   │       ├── BCryptHasher.java
+│   │                   │       └── NoHasher.java
+│   │                   └── model
+│   │                       ├── account
+│   │                       │   ├── Account.java
+│   │                       │   ├── AccountStore.java
+│   │                       │   ├── CurrentAccount.java
+│   │                       │   └── OverdraftAccount.java
+│   │                       ├── identity
+│   │                       │   ├── CredentialStore.java
+│   │                       │   ├── Credentials.java
+│   │                       │   ├── PasswordHasher.java
+│   │                       │   ├── Session.java
+│   │                       │   └── SessionStore.java
+│   │                       ├── menu
+│   │                       │   ├── MenuChoiceProvider.java
+│   │                       │   ├── MenuComponent.java
+│   │                       │   ├── MenuDisplayable.java
+│   │                       │   └── MenuItemRunnable.java
+│   │                       └── shared
+│   │                           ├── AuthException.java
+│   │                           ├── DuplicateEntityException.java
+│   │                           ├── InsufficientFundsException.java
+│   │                           ├── Money.java
+│   │                           ├── MoneyBuilder.java
+│   │                           └── MoneyFormatter.java
+│   └── test
+│       └── java
+│           └── com
+│               └── fincore
+│                   └── app
+│                       ├── TestRunner.java
+│                       ├── application
+│                       │   ├── accounts
+│                       │   │   └── AccountServiceTest.java
+│                       │   └── auth
+│                       │       ├── AuthServiceTest.java
+│                       │       └── SessionManagerTest.java
+│                       ├── cli
+│                       │   ├── command
+│                       │   │   └── CommandsTest.java
+│                       │   └── menu
+│                       │       ├── MenuItemTest.java
+│                       │       └── MenuTest.java
+│                       ├── data
+│                       │   ├── file
+│                       │   ├── inmemory
+│                       │   │   ├── InMemoryAccountStoreTest.java
+│                       │   │   └── InMemoryCredentialStoreTest.java
+│                       │   └── security
+│                       │       ├── BCryptHasherTest.java
+│                       │       └── NoHasherTest.java
+│                       └── model
+│                           ├── account
+│                           │   ├── AccountTest.java
+│                           │   ├── CurrentAccountTest.java
+│                           │   └── OverdraftAccountTest.java
+│                           └── shared
+│                               ├── MoneyBuilderTest.java
+│                               ├── MoneyFormatterTest.java
+│                               └── MoneyTest.java
+└── toDoList.md
 ```
 
 ## Getting Started
