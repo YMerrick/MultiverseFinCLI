@@ -2,7 +2,7 @@ package com.fincore.app.cli.menu;
 
 import static org.mockito.Mockito.*;
 
-import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.IOHandler;
 import com.fincore.app.menu.MenuGroup;
 import com.fincore.app.menu.MenuItem;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,4 +1,4 @@
-package com.fincore.app.cli;
+package com.fincore.app.presentation.cli;
 
 import com.fincore.app.menu.MenuNavigator;
 

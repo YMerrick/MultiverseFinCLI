@@ -4,7 +4,7 @@ import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.Context;
 import com.fincore.app.application.auth.SessionManager;
-import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.IOHandler;
 import com.fincore.app.menu.actions.*;
 import com.fincore.app.model.account.Account;
 import com.fincore.app.model.account.AccountStore;

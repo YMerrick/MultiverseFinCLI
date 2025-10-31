@@ -1,6 +1,6 @@
 package com.fincore.app.menu;
 
-import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.IOHandler;
 import lombok.Getter;
 
 import java.util.ArrayList;
