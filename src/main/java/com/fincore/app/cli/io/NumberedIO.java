@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NumberedIO implements IOHandler {
+public class NumberedIO implements IOHandler, PasswordReader, InputProvider, OutputRenderer {
     private final PrintStream out;
     private final Scanner reader;
 

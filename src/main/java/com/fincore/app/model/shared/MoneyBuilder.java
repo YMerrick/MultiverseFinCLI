@@ -9,8 +9,7 @@ public class MoneyBuilder {
 
     public MoneyBuilder setAmount(long amount) {
         if (amount < 0) throwNegativeException();
-        this.amount = amount;
-        return this;
+        return setAmount(BigDecimal.valueOf(amount, 2));
     }
 
     public MoneyBuilder setAmount(BigDecimal amount) {
@@ -25,7 +24,7 @@ public class MoneyBuilder {
     }
 
     public MoneyBuilder setCurrency(String currencyCode) {
-        this.currency = Currency.getInstance("GBP");
+        this.currency = Currency.getInstance(currencyCode);
         return this;
     }
 

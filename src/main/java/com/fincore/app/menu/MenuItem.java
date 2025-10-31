@@ -1,8 +1,6 @@
-package com.fincore.app.cli.menu;
+package com.fincore.app.menu;
 
 import com.fincore.app.application.auth.Context;
-import com.fincore.app.model.menu.MenuComponent;
-import com.fincore.app.model.menu.MenuItemRunnable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import java.util.function.Consumer;
 
 @Builder
 @AllArgsConstructor
-public class MenuItem implements MenuComponent, MenuItemRunnable {
+public class MenuItem implements MenuComponent, MenuAction {
     @Builder.Default
     MenuDirective directive = MenuDirective.STAY;
 
@@ -22,13 +20,13 @@ public class MenuItem implements MenuComponent, MenuItemRunnable {
     @Getter
     String label;
 
-    Menu subMenu;
+    MenuGroup subMenuGroup;
 
     Consumer<Context> command;
 
     @Override
     public MenuResponse run(Context ctx) {
         if (Objects.nonNull(command)) command.accept(ctx);
-        return new MenuResponse(this.directive, Optional.ofNullable(this.subMenu));
+        return new MenuResponse(this.directive, Optional.ofNullable(this.subMenuGroup));
     }
 }

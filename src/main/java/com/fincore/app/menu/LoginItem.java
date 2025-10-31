@@ -1,4 +1,4 @@
-package com.fincore.app.cli.menu;
+package com.fincore.app.menu;
 
 import com.fincore.app.application.auth.Context;
 import lombok.NonNull;
@@ -6,8 +6,8 @@ import lombok.NonNull;
 import java.util.function.Consumer;
 
 public class LoginItem extends MenuItem{
-    public LoginItem(MenuDirective directive, @NonNull String label, Menu subMenu, Consumer<Context> command) {
-        super(directive, label, subMenu, command);
+    public LoginItem(MenuDirective directive, @NonNull String label, MenuGroup subMenuGroup, Consumer<Context> command) {
+        super(directive, label, subMenuGroup, command);
     }
 
     @Override
