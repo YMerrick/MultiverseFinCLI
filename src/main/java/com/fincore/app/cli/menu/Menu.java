@@ -43,14 +43,20 @@ public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider 
     public int getMenuChoice() {
         int userInput;
         String line;
+        String prompt;
 
-        while (true) {
-            line = io.getInput();
+        for (int i = 0;; i++) {
+            prompt = i < 1 ?
+                    "Please enter a menu index corresponding to your choice: " :
+                    "Please enter a valid option: ";
+            line = io.getInput(prompt);
             try {
                 userInput = Integer.parseInt(line);
-                if ((userInput >= 0) && (userInput < menuItems.size())) return userInput;
+                if ((userInput >= 0) && (userInput < menuItems.size())) {
+                    io.renderSpaces();
+                    return userInput;
+                }
             } catch (NumberFormatException ignored) {}
-            System.out.print("Please enter a valid option: ");
         }
     }
 

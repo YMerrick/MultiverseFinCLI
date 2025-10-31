@@ -36,7 +36,6 @@ public class Main {
                 .command(controller::handleRegister)
                 .build();
 
-
         MenuItem exit = MenuItem.builder()
                 .label("Exit")
                 .directive(MenuDirective.EXIT)

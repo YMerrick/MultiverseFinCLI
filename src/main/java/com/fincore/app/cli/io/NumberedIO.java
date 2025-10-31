@@ -19,21 +19,20 @@ public class NumberedIO implements IOHandler {
     }
 
     public void renderMenu(List<String> childrenLabels) {
-        // Get all options
         ArrayList<String> stringListToBeOutput = new ArrayList<>();
-        String outputBody;
+
         stringListToBeOutput.add(renderMenuOptions(childrenLabels));
-
         stringListToBeOutput.add("");
-        stringListToBeOutput.add(renderInputPrompt());
 
-        outputBody = String.join("\n", stringListToBeOutput);
+        this.out.print(String.join("\n", stringListToBeOutput));
+    }
 
-        this.out.print(outputBody);
+    public void renderSpaces() {
+        this.out.println("\n\n\n");
     }
 
     public void renderBreadcrumb(List<String> menuStack) {
-        out.println(createBreadcrumbPath(menuStack));
+        this.out.println(createBreadcrumbPath(menuStack));
     }
 
     private static String createBreadcrumbPath(List<String> menuStack) {
@@ -46,19 +45,17 @@ public class NumberedIO implements IOHandler {
                 .collect(Collectors.joining("\n"));
     }
 
-    private String renderInputPrompt() {
-        return "Please enter a menu index corresponding to your choice: ";
-    }
-
-    public String getInput() {
+    public String getInput(String prompt) {
+        this.out.print(prompt);
         return reader.nextLine().trim();
     }
 
-    public char[] getPasswordInput() {
+    public char[] getPasswordInput(String prompt) {
+        this.out.print(prompt);
         return System.console().readPassword();
     }
 
     public void renderOutput(String output) {
-        System.out.println(output);
+        this.out.println(output);
     }
 }

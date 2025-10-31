@@ -54,18 +54,26 @@ public class CommandHandler {
     }
 
     public void handleLogin(Context ctx) {
-        // Ask for username and password
-        System.out.print("Username: ");
-        String username = io.getInput();
-        System.out.print("Password: ");
-        char[] password = io.getPasswordInput();
+        String username = io.getInput("Username: ");
+        char[] password;
+        try {
+            password = io.getPasswordInput("Password: ");
+        } catch (NullPointerException ignored) {
+            password = io.getInput("\rPassword: ").toCharArray();
+        }
         Command login = CommandFactory.createLogin(authService, sessionManager, username, password);
+        io.renderSpaces();
         login.execute(ctx);
     }
 
     public void handleRegister(Context ctx) {
-        String username = io.getInput();
-        char[] password = io.getPasswordInput();
+        String username = io.getInput("Username: ");
+        char[] password;
+        try {
+            password = io.getPasswordInput("Password: ");
+        } catch (NullPointerException ignored) {
+            password = io.getInput("\rPassword: ").toCharArray();
+        }
         Command register = CommandFactory.createRegister(
                 authService,
                 accService,
@@ -73,5 +81,6 @@ public class CommandHandler {
                 password
         );
         register.execute(ctx);
+        io.renderSpaces();
     }
 }

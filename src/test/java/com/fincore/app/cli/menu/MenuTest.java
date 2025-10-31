@@ -48,9 +48,9 @@ public class MenuTest {
 
     @Test
     void testGetMenuChoice() {
-        when(stubIO.getInput()).thenReturn("0");
+        when(stubIO.getInput(anyString())).thenReturn("0");
         int result = stubMenu.getMenuChoice();
-        verify(stubIO).getInput();
+        verify(stubIO).getInput(anyString());
         assertInstanceOf(Integer.class, result);
         assertEquals(0, result);
     }
