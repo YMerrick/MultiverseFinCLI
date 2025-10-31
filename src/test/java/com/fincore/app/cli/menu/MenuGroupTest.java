@@ -3,6 +3,8 @@ package com.fincore.app.cli.menu;
 import static org.mockito.Mockito.*;
 
 import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.menu.MenuGroup;
+import com.fincore.app.menu.MenuItem;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,9 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-public class MenuTest {
+public class MenuGroupTest {
     private static IOHandler stubIO;
-    private Menu stubMenu;
+    private MenuGroup stubMenuGroup;
     private final String stubLabel = "Test";
     private MenuItem stubItem;
     private ArrayList stubList;
@@ -28,12 +30,12 @@ public class MenuTest {
         stubList = new ArrayList<MenuItem>();
         stubItem = mock(MenuItem.class);
         stubList.add(stubItem);
-        stubMenu = new Menu(stubLabel, stubList, stubIO);
+        stubMenuGroup = new MenuGroup(stubLabel, stubList, stubIO);
     }
 
     @Test
     void testRender() {
-        stubMenu.render(Mockito.anyList());
+        stubMenuGroup.render(Mockito.anyList());
         verify(stubIO).renderBreadcrumb(Mockito.anyList());
         verify(stubIO).renderMenu(Mockito.anyList());
     }
@@ -42,14 +44,14 @@ public class MenuTest {
     void testAddMenuItemPassNull() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> stubMenu.addMenuItem(null)
+                () -> stubMenuGroup.addMenuItem(null)
         );
     }
 
     @Test
     void testGetMenuChoice() {
         when(stubIO.getInput(anyString())).thenReturn("0");
-        int result = stubMenu.getMenuChoice();
+        int result = stubMenuGroup.getMenuChoice();
         verify(stubIO).getInput(anyString());
         assertInstanceOf(Integer.class, result);
         assertEquals(0, result);

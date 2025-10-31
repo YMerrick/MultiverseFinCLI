@@ -2,17 +2,18 @@ package com.fincore.app;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
+import com.fincore.app.application.auth.Context;
 import com.fincore.app.application.auth.SessionManager;
-import com.fincore.app.cli.command.CommandHandler;
-import com.fincore.app.cli.app.MenuController;
+import com.fincore.app.menu.actions.CommandHandler;
+import com.fincore.app.menu.MenuNavigator;
 import com.fincore.app.cli.io.*;
-import com.fincore.app.cli.menu.LoginItem;
-import com.fincore.app.cli.menu.Menu;
-import com.fincore.app.cli.menu.MenuDirective;
+import com.fincore.app.menu.LoginItem;
+import com.fincore.app.menu.MenuGroup;
+import com.fincore.app.menu.MenuDirective;
 import com.fincore.app.data.inmemory.*;
 import com.fincore.app.data.security.*;
 import com.fincore.app.model.account.Account;
-import com.fincore.app.cli.menu.MenuItem;
+import com.fincore.app.menu.MenuItem;
 import com.fincore.app.model.account.AccountStore;
 import com.fincore.app.model.identity.CredentialStore;
 import com.fincore.app.model.identity.PasswordHasher;
@@ -69,43 +70,44 @@ public class Main {
                 .build();
 
 
-        Menu accountMenu = new Menu(
+        MenuGroup accountMenuGroup = new MenuGroup(
                 "Account",
                 io
         );
         MenuItem goToAccMenu = MenuItem.builder()
-                .subMenu(accountMenu)
+                .subMenuGroup(accountMenuGroup)
                 .label("Accounts")
                 .directive(MenuDirective.GOTO_MENU)
                 .build();
-        accountMenu.addMenuItem(back);
-        accountMenu.addMenuItem(deposit);
-        accountMenu.addMenuItem(withdraw);
-        accountMenu.addMenuItem(getBalance);
+        accountMenuGroup.addMenuItem(back);
+        accountMenuGroup.addMenuItem(deposit);
+        accountMenuGroup.addMenuItem(withdraw);
+        accountMenuGroup.addMenuItem(getBalance);
 
 
-        Menu mainMenu = new Menu(
+        MenuGroup mainMenuGroup = new MenuGroup(
                 "Main Menu",
                 io
         );
-        mainMenu.addMenuItem(logout);
+        mainMenuGroup.addMenuItem(logout);
         MenuItem login = new LoginItem(
                 MenuDirective.GOTO_MENU,
                 "Login",
-                mainMenu,
+                mainMenuGroup,
                 controller::handleLogin
         );
-        mainMenu.addMenuItem(goToAccMenu);
+        mainMenuGroup.addMenuItem(goToAccMenu);
 
-        Menu authMenu = new Menu(
+        MenuGroup authMenuGroup = new MenuGroup(
                 "User",
                 io
         );
-        authMenu.addMenuItem(exit);
-        authMenu.addMenuItem(login);
-        authMenu.addMenuItem(register);
+        authMenuGroup.addMenuItem(exit);
+        authMenuGroup.addMenuItem(login);
+        authMenuGroup.addMenuItem(register);
 
-        MenuController menuRunner = new MenuController(authMenu);
+        Context ctx = new Context();
+        MenuNavigator menuRunner = new MenuNavigator(authMenuGroup, ctx);
         menuRunner.start();
 
     }

@@ -1,4 +1,4 @@
-package com.fincore.app.cli.command;
+package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.auth.*;
 

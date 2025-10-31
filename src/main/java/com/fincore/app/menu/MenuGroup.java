@@ -1,16 +1,13 @@
-package com.fincore.app.cli.menu;
+package com.fincore.app.menu;
 
 import com.fincore.app.cli.io.IOHandler;
-import com.fincore.app.model.menu.MenuChoiceProvider;
-import com.fincore.app.model.menu.MenuDisplayable;
-import com.fincore.app.model.menu.MenuComponent;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider {
+public class MenuGroup implements MenuRenderer, MenuComponent, MenuIO {
     @Getter
     private final String label;
     private final IOHandler io;
@@ -18,20 +15,21 @@ public class Menu implements MenuDisplayable, MenuComponent, MenuChoiceProvider 
     //
     private final List<MenuItem> menuItems;
 
-    public Menu(String label, List<MenuItem> items, IOHandler io) {
+    public MenuGroup(String label, List<MenuItem> items, IOHandler io) {
         this.label = label;
         this.menuItems = items;
         this.io = io;
     }
 
-    public Menu(String label, IOHandler io) {
+    public MenuGroup(String label, IOHandler io) {
         this(label, new ArrayList<>(), io);
     }
 
     @Override
-    public void render(List<String> listOfMenuStack) {
+    public String render(List<String> listOfMenuStack) {
         io.renderBreadcrumb(listOfMenuStack);
         io.renderMenu(menuItems.stream().map(MenuItem::getLabel).toList());
+        return "";
     }
 
     public void addMenuItem(MenuItem item) {

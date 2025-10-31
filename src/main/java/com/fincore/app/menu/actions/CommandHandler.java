@@ -1,4 +1,4 @@
-package com.fincore.app.cli.command;
+package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.*;
@@ -28,7 +28,7 @@ public class CommandHandler {
                 amount,
                 accService,
                 sessionManager,
-                "DEPOSIT"
+                TransactionType.DEPOSIT
         );
         depositCommand.execute(ctx);
         // Log command here
@@ -40,7 +40,7 @@ public class CommandHandler {
                 amount,
                 accService,
                 sessionManager,
-                "WITHDRAW"
+                TransactionType.WITHDRAW
         );
         withdrawCommand.execute(ctx);
         // Log command here

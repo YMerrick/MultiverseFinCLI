@@ -1,12 +1,14 @@
 package com.fincore.app.cli.menu;
 
 import com.fincore.app.application.auth.Context;
+import com.fincore.app.menu.MenuItem;
+import com.fincore.app.menu.MenuResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class MenuItemTest {
+public class MenuGroupItemTest {
     private MenuItem stubMenuItem;
     private final String stubLabel = "Test";
     private Context stubCtx;

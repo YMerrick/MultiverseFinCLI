@@ -1,4 +1,4 @@
-package com.fincore.app.cli.command;
+package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
@@ -13,12 +13,12 @@ public class CommandFactory {
             double amount,
             AccountService accService,
             SessionManager sessionManager,
-            String type
+            TransactionType type
     ) {
         return switch (type) {
-            case "DEPOSIT" -> new DepositCommand(amount, accService, sessionManager);
-            case "WITHDRAW" -> new WithdrawCommand(amount, accService, sessionManager);
-            case null, default -> throw new IllegalArgumentException();
+            case DEPOSIT -> new DepositCommand(amount, accService, sessionManager);
+            case WITHDRAW -> new WithdrawCommand(amount, accService, sessionManager);
+            case null -> throw new IllegalArgumentException();
         };
     }
 

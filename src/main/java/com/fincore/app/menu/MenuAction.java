@@ -1,12 +1,10 @@
-package com.fincore.app.model.menu;
+package com.fincore.app.menu;
 
 import com.fincore.app.application.auth.Context;
-import com.fincore.app.cli.menu.MenuDirective;
-import com.fincore.app.cli.menu.MenuResponse;
 
 import java.util.Optional;
 
-public interface MenuItemRunnable {
+public interface MenuAction {
     default MenuResponse run(Context ctx) {
         return new MenuResponse(MenuDirective.STAY, Optional.empty());
     }

@@ -43,40 +43,40 @@ public class Account {
     public void deposit(Money amount) {
         balance = balance.plus(amount);
     }
-
-    public void deposit(double amountInCurrencyUnit) {
-        if (amountInCurrencyUnit < 0) throwNegativeException();
-        deposit(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
-    }
-
-    public void deposit(long amountInMinorUnits) {
-        if (amountInMinorUnits < 0) throwNegativeException();
-        deposit(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
-    }
-
-    public void deposit(BigDecimal amountInCurrencyUnit) {
-        if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
-        deposit(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
-    }
+//
+//    public void deposit(double amountInCurrencyUnit) {
+//        if (amountInCurrencyUnit < 0) throwNegativeException();
+//        deposit(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
+//    }
+//
+//    public void deposit(long amountInMinorUnits) {
+//        if (amountInMinorUnits < 0) throwNegativeException();
+//        deposit(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
+//    }
+//
+//    public void deposit(BigDecimal amountInCurrencyUnit) {
+//        if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
+//        deposit(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
+//    }
 
     public void withdraw(Money amount) {
         balance = balance.minus(amount);
     }
-
-    public void withdraw(double amountInCurrencyUnit) {
-        if (amountInCurrencyUnit < 0) throwNegativeException();
-        withdraw(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
-    }
-
-    public void withdraw(long amountInMinorUnits) {
-        if (amountInMinorUnits < 0) throwNegativeException();
-        withdraw(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
-    }
-
-    public void withdraw(BigDecimal amountInCurrencyUnit) {
-        if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
-        withdraw(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
-    }
+//
+//    public void withdraw(double amountInCurrencyUnit) {
+//        if (amountInCurrencyUnit < 0) throwNegativeException();
+//        withdraw(Money.ofMajor(BigDecimal.valueOf(amountInCurrencyUnit), balance.getCurrency()));
+//    }
+//
+//    public void withdraw(long amountInMinorUnits) {
+//        if (amountInMinorUnits < 0) throwNegativeException();
+//        withdraw(Money.ofMinor(amountInMinorUnits, balance.getCurrency()));
+//    }
+//
+//    public void withdraw(BigDecimal amountInCurrencyUnit) {
+//        if (amountInCurrencyUnit.signum() < 0) throwNegativeException();
+//        withdraw(Money.ofMajor(amountInCurrencyUnit, balance.getCurrency()));
+//    }
 
     public String toString() {
         return String.format("""

@@ -1,4 +1,4 @@
-package com.fincore.app.model.menu;
+package com.fincore.app.menu;
 
 public interface MenuComponent {
     String getLabel();
