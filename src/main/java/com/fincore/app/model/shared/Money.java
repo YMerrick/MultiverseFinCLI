@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 
 public final class Money {
-    private long minorUnits;
+    private final long minorUnits;
     @Getter
     private final Currency currency;
 

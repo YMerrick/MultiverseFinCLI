@@ -1,17 +1,12 @@
 package com.fincore.app.cli.command;
 
 import com.fincore.app.application.accounts.AccountService;
-import com.fincore.app.application.auth.AuthService;
-import com.fincore.app.application.auth.Context;
-import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.application.auth.*;
 import com.fincore.app.cli.io.IOHandler;
 import lombok.AllArgsConstructor;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 public class CommandHandler {
-    // Find a better way to retrieve session ID
     private SessionManager sessionManager;
     private AccountService accService;
     private IOHandler io;

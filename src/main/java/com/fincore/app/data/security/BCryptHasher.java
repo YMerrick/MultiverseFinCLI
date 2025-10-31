@@ -4,7 +4,6 @@ import com.fincore.app.model.identity.PasswordHasher;
 import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 public class BCryptHasher implements PasswordHasher {
     private final SecureRandom saltRandomiser;
