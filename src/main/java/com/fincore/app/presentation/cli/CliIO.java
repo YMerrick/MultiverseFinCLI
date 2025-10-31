@@ -1,4 +1,4 @@
-package com.fincore.app.cli;
+package com.fincore.app.presentation.cli;
 
 import java.io.InputStream;
 import java.io.PrintStream;

@@ -6,7 +6,6 @@ import com.fincore.app.application.auth.Context;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.menu.actions.CommandHandler;
 import com.fincore.app.menu.MenuNavigator;
-import com.fincore.app.cli.io.*;
 import com.fincore.app.menu.LoginItem;
 import com.fincore.app.menu.MenuGroup;
 import com.fincore.app.menu.MenuDirective;
@@ -18,6 +17,8 @@ import com.fincore.app.model.account.AccountStore;
 import com.fincore.app.model.identity.CredentialStore;
 import com.fincore.app.model.identity.PasswordHasher;
 import com.fincore.app.model.identity.SessionStore;
+import com.fincore.app.presentation.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.NumberedIO;
 
 import java.util.UUID;
 

@@ -2,7 +2,7 @@ package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.*;
-import com.fincore.app.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.IOHandler;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
