@@ -1,8 +1,8 @@
 package com.fincore.app.application.accounts;
 
-import com.fincore.app.model.account.Account;
-import com.fincore.app.model.account.AccountStore;
-import com.fincore.app.model.shared.Money;
+import com.fincore.app.domain.account.Account;
+import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.shared.Money;
 
 import java.util.UUID;
 

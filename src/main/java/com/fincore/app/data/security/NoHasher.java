@@ -1,6 +1,6 @@
 package com.fincore.app.data.security;
 
-import com.fincore.app.model.identity.PasswordHasher;
+import com.fincore.app.domain.identity.PasswordHasher;
 
 public class NoHasher implements PasswordHasher {
 

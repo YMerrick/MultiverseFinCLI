@@ -1,7 +1,6 @@
 package com.fincore.app.data.security;
 
-import com.fincore.app.model.identity.PasswordHasher;
-import lombok.ToString;
+import com.fincore.app.domain.identity.PasswordHasher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

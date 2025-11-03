@@ -3,8 +3,8 @@ package com.fincore.app.cli.menu;
 import static org.mockito.Mockito.*;
 
 import com.fincore.app.presentation.cli.io.IOHandler;
-import com.fincore.app.menu.MenuGroup;
-import com.fincore.app.menu.MenuItem;
+import com.fincore.app.menu.model.MenuGroup;
+import com.fincore.app.menu.model.MenuItem;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

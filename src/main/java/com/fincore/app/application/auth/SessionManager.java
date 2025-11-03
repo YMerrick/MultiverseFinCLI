@@ -1,7 +1,7 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.identity.Session;
-import com.fincore.app.model.identity.SessionStore;
+import com.fincore.app.domain.identity.Session;
+import com.fincore.app.domain.identity.SessionStore;
 
 import java.util.Objects;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.fincore.app.presentation.cli;
 
-import com.fincore.app.menu.MenuNavigator;
+import com.fincore.app.menu.nav.MenuNavigator;
 
 public class CliLoop {
     private MenuNavigator navigator;
