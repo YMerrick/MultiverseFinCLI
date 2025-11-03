@@ -1,6 +1,6 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.identity.SessionStore;
+import com.fincore.app.domain.identity.SessionStore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

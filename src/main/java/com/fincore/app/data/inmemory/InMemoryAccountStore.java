@@ -1,8 +1,8 @@
 package com.fincore.app.data.inmemory;
 
-import com.fincore.app.model.account.Account;
-import com.fincore.app.model.account.AccountStore;
-import com.fincore.app.model.shared.DuplicateEntityException;
+import com.fincore.app.domain.account.Account;
+import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.shared.DuplicateEntityException;
 
 import java.util.HashMap;
 import java.util.Objects;

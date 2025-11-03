@@ -1,9 +1,9 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.model.identity.CredentialStore;
-import com.fincore.app.model.identity.Credentials;
-import com.fincore.app.model.identity.PasswordHasher;
-import com.fincore.app.model.shared.AuthException;
+import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.Credentials;
+import com.fincore.app.domain.identity.PasswordHasher;
+import com.fincore.app.domain.shared.AuthException;
 
 import java.util.Optional;
 import java.util.UUID;

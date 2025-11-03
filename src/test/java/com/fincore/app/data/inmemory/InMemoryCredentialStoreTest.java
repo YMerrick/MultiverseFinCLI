@@ -1,10 +1,9 @@
 package com.fincore.app.data.inmemory;
 
-import com.fincore.app.model.identity.CredentialStore;
-import com.fincore.app.model.identity.Credentials;
-import com.fincore.app.model.shared.DuplicateEntityException;
+import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.Credentials;
+import com.fincore.app.domain.shared.DuplicateEntityException;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

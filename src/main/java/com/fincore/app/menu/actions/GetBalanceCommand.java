@@ -4,8 +4,8 @@ import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.Context;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.presentation.cli.io.IOHandler;
-import com.fincore.app.model.shared.Money;
-import com.fincore.app.model.shared.MoneyFormatter;
+import com.fincore.app.domain.shared.Money;
+import com.fincore.app.domain.shared.MoneyFormatter;
 
 import java.util.UUID;
 
