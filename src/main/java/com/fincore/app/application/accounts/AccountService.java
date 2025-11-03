@@ -4,6 +4,7 @@ import com.fincore.app.domain.account.Account;
 import com.fincore.app.domain.account.AccountStore;
 import com.fincore.app.domain.shared.Money;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class AccountService {
@@ -13,12 +14,12 @@ public class AccountService {
         this.accountStorage = accountStorage;
     }
 
-    public void deposit(UUID accId, double amount) {
+    public void deposit(UUID accId, Money amount) {
         Account acc = accountStorage.getById(accId).get();
         acc.deposit(amount);
     }
 
-    public void withdraw(UUID accId, double amount) {
+    public void withdraw(UUID accId, Money amount) {
         Account acc = accountStorage.getById(accId).get();
         acc.withdraw(amount);
     }

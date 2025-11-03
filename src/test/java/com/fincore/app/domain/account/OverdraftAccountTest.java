@@ -1,6 +1,7 @@
 package com.fincore.app.domain.account;
 
 import com.fincore.app.domain.shared.InsufficientFundsException;
+import com.fincore.app.domain.shared.Money;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -12,11 +13,11 @@ public class OverdraftAccountTest {
     @Test
     public void testOverWithdrawal() {
         Account stubAccount = new OverdraftAccount(UUID.randomUUID(), "Test", 0, 2000);
-        stubAccount.withdraw(2000);
+        stubAccount.withdraw(Money.ofMinor(2000, "GBP"));
         assertThrows(
                 InsufficientFundsException.class,
                 () -> {
-                    stubAccount.withdraw(1);
+                    stubAccount.withdraw(Money.ofMinor(1, "GBP"));
                 },
                 EXCEPTION_EXPECTED
         );

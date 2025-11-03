@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class AccountServiceTest {
     @Test
     void testDeposit() {
         UUID stubId = UUID.randomUUID();
-        double depositingAmount = 20.5;
+        Money depositingAmount = Money.ofMajor(BigDecimal.valueOf(20.5), "GBP");
         stubService.deposit(stubId, depositingAmount);
         verify(stubAccStore).getById(stubId);
         verify(this.stubAccount).deposit(depositingAmount);
@@ -50,7 +51,7 @@ public class AccountServiceTest {
     @Test
     void testWithdraw() {
         UUID stubId = UUID.randomUUID();
-        double withdrawingAmount = 5.5;
+        Money withdrawingAmount = Money.ofMajor(BigDecimal.valueOf(5.5), "GBP");
         stubService.withdraw(stubId, withdrawingAmount);
         verify(stubAccStore).getById(stubId);
         verify(stubAccount).withdraw(withdrawingAmount);

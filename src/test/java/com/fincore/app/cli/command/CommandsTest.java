@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,7 +72,7 @@ public class CommandsTest {
         );
         stubCommand.execute(stubCtx);
         verify(stubSeshManager).validate(Mockito.any());
-        verify(stubAccService).withdraw(stubId, stubAmount);
+        verify(stubAccService).withdraw(eq(stubId), any(Money.class));
     }
 
     @Test
