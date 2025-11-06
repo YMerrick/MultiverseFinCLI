@@ -3,48 +3,81 @@ package com.fincore.app.menu.actions;
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.menu.model.MenuAction;
+import com.fincore.app.menu.model.MenuDirective;
+import com.fincore.app.menu.model.MenuGroup;
+import com.fincore.app.presentation.cli.io.CliIO;
 import com.fincore.app.presentation.cli.io.IOHandler;
+import com.fincore.app.presentation.cli.io.InputProvider;
+import com.fincore.app.presentation.cli.io.PasswordReader;
+import lombok.AllArgsConstructor;
+import lombok.With;
+
+import java.awt.*;
+import java.util.function.Predicate;
 
 // Needs to worry only about creating commands
 // Does not contain fields pertaining to services
 // Pass the services to the methods instead
+@AllArgsConstructor
 public class CommandFactory {
-    public static Command createTransactionCommand(
-            double amount,
-            AccountService accService,
-            SessionManager sessionManager,
-            TransactionType type
-    ) {
-        return switch (type) {
-            case DEPOSIT -> new DepositCommand(amount, accService, sessionManager);
-            case WITHDRAW -> new WithdrawCommand(amount, accService, sessionManager);
-            case null -> throw new IllegalArgumentException();
-        };
-    }
+    private InputProvider inputProvider;
+    private PasswordReader passwordReader;
+    private AuthService authService;
+    private SessionManager sessionManager;
+    private AccountService accountService;
 
-    public static Command createGetBalance(IOHandler io, AccountService accService, SessionManager sessionManager) {
-        return new GetBalanceCommand(io, accService, sessionManager);
-    }
-
-    public static Command createLogout(SessionManager sessionManager) {
-        return new LogoutCommand(sessionManager);
-    }
-
-    public static Command createLogin(AuthService authService, SessionManager sessionManager, String username, char[] password) {
-        return new LoginCommand(authService, sessionManager, username, password);
-    }
-
-    public static Command createRegister(
-            AuthService authService,
-            AccountService accountService,
-            String username,
-            char[] password
-    ) {
-        return new RegisterCommand(
-                authService,
+    public MenuAction createDeposit() {
+        return new DepositAction(
+                sessionManager,
                 accountService,
-                username,
-                password
+                inputProvider
+        );
+    }
+
+    public MenuAction createDisplayBalance() {
+        return new displayBalanceAction(
+                sessionManager,
+                accountService
+        );
+    }
+
+    public MenuAction createRegister() {
+        return new RegisterAction(
+                authService,
+                inputProvider,
+                passwordReader,
+                sessionManager
+        );
+    }
+
+    public MenuAction createLogin(MenuGroup submenu) {
+        return new LoginAction(
+                inputProvider,
+                passwordReader,
+                submenu,
+                authService,
+                sessionManager
+        );
+    }
+
+    public MenuAction createLogout() {
+        return new LogoutAction(sessionManager);
+    }
+
+    public MenuAction createTraversal(MenuDirective directive, MenuGroup submenu, String message) {
+        return new TraversalAction(
+                directive,
+                submenu,
+                message
+        );
+    }
+
+    public MenuAction createWithdraw() {
+        return new WithdrawAction(
+                sessionManager,
+                accountService,
+                inputProvider
         );
     }
 }

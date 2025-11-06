@@ -4,106 +4,102 @@ import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.menu.actions.CommandFactory;
 import com.fincore.app.menu.actions.CommandHandler;
+import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.nav.MenuNavigator;
-import com.fincore.app.menu.model.LoginItem;
 import com.fincore.app.menu.model.MenuGroup;
-import com.fincore.app.menu.model.MenuDirective;
 import com.fincore.app.data.inmemory.*;
 import com.fincore.app.data.security.*;
-import com.fincore.app.domain.account.Account;
 import com.fincore.app.menu.model.MenuItem;
 import com.fincore.app.domain.account.AccountStore;
 import com.fincore.app.domain.identity.CredentialStore;
 import com.fincore.app.domain.identity.PasswordHasher;
 import com.fincore.app.domain.identity.SessionStore;
+import com.fincore.app.presentation.cli.io.CliIO;
+import com.fincore.app.presentation.cli.io.NumberedIO;
 import com.fincore.app.presentation.cli.port.CliMenuRenderer;
 import com.fincore.app.presentation.cli.io.IOHandler;
-import com.fincore.app.presentation.cli.io.NumberedIO;
 
-import java.util.UUID;
+import static com.fincore.app.menu.model.MenuDirective.*;
 
 public class Main {
     public static void main(String[] args) {
+        CommandFactory actionFactory = getActionFactory();
+        CommandHandler handler = getCommandHandler(new NumberedIO(System.out, System.in));
 
-        Account user = new Account(UUID.randomUUID(), "TestUser",10_000);
-        IOHandler io = new NumberedIO(System.out, System.in);
-
-        CommandHandler controller = getCommandHandler(io);
-
-        MenuItem register = MenuItem.builder()
-                .label("Register")
-                .directive(MenuDirective.STAY)
-                .command(controller::handleRegister)
-                .build();
-
-        MenuItem exit = MenuItem.builder()
-                .label("Exit")
-                .directive(MenuDirective.EXIT)
-                .build();
-
-        MenuItem back = MenuItem.builder()
-                .label("Back")
-                .directive(MenuDirective.BACK)
-                .build();
-
-        MenuItem logout = MenuItem.builder()
-                .label("Logout")
-                .directive(MenuDirective.BACK)
-                .command(controller::handleLogout)
-                .build();
-
-        MenuItem deposit = MenuItem.builder()
-                .label("Deposit")
-                .directive(MenuDirective.STAY)
-                .command(controller::handleDeposit)
-                .build();
-
-        MenuItem withdraw = MenuItem.builder()
-                .label("Withdraw")
-                .directive(MenuDirective.STAY)
-                .command(controller::handleWithdraw)
-                .build();
-
-        MenuItem getBalance = MenuItem.builder()
-                .label("Get Balance")
-                .directive(MenuDirective.STAY)
-                .command(controller::handleGetBalance)
-                .build();
-
-
-        MenuGroup accountMenuGroup = new MenuGroup(
-                "Account",
-                io
+        MenuItem exit = new MenuItem(
+                "Exit",
+                actionFactory.createTraversal(
+                        EXIT,
+                        null,
+                        null
+                )
         );
-        MenuItem goToAccMenu = MenuItem.builder()
-                .subMenuGroup(accountMenuGroup)
-                .label("Accounts")
-                .directive(MenuDirective.GOTO_MENU)
-                .build();
+
+        MenuItem back = new MenuItem(
+                "Back",
+                actionFactory.createTraversal(
+                        BACK,
+                        null,
+                        null
+                )
+        );
+
+        MenuItem logout = new MenuItem(
+                "Logout",
+                actionFactory.createLogout()
+        );
+
+        MenuItem register = new MenuItem(
+                "Register",
+                actionFactory.createRegister()
+        );
+
+        MenuItem deposit = new MenuItem(
+                "Deposit",
+                actionFactory.createDeposit()
+        );
+
+        MenuItem withdraw = new MenuItem(
+                "Withdraw",
+                actionFactory.createWithdraw()
+        );
+
+        MenuItem displayBalance = new MenuItem(
+                "Display Balance",
+                actionFactory.createDisplayBalance()
+        );
+
+        MenuGroup accountMenuGroup = new MenuGroup("Account");
+        MenuItem goToAccMenu = new MenuItem(
+                "Accounts",
+                actionFactory.createTraversal(
+                        GOTO_MENU,
+                        accountMenuGroup,
+                        null
+                )
+        );
+
         accountMenuGroup.addMenuItem(back);
         accountMenuGroup.addMenuItem(deposit);
         accountMenuGroup.addMenuItem(withdraw);
-        accountMenuGroup.addMenuItem(getBalance);
+        accountMenuGroup.addMenuItem(displayBalance);
 
 
-        MenuGroup mainMenuGroup = new MenuGroup(
-                "Main Menu",
-                io
-        );
+        MenuGroup mainMenuGroup = new MenuGroup("Main Menu");
         mainMenuGroup.addMenuItem(logout);
-        MenuItem login = new LoginItem(
-                MenuDirective.GOTO_MENU,
-                "Login",
-                mainMenuGroup,
-                controller::handleLogin
-        );
         mainMenuGroup.addMenuItem(goToAccMenu);
 
-        MenuGroup authMenuGroup = new MenuGroup(
-                "User",
-                io
+        MenuGroup authMenuGroup = new MenuGroup("User");
+
+        MenuAction loginAction = actionFactory.createLogin(mainMenuGroup);
+
+        MenuItem login = new MenuItem(
+                "Login",
+                loginAction
         );
+
         authMenuGroup.addMenuItem(exit);
         authMenuGroup.addMenuItem(login);
         authMenuGroup.addMenuItem(register);
@@ -111,6 +107,27 @@ public class Main {
         AuthContext ctx = new AuthContext();
         MenuNavigator menuRunner = new MenuNavigator(authMenuGroup, new CliMenuRenderer());
 
+    }
+
+    private static CommandFactory getActionFactory() {
+        SessionStore sessionStore = new InMemorySessionStore();
+        AccountStore accountStore = new InMemoryAccountStore();
+        CredentialStore credRepo = new InMemoryCredentialStore();
+        PasswordHasher hasher = new BCryptHasher();
+
+        SessionManager sessionManager = new SessionManager(sessionStore);
+        AccountService accountService = new AccountService(accountStore);
+        AuthService authService = new AuthService(credRepo, hasher);
+        CliIO io = new CliIO(System.in, System.out);
+
+        CommandFactory actionFactory = new CommandFactory(
+                io,
+                io,
+                authService,
+                sessionManager,
+                accountService
+        );
+        return actionFactory;
     }
 
     private static CommandHandler getCommandHandler(IOHandler io) {

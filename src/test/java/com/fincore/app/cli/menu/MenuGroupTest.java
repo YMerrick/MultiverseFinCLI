@@ -30,7 +30,7 @@ public class MenuGroupTest {
         stubList = new ArrayList<MenuItem>();
         stubItem = mock(MenuItem.class);
         stubList.add(stubItem);
-        stubMenuGroup = new MenuGroup(stubLabel, stubList, stubIO);
+        stubMenuGroup = new MenuGroup(stubLabel, stubList);
     }
 
     @Test
