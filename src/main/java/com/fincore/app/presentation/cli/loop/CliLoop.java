@@ -11,7 +11,7 @@ public class CliLoop {
         int choice;
         MenuResponse res;
 
-        while (nav.isExit()) {
+        while (!nav.isExit()) {
             // Get view/render menus
             view = nav.render();
             // output view/rendered menus
@@ -19,10 +19,14 @@ public class CliLoop {
             // Gather user choice / input
             choice = io.getIntInput("Please enter your choice: ");
             // pass choice to navigator
-            res = nav.select(choice, ctx);
-            nav.interpretDirective(res);
-            // output response messages
-            if (res.message().isPresent()) io.print(res.message().get());
+            try {
+                res = nav.select(choice, ctx);
+                nav.interpretDirective(res);
+                // output response messages
+                if (res.message().isPresent()) io.print(res.message().get());
+            } catch (IndexOutOfBoundsException e) {
+                io.print("That is an invalid choice");
+            }
         }
     }
 }
