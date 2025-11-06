@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 
 import static com.fincore.app.menu.model.MenuDirective.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -33,26 +32,19 @@ public class LoginAction implements MenuAction {
         char[] password;
 
         try {
-            password = this.passwordReader.getPasswordInput("Password");
+            password = this.passwordReader.getPasswordInput("Password: ");
         } catch (Exception e) {
-            password = this.input.getStringInput("Password").toCharArray();
+            password = this.input.getStringInput("\rPassword: ").toCharArray();
         }
 
         try {
             accountId = authService.login(username, password);
             sessionId = sessionManager.issue(accountId);
             ctx.setSession(sessionId);
-        } catch (AuthException e) {
-            message = "Login has encountered an error";
+        } catch (AuthException | IllegalArgumentException e) {
             return new MenuResponseBuilder()
                     .directive(STAY)
-                    .message(message)
-                    .build();
-        } catch (IllegalArgumentException e) {
-            message = "An error occurred trying to issue a session";
-            return new MenuResponseBuilder()
-                    .directive(STAY)
-                    .message(message)
+                    .message(e.getMessage())
                     .build();
         }
 

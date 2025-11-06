@@ -1,6 +1,5 @@
 package com.fincore.app.menu.model;
 
-import com.fincore.app.presentation.cli.io.IOHandler;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -33,27 +32,6 @@ public class MenuGroup implements MenuComponent {
         if (Objects.isNull(item)) throw new IllegalArgumentException();
         menuItems.add(item);
     }
-
-//    @Override
-//    public int getMenuChoice() {
-//        int userInput;
-//        String line;
-//        String prompt;
-//
-//        for (int i = 0;; i++) {
-//            prompt = i < 1 ?
-//                    "Please enter a menu index corresponding to your choice: " :
-//                    "Please enter a valid option: ";
-//            line = io.getInput(prompt);
-//            try {
-//                userInput = Integer.parseInt(line);
-//                if ((userInput >= 0) && (userInput < menuItems.size())) {
-//                    io.renderSpaces();
-//                    return userInput;
-//                }
-//            } catch (NumberFormatException ignored) {}
-//        }
-//    }
 
     public MenuItem getItem(int choice) throws IndexOutOfBoundsException{
         return menuItems.get(choice);

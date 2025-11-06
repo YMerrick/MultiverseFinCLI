@@ -2,7 +2,6 @@ package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.AuthService;
-import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.domain.shared.AuthException;
 import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuResponse;
@@ -18,7 +17,6 @@ public class RegisterAction implements MenuAction {
     private AuthService authService;
     private InputProvider inputProvider;
     private PasswordReader passwordReader;
-    private SessionManager sessionManager;
 
     @Override
     public MenuResponse run(AuthContext ctx) {
@@ -27,14 +25,14 @@ public class RegisterAction implements MenuAction {
         char[] password;
         UUID accId;
 
-        accId = sessionManager.validate(ctx.getSession()).orElseThrow().accId();
-
         username = inputProvider.getStringInput("Username: ");
         try {
             password = passwordReader.getPasswordInput("Password: ");
         } catch (Exception ignored) {
-            password = inputProvider.getStringInput("Password: ").toCharArray();
+            password = inputProvider.getStringInput("\rPassword: ").toCharArray();
         }
+
+        accId = UUID.randomUUID();
 
         try {
             authService.register(username, password, accId);

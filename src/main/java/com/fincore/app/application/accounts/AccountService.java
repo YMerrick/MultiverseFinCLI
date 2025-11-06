@@ -4,7 +4,6 @@ import com.fincore.app.domain.account.Account;
 import com.fincore.app.domain.account.AccountStore;
 import com.fincore.app.domain.shared.Money;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 public class AccountService {

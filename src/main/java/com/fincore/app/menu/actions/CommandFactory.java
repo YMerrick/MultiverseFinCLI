@@ -6,15 +6,9 @@ import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuDirective;
 import com.fincore.app.menu.model.MenuGroup;
-import com.fincore.app.presentation.cli.io.CliIO;
-import com.fincore.app.presentation.cli.io.IOHandler;
 import com.fincore.app.presentation.cli.io.InputProvider;
 import com.fincore.app.presentation.cli.io.PasswordReader;
 import lombok.AllArgsConstructor;
-import lombok.With;
-
-import java.awt.*;
-import java.util.function.Predicate;
 
 // Needs to worry only about creating commands
 // Does not contain fields pertaining to services
@@ -46,8 +40,7 @@ public class CommandFactory {
         return new RegisterAction(
                 authService,
                 inputProvider,
-                passwordReader,
-                sessionManager
+                passwordReader
         );
     }
 

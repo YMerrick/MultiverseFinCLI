@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class InMemoryCredentialStore implements CredentialStore {
-    private final HashMap<String, Credentials> store = new HashMap<String, Credentials>();
+    private final HashMap<String, Credentials> store = new HashMap<>();
 
     @Override
     public Optional<Credentials> getByUsername(String username) {

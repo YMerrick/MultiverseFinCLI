@@ -36,11 +36,7 @@ public class MenuNavigator {
     }
 
     public MenuResponse select(int choice , AuthContext ctx) throws IndexOutOfBoundsException {
-        try {
-            return currentMenu.getItem(choice).run(ctx);
-        } catch (IndexOutOfBoundsException e) {
-            throw e;
-        }
+        return currentMenu.getItem(choice).run(ctx);
     }
 
     public String render() {
