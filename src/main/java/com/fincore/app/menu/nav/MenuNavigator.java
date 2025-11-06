@@ -23,7 +23,10 @@ public class MenuNavigator {
     public void interpretDirective(MenuResponse res) {
         switch (res.directive()) {
             case EXIT -> isExit = true;
-            case BACK -> menuGroupStack.pop();
+            case BACK -> {
+                menuGroupStack.pop();
+                currentMenu = menuGroupStack.peek();
+            }
             case GOTO_MENU -> {
                 moveToMenu(res);
                 currentMenu = menuGroupStack.peek();
