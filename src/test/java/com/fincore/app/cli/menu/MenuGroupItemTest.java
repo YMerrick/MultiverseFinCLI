@@ -1,6 +1,6 @@
 package com.fincore.app.cli.menu;
 
-import com.fincore.app.application.auth.Context;
+import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.menu.model.MenuItem;
 import com.fincore.app.menu.model.MenuResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +11,11 @@ import static org.mockito.Mockito.mock;
 public class MenuGroupItemTest {
     private MenuItem stubMenuItem;
     private final String stubLabel = "Test";
-    private Context stubCtx;
+    private AuthContext stubCtx;
 
     @BeforeEach
     void setUp() {
-        stubCtx = mock(Context.class);
+        stubCtx = mock(AuthContext.class);
         stubMenuItem = MenuItem.builder()
                 .label(stubLabel)
                 .build();

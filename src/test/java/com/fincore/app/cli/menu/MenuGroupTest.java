@@ -34,8 +34,8 @@ public class MenuGroupTest {
     }
 
     @Test
-    void testRender() {
-        stubMenuGroup.render(Mockito.anyList());
+    void testGetLabels() {
+        stubMenuGroup.getLabels();
         verify(stubIO).renderBreadcrumb(Mockito.anyList());
         verify(stubIO).renderMenu(Mockito.anyList());
     }

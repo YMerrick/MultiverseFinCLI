@@ -2,7 +2,7 @@ package com.fincore.app;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
-import com.fincore.app.application.auth.Context;
+import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.menu.actions.CommandHandler;
 import com.fincore.app.menu.nav.MenuNavigator;
@@ -17,6 +17,7 @@ import com.fincore.app.domain.account.AccountStore;
 import com.fincore.app.domain.identity.CredentialStore;
 import com.fincore.app.domain.identity.PasswordHasher;
 import com.fincore.app.domain.identity.SessionStore;
+import com.fincore.app.presentation.cli.port.CliMenuRenderer;
 import com.fincore.app.presentation.cli.io.IOHandler;
 import com.fincore.app.presentation.cli.io.NumberedIO;
 
@@ -107,9 +108,8 @@ public class Main {
         authMenuGroup.addMenuItem(login);
         authMenuGroup.addMenuItem(register);
 
-        Context ctx = new Context();
-        MenuNavigator menuRunner = new MenuNavigator(authMenuGroup, ctx);
-        menuRunner.start();
+        AuthContext ctx = new AuthContext();
+        MenuNavigator menuRunner = new MenuNavigator(authMenuGroup, new CliMenuRenderer());
 
     }
 

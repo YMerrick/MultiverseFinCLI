@@ -2,7 +2,7 @@ package com.fincore.app.cli.command;
 
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthService;
-import com.fincore.app.application.auth.Context;
+import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.presentation.cli.io.IOHandler;
 import com.fincore.app.menu.actions.*;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ public class CommandsTest {
     private IOHandler stubIO;
     private final String stubUsername = "Test";
     private final char[] stubPassword = {'t', 'e', 's', 't'};
-    private Context stubCtx;
+    private AuthContext stubCtx;
     private UUID stubId;
 
     @BeforeEach
@@ -39,7 +38,7 @@ public class CommandsTest {
         stubSeshManager = mock(SessionManager.class);
         Session stubSesh = mock(Session.class);
         stubIO = mock(IOHandler.class);
-        stubCtx = mock(Context.class);
+        stubCtx = mock(AuthContext.class);
         Account stubAcc = mock(Account.class);
 
         stubId = UUID.randomUUID();

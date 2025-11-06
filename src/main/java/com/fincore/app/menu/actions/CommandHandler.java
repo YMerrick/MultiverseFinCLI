@@ -12,7 +12,7 @@ public class CommandHandler {
     private IOHandler io;
     private AuthService authService;
 
-    public void handleDeposit(Context ctx) {
+    public void handleDeposit(AuthContext ctx) {
         // Get user input
         String line;
         double amount = -1;
@@ -34,7 +34,7 @@ public class CommandHandler {
         // Log command here
     }
 
-    public void handleWithdraw(Context ctx) {
+    public void handleWithdraw(AuthContext ctx) {
         double amount = 0.0;
         Command withdrawCommand = CommandFactory.createTransactionCommand(
                 amount,
@@ -46,18 +46,18 @@ public class CommandHandler {
         // Log command here
     }
 
-    public void handleGetBalance(Context ctx) {
+    public void handleGetBalance(AuthContext ctx) {
         Command getBalance = CommandFactory.createGetBalance(io, accService, sessionManager);
         getBalance.execute(ctx);
         // Log command here
     }
 
-    public void handleLogout(Context ctx) {
+    public void handleLogout(AuthContext ctx) {
         Command logout = CommandFactory.createLogout(sessionManager);
         logout.execute(ctx);
     }
 
-    public void handleLogin(Context ctx) {
+    public void handleLogin(AuthContext ctx) {
         String username = io.getInput("Username: ");
         char[] password;
         try {
@@ -70,7 +70,7 @@ public class CommandHandler {
         login.execute(ctx);
     }
 
-    public void handleRegister(Context ctx) {
+    public void handleRegister(AuthContext ctx) {
         String username = io.getInput("Username: ");
         char[] password;
         try {

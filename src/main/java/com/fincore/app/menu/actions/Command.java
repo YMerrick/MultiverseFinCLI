@@ -1,7 +1,7 @@
 package com.fincore.app.menu.actions;
 
-import com.fincore.app.application.auth.Context;
+import com.fincore.app.application.auth.AuthContext;
 
 public interface Command {
-    void execute(Context ctx);
+    void execute(AuthContext ctx);
 }

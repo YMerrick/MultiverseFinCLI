@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Context {
+public class AuthContext {
     @Getter
     @Setter
     private UUID session = null;

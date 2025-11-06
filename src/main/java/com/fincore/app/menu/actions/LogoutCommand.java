@@ -1,6 +1,6 @@
 package com.fincore.app.menu.actions;
 
-import com.fincore.app.application.auth.Context;
+import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
 import lombok.AllArgsConstructor;
 
@@ -10,7 +10,7 @@ public class LogoutCommand implements Command{
 
 
     @Override
-    public void execute(Context ctx) {
+    public void execute(AuthContext ctx) {
         service.terminate(ctx.getSession());
     }
 }

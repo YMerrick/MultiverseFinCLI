@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MenuGroup implements MenuRenderer, MenuComponent, MenuIO {
+public class MenuGroup implements MenuComponent, MenuIO {
     @Getter
     private final String label;
     private final IOHandler io;
@@ -25,11 +25,8 @@ public class MenuGroup implements MenuRenderer, MenuComponent, MenuIO {
         this(label, new ArrayList<>(), io);
     }
 
-    @Override
-    public String render(List<String> listOfMenuStack) {
-        io.renderBreadcrumb(listOfMenuStack);
-        io.renderMenu(menuItems.stream().map(MenuItem::getLabel).toList());
-        return "";
+    public List<String> getItemLabels() {
+        return menuItems.stream().map(MenuItem::getLabel).toList();
     }
 
     public void addMenuItem(MenuItem item) {
@@ -58,7 +55,7 @@ public class MenuGroup implements MenuRenderer, MenuComponent, MenuIO {
         }
     }
 
-    public MenuItem getItem(int choice) {
+    public MenuItem getItem(int choice) throws IndexOutOfBoundsException{
         return menuItems.get(choice);
     }
 }

@@ -1,47 +1,50 @@
 package com.fincore.app.menu.nav;
 
-import com.fincore.app.application.auth.Context;
-import com.fincore.app.menu.model.MenuAction;
-import com.fincore.app.menu.model.MenuComponent;
-import com.fincore.app.menu.model.MenuGroup;
-import com.fincore.app.menu.model.MenuResponse;
+import com.fincore.app.application.auth.AuthContext;
+import com.fincore.app.menu.model.*;
+import lombok.Getter;
 
 import java.util.*;
 
 public class MenuNavigator {
     private final Deque<MenuGroup> menuGroupStack = new ArrayDeque<>();
-    private final Context ctx;
+    @Getter
+    private boolean isExit;
+    private MenuGroup currentMenu;
+    private final MenuRenderer renderer;
 
-    public MenuNavigator(MenuGroup root, Context ctx) {
+    public MenuNavigator(MenuGroup root, MenuRenderer renderer) {
         menuGroupStack.push(root);
-        this.ctx = ctx;
+        this.isExit = false;
+        currentMenu = root;
+        this.renderer = renderer;
     }
 
-    public void start() {
-        MenuGroup currentMenuGroup;
-        int userInput;
-        MenuResponse res;
-
-        for (;;) {
-            currentMenuGroup = menuGroupStack.peek();
-            if (Objects.isNull(currentMenuGroup)) return;
-
-            currentMenuGroup.render(menuGroupStack.stream().map(MenuComponent::getLabel).toList());
-            userInput = currentMenuGroup.getMenuChoice();
-
-            res = callChild(currentMenuGroup.getItem(userInput), ctx);
-            switch (res.directive()) {
-                case EXIT -> {return;}
-                case BACK -> menuGroupStack.pop();
-                case GOTO_MENU -> moveToMenu(res);
-                case STAY -> {}
+    public void interpretDirective(MenuResponse res) {
+        switch (res.directive()) {
+            case EXIT -> isExit = true;
+            case BACK -> menuGroupStack.pop();
+            case GOTO_MENU -> {
+                moveToMenu(res);
+                currentMenu = menuGroupStack.peek();
             }
-
+            case STAY -> {}
         }
     }
 
-    private MenuResponse callChild(MenuAction child, Context ctx) {
-        return child.run(ctx);
+    public MenuResponse select(int choice , AuthContext ctx) throws IndexOutOfBoundsException {
+        try {
+            return currentMenu.getItem(choice).run(ctx);
+        } catch (IndexOutOfBoundsException e) {
+            throw e;
+        }
+    }
+
+    public String render() {
+        List<String> menuStack = menuGroupStack.stream().map(MenuGroup::getLabel).toList();
+        List<String> menuLabels = currentMenu.getItemLabels();
+
+        return renderer.render(menuStack, menuLabels);
     }
 
     private void moveToMenu(MenuResponse response) {
