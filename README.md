@@ -32,47 +32,31 @@ FinCore CLI banking is a comprehensive command-line banking system that allows u
 ```
 MultiverseFinCLI/
 ├── LICENSE
-├── README.md
 ├── pom.xml
+├── README.md
 ├── src
 │   ├── main
 │   │   └── java
 │   │       └── com
 │   │           └── fincore
 │   │               └── app
-│   │                   ├── Main.java
 │   │                   ├── application
 │   │                   │   ├── accounts
 │   │                   │   │   └── AccountService.java
 │   │                   │   └── auth
+│   │                   │       ├── AuthContext.java
 │   │                   │       ├── AuthService.java
-│   │                   │       ├── Context.java
 │   │                   │       └── SessionManager.java
-│   │                   ├── cli
-│   │                   │   ├── app
-│   │                   │   │   └── MenuController.java
-│   │                   │   ├── command
-│   │                   │   │   ├── Command.java
-│   │                   │   │   ├── CommandFactory.java
-│   │                   │   │   ├── CommandHandler.java
-│   │                   │   │   ├── DepositCommand.java
-│   │                   │   │   ├── GetBalanceCommand.java
-│   │                   │   │   ├── LoginCommand.java
-│   │                   │   │   ├── LogoutCommand.java
-│   │                   │   │   ├── RegisterCommand.java
-│   │                   │   │   └── WithdrawCommand.java
-│   │                   │   ├── io
-│   │                   │   │   ├── IOHandler.java
-│   │                   │   │   └── NumberedIO.java
-│   │                   │   └── menu
-│   │                   │       ├── LoginItem.java
-│   │                   │       ├── Menu.java
-│   │                   │       ├── MenuDirective.java
-│   │                   │       ├── MenuItem.java
-│   │                   │       └── MenuResponse.java
+│   │                   ├── boot
+│   │                   │   ├── Application.java
+│   │                   │   ├── Bootstrapper.java
+│   │                   │   ├── MenuBuilder.java
+│   │                   │   ├── Services.java
+│   │                   │   └── ServicesFactory.java
 │   │                   ├── data
 │   │                   │   ├── file
-│   │                   │   │   └── FileSessionStore.java
+│   │                   │   │   ├── CSVAccountStore.java
+│   │                   │   │   └── CSVCredentialStore.java
 │   │                   │   ├── inmemory
 │   │                   │   │   ├── InMemoryAccountStore.java
 │   │                   │   │   ├── InMemoryCredentialStore.java
@@ -80,36 +64,66 @@ MultiverseFinCLI/
 │   │                   │   └── security
 │   │                   │       ├── BCryptHasher.java
 │   │                   │       └── NoHasher.java
-│   │                   └── model
-│   │                       ├── account
-│   │                       │   ├── Account.java
-│   │                       │   ├── AccountStore.java
-│   │                       │   ├── CurrentAccount.java
-│   │                       │   └── OverdraftAccount.java
-│   │                       ├── identity
-│   │                       │   ├── CredentialStore.java
-│   │                       │   ├── Credentials.java
-│   │                       │   ├── PasswordHasher.java
-│   │                       │   ├── Session.java
-│   │                       │   └── SessionStore.java
-│   │                       ├── menu
-│   │                       │   ├── MenuChoiceProvider.java
-│   │                       │   ├── MenuComponent.java
-│   │                       │   ├── MenuDisplayable.java
-│   │                       │   └── MenuItemRunnable.java
-│   │                       └── shared
-│   │                           ├── AuthException.java
-│   │                           ├── DuplicateEntityException.java
-│   │                           ├── InsufficientFundsException.java
-│   │                           ├── Money.java
-│   │                           ├── MoneyBuilder.java
-│   │                           └── MoneyFormatter.java
+│   │                   ├── domain
+│   │                   │   ├── account
+│   │                   │   │   ├── Account.java
+│   │                   │   │   ├── AccountStore.java
+│   │                   │   │   ├── CurrentAccount.java
+│   │                   │   │   └── OverdraftAccount.java
+│   │                   │   ├── identity
+│   │                   │   │   ├── Credentials.java
+│   │                   │   │   ├── CredentialStore.java
+│   │                   │   │   ├── PasswordHasher.java
+│   │                   │   │   ├── Session.java
+│   │                   │   │   └── SessionStore.java
+│   │                   │   └── shared
+│   │                   │       ├── AuthException.java
+│   │                   │       ├── DuplicateEntityException.java
+│   │                   │       ├── InsufficientFundsException.java
+│   │                   │       ├── Money.java
+│   │                   │       ├── MoneyBuilder.java
+│   │                   │       └── MoneyFormatter.java
+│   │                   ├── Main.java
+│   │                   ├── menu
+│   │                   │   ├── actions
+│   │                   │   │   ├── CommandFactory.java
+│   │                   │   │   ├── CommandHandler.java
+│   │                   │   │   ├── DepositAction.java
+│   │                   │   │   ├── displayBalanceAction.java
+│   │                   │   │   ├── LoginAction.java
+│   │                   │   │   ├── LogoutAction.java
+│   │                   │   │   ├── RegisterAction.java
+│   │                   │   │   ├── TraversalAction.java
+│   │                   │   │   └── WithdrawAction.java
+│   │                   │   ├── model
+│   │                   │   │   ├── MenuAction.java
+│   │                   │   │   ├── MenuComponent.java
+│   │                   │   │   ├── MenuDirective.java
+│   │                   │   │   ├── MenuGroup.java
+│   │                   │   │   ├── MenuItem.java
+│   │                   │   │   ├── MenuRenderer.java
+│   │                   │   │   ├── MenuResponse.java
+│   │                   │   │   └── MenuResponseBuilder.java
+│   │                   │   └── nav
+│   │                   │       └── MenuNavigator.java
+│   │                   └── presentation
+│   │                       └── cli
+│   │                           ├── io
+│   │                           │   ├── CliIO.java
+│   │                           │   ├── InputProvider.java
+│   │                           │   ├── IOHandler.java
+│   │                           │   ├── NumberedIO.java
+│   │                           │   ├── OutputRenderer.java
+│   │                           │   └── PasswordReader.java
+│   │                           ├── loop
+│   │                           │   └── CliLoop.java
+│   │                           └── port
+│   │                               └── CliMenuRenderer.java
 │   └── test
 │       └── java
 │           └── com
 │               └── fincore
 │                   └── app
-│                       ├── TestRunner.java
 │                       ├── application
 │                       │   ├── accounts
 │                       │   │   └── AccountServiceTest.java
@@ -117,11 +131,7 @@ MultiverseFinCLI/
 │                       │       ├── AuthServiceTest.java
 │                       │       └── SessionManagerTest.java
 │                       ├── cli
-│                       │   ├── command
-│                       │   │   └── CommandsTest.java
 │                       │   └── menu
-│                       │       ├── MenuItemTest.java
-│                       │       └── MenuTest.java
 │                       ├── data
 │                       │   ├── file
 │                       │   ├── inmemory
@@ -130,24 +140,33 @@ MultiverseFinCLI/
 │                       │   └── security
 │                       │       ├── BCryptHasherTest.java
 │                       │       └── NoHasherTest.java
-│                       └── model
-│                           ├── account
-│                           │   ├── AccountTest.java
-│                           │   ├── CurrentAccountTest.java
-│                           │   └── OverdraftAccountTest.java
-│                           └── shared
-│                               ├── MoneyBuilderTest.java
-│                               ├── MoneyFormatterTest.java
-│                               └── MoneyTest.java
+│                       ├── domain
+│                       │   ├── account
+│                       │   │   ├── AccountTest.java
+│                       │   │   ├── CurrentAccountTest.java
+│                       │   │   └── OverdraftAccountTest.java
+│                       │   └── shared
+│                       │       ├── MoneyBuilderTest.java
+│                       │       ├── MoneyFormatterTest.java
+│                       │       └── MoneyTest.java
+│                       └── menu
+│                           ├── actions
+│                           │   └── CommandsTest.java
+│                           ├── model
+│                           │   ├── MenuGroupTest.java
+│                           │   ├── MenuItemTest.java
+│                           │   └── MenuResponseBuilderTest.java
+│                           └── nav
+│                               └── MenuNavigatorTest.java
 └── toDoList.md
 ```
 
 ## Getting Started
 
-1. Ensure you have JDK installed
+1. Ensure you have JDK 21 installed
 2. Clone this repository
-3. Navigate to the project directory
-4. Compile and run the application
+3. Run ```mvn clean package``` in the terminal of your choosing
+4. Run ```java -jar target/*.jar```
 
 ## Development Goals
 
@@ -160,12 +179,14 @@ This project focuses on:
 
 ## Future Enhancements
 
+- CSV integration for persistent storage
 - Database integration for persistent storage
-- REST API development for web interface
-- Mobile application integration
-- Advanced security features
 - Multi-currency support
-- Reporting and analytics dashboard
+- Multi-account support
+- **Transaction History**: View detailed transaction logs with filtering
+- **Account Statements**: Generate and export account statements
+- **Interest Calculations**: Calculate and apply interest on savings accounts
 
 ## License
 This project is part of a Java Software Engineering curriculum and is intended for educational purposes.
+See `LICENSE`
