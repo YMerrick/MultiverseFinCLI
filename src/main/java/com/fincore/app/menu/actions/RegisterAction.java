@@ -28,6 +28,8 @@ public class RegisterAction implements MenuAction {
         String username;
         char[] password;
         UUID accId;
+        String currencyCode;
+        Money moneyBalance;
 
         username = inputProvider.getStringInput("Username: ");
         try {
@@ -44,8 +46,16 @@ public class RegisterAction implements MenuAction {
             message = e.getMessage();
         }
         double initialBalanceAsDouble = inputProvider.getDoubleInput("Starting balance: ");
-        String currencyCode = inputProvider.getStringInput("Currency Code: ");
-        Money moneyBalance = Money.ofMajor(BigDecimal.valueOf(initialBalanceAsDouble), currencyCode);
+        currencyCode = inputProvider.getStringInput("Currency Code: ").toUpperCase();
+
+        try {
+            moneyBalance = Money.ofMajor(BigDecimal.valueOf(initialBalanceAsDouble), currencyCode);
+        } catch (IllegalArgumentException e) {
+            return new MenuResponseBuilder()
+                    .message("Could not find currency code\nAborting registration")
+                    .build();
+        }
+
         accountService.register(username, accId, moneyBalance);
 
         return new MenuResponseBuilder()
