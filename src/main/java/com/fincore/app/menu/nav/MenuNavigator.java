@@ -7,20 +7,26 @@ import lombok.Getter;
 import java.util.*;
 
 public class MenuNavigator {
-    private final Deque<MenuGroup> menuGroupStack = new ArrayDeque<>();
+    private final Deque<MenuGroup> menuGroupStack;
     @Getter
     private boolean isExit;
     private MenuGroup currentMenu;
     private final MenuRenderer renderer;
 
-    public MenuNavigator(MenuGroup root, MenuRenderer renderer) {
+    public MenuNavigator(MenuGroup root, MenuRenderer renderer, Deque<MenuGroup> stack) {
+        this.menuGroupStack = stack;
         menuGroupStack.push(root);
         this.isExit = false;
         currentMenu = root;
         this.renderer = renderer;
     }
 
+    public MenuNavigator(MenuGroup root, MenuRenderer renderer) {
+        this(root, renderer, new ArrayDeque<>());
+    }
+
     public void interpretDirective(MenuResponse res) {
+        if (Objects.isNull(res.directive())) throw new IllegalStateException("Directive is missing");
         switch (res.directive()) {
             case EXIT -> isExit = true;
             case BACK -> {
@@ -47,6 +53,6 @@ public class MenuNavigator {
     }
 
     private void moveToMenu(MenuResponse response) {
-        menuGroupStack.push(response.submenu().orElseThrow(RuntimeException::new));
+        menuGroupStack.push(response.submenu().orElseThrow(IllegalStateException::new));
     }
 }
