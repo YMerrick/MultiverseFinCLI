@@ -39,6 +39,7 @@ public class CommandFactory {
     public MenuAction createRegister() {
         return new RegisterAction(
                 authService,
+                accountService,
                 inputProvider,
                 passwordReader
         );

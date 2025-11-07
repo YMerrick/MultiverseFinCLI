@@ -13,6 +13,12 @@ public class Account {
     private Money balance;
     String accountHolder;
 
+    public Account(UUID id, String accountHolder, Money balance) {
+        this.id = id;
+        this.accountHolder = accountHolder;
+        this.balance = balance;
+    }
+
     public Account(UUID id, String accountHolder, long balanceInMinorUnit) {
         this.id = id;
         this.accountHolder = accountHolder;
