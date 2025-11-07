@@ -11,6 +11,7 @@ import com.fincore.app.presentation.cli.io.InputProvider;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -26,11 +27,18 @@ public class DepositAction implements MenuAction {
                 .orElseThrow()
                 .accId();
 
+        Currency currency = accountService.getBalance(accountId).getCurrency();
         double depositingAmount = inputProvider.getDoubleInput("Enter the amount to deposit: ");
 
-        Money moneyAmount = Money.ofMajor(BigDecimal.valueOf(depositingAmount), "GBP");
+        Money moneyAmount = Money.ofMajor(BigDecimal.valueOf(depositingAmount), currency);
 
-        accountService.deposit(accountId, moneyAmount);
+        try {
+            accountService.deposit(accountId, moneyAmount);
+        } catch (IllegalStateException e) {
+            return new MenuResponseBuilder()
+                    .message(e.getMessage())
+                    .build();
+        }
 
         return new MenuResponseBuilder()
                 .message("Deposit Successful")

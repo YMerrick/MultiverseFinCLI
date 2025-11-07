@@ -28,7 +28,13 @@ public class WithdrawAction implements MenuAction {
         double amount = inputProvider.getDoubleInput("Please enter the amount to withdraw");
         Money moneyAmount = Money.ofMajor(BigDecimal.valueOf(amount), currency);
 
-        accountService.withdraw(accountId, moneyAmount);
+        try {
+            accountService.withdraw(accountId, moneyAmount);
+        } catch (IllegalStateException e) {
+            return new MenuResponseBuilder()
+                    .message(e.getMessage())
+                    .build();
+        }
 
         return new MenuResponseBuilder()
                 .message(message)

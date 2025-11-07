@@ -1,7 +1,6 @@
 package com.fincore.app.domain.account;
 
 import com.fincore.app.domain.shared.Money;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -48,5 +47,25 @@ public class AccountTest {
                 UUID: %s""", stubId);
 
         assertEquals(expected, stub.toString());
+    }
+
+    @Test
+    void testDepositWithNegative() {
+        UUID stubId = UUID.randomUUID();
+        Account testAccount = new Account(stubId, "Test", 20);
+        assertThrows(
+                IllegalStateException.class,
+                () -> testAccount.deposit(Money.ofMinor(-200, testAccount.getBalance().getCurrency()))
+        );
+    }
+
+    @Test
+    void testWithdrawWithNegative() {
+        UUID stubId = UUID.randomUUID();
+        Account testAccount = new Account(stubId, "Test", 20);
+        assertThrows(
+                IllegalStateException.class,
+                () -> testAccount.withdraw(Money.ofMinor(-200, testAccount.getBalance().getCurrency()))
+        );
     }
 }

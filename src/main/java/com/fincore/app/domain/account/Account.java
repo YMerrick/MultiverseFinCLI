@@ -42,10 +42,12 @@ public class Account {
     }
 
     public void deposit(Money amount) {
+        checkNegativeAmount(amount, "deposit");
         balance = balance.plus(amount);
     }
 
     public void withdraw(Money amount) {
+        checkNegativeAmount(amount, "withdraw");
         balance = balance.minus(amount);
     }
 
@@ -55,5 +57,12 @@ public class Account {
                 Balance: %s
                 UUID: %s""",
                 accountHolder, MoneyFormatter.format(balance), id.toString());
+    }
+
+    private void checkNegativeAmount(Money amount, String transaction) {
+        if (amount.asMinorUnits() < 0)
+            throw new IllegalStateException(
+                    String.format("Can not %s a negative amount", transaction)
+            );
     }
 }
