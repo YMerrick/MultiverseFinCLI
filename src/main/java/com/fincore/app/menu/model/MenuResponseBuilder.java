@@ -1,5 +1,6 @@
 package com.fincore.app.menu.model;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class MenuResponseBuilder {
@@ -8,6 +9,7 @@ public class MenuResponseBuilder {
     private String message = null;
 
     public MenuResponseBuilder directive(MenuDirective directive) {
+        if (Objects.isNull(directive)) throw new IllegalArgumentException("Directive can not be null");
         this.directive = directive;
         return this;
     }
