@@ -12,10 +12,6 @@ import com.fincore.app.domain.account.AccountStore;
 import com.fincore.app.domain.identity.CredentialStore;
 import com.fincore.app.domain.identity.PasswordHasher;
 import com.fincore.app.domain.identity.SessionStore;
-import com.fincore.app.menu.actions.CommandFactory;
-import com.fincore.app.menu.model.MenuGroup;
-import com.fincore.app.menu.nav.MenuNavigator;
-import com.fincore.app.presentation.cli.io.CliIO;
 import com.fincore.app.presentation.cli.port.CliMenuRenderer;
 
 public class ServicesFactory {
@@ -32,27 +28,14 @@ public class ServicesFactory {
 
         AuthContext authContext = new AuthContext();
 
-        // Presentation / Menu
-        CliIO io = new CliIO(System.in, System.out);
-        CommandFactory actionFactory = new CommandFactory(
-                io,
-                io,
-                authService,
-                sessionManager,
-                accountService
-        );
-
         var renderer = new CliMenuRenderer();
-        MenuGroup root = new MenuBuilder().build(actionFactory);
-        var nav = new MenuNavigator(root, renderer);
 
         return new Services(
                 authService,
                 accountService,
                 sessionManager,
                 authContext,
-                nav,
-                io
+                renderer
         );
     }
 }
