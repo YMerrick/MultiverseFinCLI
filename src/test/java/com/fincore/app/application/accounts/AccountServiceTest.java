@@ -2,6 +2,7 @@ package com.fincore.app.application.accounts;
 
 import com.fincore.app.domain.account.Account;
 import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.account.AccountType;
 import com.fincore.app.domain.shared.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,7 +63,7 @@ public class AccountServiceTest {
         String username = "Test";
         UUID stubId = UUID.randomUUID();
         Money amount = Money.ofMinor(0, "GBP");
-        stubService.register(username, stubId, amount);
+        stubService.register(username, stubId, amount, AccountType.CURRENT);
         verify(stubAccStore).save(Mockito.any());
     }
 }

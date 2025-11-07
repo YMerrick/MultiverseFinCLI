@@ -3,6 +3,7 @@ package com.fincore.app.menu.actions;
 import com.fincore.app.application.accounts.AccountService;
 import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.domain.shared.InsufficientFundsException;
 import com.fincore.app.domain.shared.Money;
 import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuResponse;
@@ -25,12 +26,12 @@ public class WithdrawAction implements MenuAction {
         String message = "Withdrawal Successful";
         UUID accountId = sessionManager.validate(ctx.getSession()).orElseThrow().accId();
         Currency currency = accountService.getBalance(accountId).getCurrency();
-        double amount = inputProvider.getDoubleInput("Please enter the amount to withdraw");
+        double amount = inputProvider.getDoubleInput("Please enter the amount to withdraw: ");
         Money moneyAmount = Money.ofMajor(BigDecimal.valueOf(amount), currency);
 
         try {
             accountService.withdraw(accountId, moneyAmount);
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | InsufficientFundsException e) {
             return new MenuResponseBuilder()
                     .message(e.getMessage())
                     .build();

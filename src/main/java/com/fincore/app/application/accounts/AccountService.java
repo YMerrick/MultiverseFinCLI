@@ -1,7 +1,6 @@
 package com.fincore.app.application.accounts;
 
-import com.fincore.app.domain.account.Account;
-import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.account.*;
 import com.fincore.app.domain.shared.Money;
 
 import java.util.UUID;
@@ -27,8 +26,20 @@ public class AccountService {
         return accountStorage.getById(accId).get().getBalance();
     }
 
-    public void register(String accHolder, UUID accId, Money initialBalance) {
-        Account acc = new Account(accId, accHolder, initialBalance);
+    public void register(String accHolder, UUID accId, Money initialBalance, AccountType accountType) {
+        Account acc = switch(accountType) {
+            case CURRENT -> new CurrentAccount(
+                    accId,
+                    accHolder,
+                    initialBalance
+            );
+            case OVERDRAFT -> new OverdraftAccount(
+                    accId,
+                    accHolder,
+                    initialBalance,
+                    Money.ofMinor(2000, initialBalance.getCurrency())
+            );
+        };
         accountStorage.save(acc);
     }
 }

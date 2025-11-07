@@ -7,6 +7,10 @@ import java.util.UUID;
 
 public class CurrentAccount extends Account{
 
+    public CurrentAccount(UUID id, String accountHolder, Money balance) {
+        super(id, accountHolder, balance);
+    }
+
     public CurrentAccount(UUID id, String accountHolder, long balanceInMinorUnit) {
         super(id, accountHolder, balanceInMinorUnit);
     }
@@ -29,8 +33,8 @@ public class CurrentAccount extends Account{
 
     @Override
     public void withdraw(Money amount) {
-        long balance = this.getBalance().asMinorUnits();
-        if (balance < amount.asMinorUnits()) throw new InsufficientFundsException("Insufficient Funds");
+        boolean isOverLimit = this.getBalance().minus(amount).asMinorUnits() < 0;
+        if (isOverLimit) throw new InsufficientFundsException("Insufficient Funds");
         super.withdraw(amount);
     }
 }
