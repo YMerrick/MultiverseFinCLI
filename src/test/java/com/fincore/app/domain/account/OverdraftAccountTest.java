@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class OverdraftAccountTest {
     private final String EXCEPTION_EXPECTED = "Illegal argument exception expected";
@@ -20,6 +21,21 @@ public class OverdraftAccountTest {
                     stubAccount.withdraw(Money.ofMinor(1, "GBP"));
                 },
                 EXCEPTION_EXPECTED
+        );
+    }
+
+    @Test
+    public void testConstructorWithDefault() {
+        UUID stubId = UUID.randomUUID();
+        String stubHolder = "Test";
+        Money stubBalance = mock(Money.class);
+        Money stubLimit = mock(Money.class);
+
+        Account testAccount = new OverdraftAccount(stubId, stubHolder, stubBalance, stubLimit);
+
+        assertInstanceOf(
+                OverdraftAccount.class,
+                testAccount
         );
     }
 }
