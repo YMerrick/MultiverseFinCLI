@@ -11,24 +11,8 @@ public class CurrentAccount extends Account{
         super(id, accountHolder, balance);
     }
 
-    public CurrentAccount(UUID id, String accountHolder, long balanceInMinorUnit) {
-        super(id, accountHolder, balanceInMinorUnit);
-    }
-
-    public CurrentAccount(String accountHolder, long balanceInMinorUnit) {
-        super(accountHolder, balanceInMinorUnit);
-    }
-
     public CurrentAccount(String accountHolder) {
         super(accountHolder);
-    }
-
-    public CurrentAccount(UUID id, String accountHolder, double balance) {
-        super(id, accountHolder, balance);
-    }
-
-    public CurrentAccount(String accountHolder, double balance) {
-        super(accountHolder, balance);
     }
 
     @Override
