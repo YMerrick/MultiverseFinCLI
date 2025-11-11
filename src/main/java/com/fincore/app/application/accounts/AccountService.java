@@ -26,16 +26,16 @@ public class AccountService {
         return accountRepo.getById(accId).get().getBalance();
     }
 
-    public void register(String accHolder, UUID accId, UUID userId, Money initialBalance, AccountType accountType) {
+    public void register(String accHolder, UUID userId, Money initialBalance, AccountType accountType) {
         Account acc = switch(accountType) {
             case CURRENT -> new CurrentAccount(
-                    accId,
+                    UUID.randomUUID(),
                     userId,
                     accHolder,
                     initialBalance
             );
             case OVERDRAFT -> new OverdraftAccount(
-                    accId,
+                    UUID.randomUUID(),
                     userId,
                     accHolder,
                     initialBalance,

@@ -61,9 +61,9 @@ public class AccountServiceTest {
     @Test
     void testRegister() {
         String username = "Test";
-        UUID stubId = UUID.randomUUID();
+        UUID stubUserId = UUID.randomUUID();
         Money amount = Money.ofMinor(0, "GBP");
-        stubService.register(username, stubId, amount, AccountType.CURRENT);
+        stubService.register(username, stubUserId, amount, AccountType.CURRENT);
         verify(stubAccStore).save(Mockito.any());
     }
 }

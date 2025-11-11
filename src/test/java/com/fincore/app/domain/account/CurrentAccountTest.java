@@ -13,15 +13,17 @@ import static org.mockito.Mockito.mock;
 public class CurrentAccountTest {
     private final String EXCEPTION_EXPECTED = "Illegal argument exception expected";
     private UUID stubId;
+    private UUID stubUserId;
 
     @BeforeEach
     void setUp() {
         stubId = UUID.randomUUID();
+        stubUserId = UUID.randomUUID();
     }
 
     @Test
     public void testOverWithdrawal() {
-        Account stubAccount = new CurrentAccount("Test");
+        Account stubAccount = new CurrentAccount(stubId, stubUserId, "Test", Money.ofMinor(0, "GBP"));
         assertThrows(
                 InsufficientFundsException.class,
                 () -> {
@@ -36,14 +38,14 @@ public class CurrentAccountTest {
         Money stubBalance = mock(Money.class);
         String stubHolder = "Test";
 
-        Account result = new CurrentAccount(stubId, stubHolder, stubBalance);
+        Account result = new CurrentAccount(stubId, stubUserId, stubHolder, stubBalance);
         assertInstanceOf(CurrentAccount.class, result);
     }
 
     @Test
     public void testWithdrawShouldPass() {
         Money stubBalance = Money.ofMinor(2000, "GBP");
-        Account testAccount = new CurrentAccount(stubId, "Test", stubBalance);
+        Account testAccount = new CurrentAccount(stubId, stubUserId, "Test", stubBalance);
         testAccount.withdraw(Money.ofMinor(1000, "GBP"));
         assertEquals(1000, testAccount.getBalance().asMinorUnits());
     }

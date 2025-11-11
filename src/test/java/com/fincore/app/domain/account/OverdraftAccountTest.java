@@ -13,15 +13,25 @@ import static org.mockito.Mockito.mock;
 public class OverdraftAccountTest {
     private final String EXCEPTION_EXPECTED = "Illegal argument exception expected";
     private UUID stubId;
+    private UUID stubUserId;
 
     @BeforeEach
     void setUp() {
         stubId = UUID.randomUUID();
+        stubUserId = UUID.randomUUID();
     }
 
     @Test
     public void testOverWithdrawal() {
-        Account stubAccount = new OverdraftAccount(stubId, "Test", 0, 2000);
+        Money initialBalance = Money.ofMinor(0, "GBP");
+        Money limit = Money.ofMinor(2000, "GBP");
+        Account stubAccount = new OverdraftAccount(
+                stubId,
+                stubUserId,
+                "Test",
+                initialBalance,
+                limit
+        );
         assertThrows(
                 InsufficientFundsException.class,
                 () -> {
@@ -37,7 +47,13 @@ public class OverdraftAccountTest {
         Money stubBalance = mock(Money.class);
         Money stubLimit = mock(Money.class);
 
-        Account testAccount = new OverdraftAccount(stubId, stubHolder, stubBalance, stubLimit);
+        Account testAccount = new OverdraftAccount(
+                stubId,
+                stubUserId,
+                stubHolder,
+                stubBalance,
+                stubLimit
+        );
 
         assertInstanceOf(
                 OverdraftAccount.class,
@@ -47,7 +63,15 @@ public class OverdraftAccountTest {
 
     @Test
     public void testWithdrawShouldPass() {
-        Account testAccount = new OverdraftAccount(stubId, "Test", 2000, 0);
+        Money initialBalance = Money.ofMinor(2000, "GBP");
+        Money limit = Money.ofMinor(0, "GBP");
+        Account testAccount = new OverdraftAccount(
+                stubId,
+                stubUserId,
+                "Test",
+                initialBalance,
+                limit
+        );
         testAccount.withdraw(Money.ofMinor(1000, testAccount.getBalance().getCurrency()));
         assertEquals(1000, testAccount.getBalance().asMinorUnits());
     }
