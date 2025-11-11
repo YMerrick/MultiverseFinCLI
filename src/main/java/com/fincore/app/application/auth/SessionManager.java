@@ -18,7 +18,7 @@ public class SessionManager {
         if (Objects.isNull(userId)) throw new IllegalArgumentException();
         UUID sessionId = UUID.randomUUID();
 
-        Session newSession = new Session(userId, sessionId);
+        Session newSession = new Session(null, userId, sessionId);
         storage.save(sessionId, newSession);
         return newSession.id();
     }
