@@ -17,7 +17,8 @@ public class Bootstrapper {
                 io,
                 services.authService(),
                 services.sessionManager(),
-                services.accountService()
+                services.accountService(),
+                services.userService()
         );
         MenuGroup root = new MenuBuilder().build(commandFactory);
         MenuNavigator nav = new MenuNavigator(root, services.renderer());

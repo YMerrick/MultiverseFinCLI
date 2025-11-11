@@ -2,9 +2,11 @@ package com.fincore.app.application.accounts;
 
 import com.fincore.app.domain.user.User;
 import com.fincore.app.domain.user.UserRepo;
+import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class UserService {
     private UserRepo userRepo;
 

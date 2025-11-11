@@ -1,6 +1,7 @@
 package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.accounts.AccountService;
+import com.fincore.app.application.accounts.UserService;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.menu.model.MenuAction;
@@ -20,6 +21,7 @@ public class CommandFactory {
     private AuthService authService;
     private SessionManager sessionManager;
     private AccountService accountService;
+    private UserService userService;
 
     public MenuAction createDeposit() {
         return new DepositAction(
@@ -39,7 +41,7 @@ public class CommandFactory {
     public MenuAction createRegister() {
         return new RegisterAction(
                 authService,
-                accountService,
+                userService,
                 inputProvider,
                 passwordReader
         );
@@ -72,6 +74,14 @@ public class CommandFactory {
                 sessionManager,
                 accountService,
                 inputProvider
+        );
+    }
+
+    public MenuAction createAccount() {
+        return new CreateAccountAction(
+                inputProvider,
+                accountService,
+                sessionManager
         );
     }
 }
