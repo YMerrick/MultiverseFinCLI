@@ -52,6 +52,11 @@ public class MenuBuilder {
                 actionFactory.createDisplayBalance()
         );
 
+        MenuItem makeAccount = new MenuItem(
+                "Create Account",
+                actionFactory.createAccount()
+        );
+
         MenuGroup accountMenuGroup = new MenuGroup("Account");
         MenuItem goToAccMenu = new MenuItem(
                 "Accounts",
@@ -66,6 +71,7 @@ public class MenuBuilder {
         accountMenuGroup.addMenuItem(deposit);
         accountMenuGroup.addMenuItem(withdraw);
         accountMenuGroup.addMenuItem(displayBalance);
+        accountMenuGroup.addMenuItem(makeAccount);
 
 
         MenuGroup mainMenuGroup = new MenuGroup("Main Menu");
