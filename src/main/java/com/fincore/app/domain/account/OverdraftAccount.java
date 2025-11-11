@@ -8,14 +8,9 @@ import java.util.UUID;
 public class OverdraftAccount extends Account{
     private final Money overdraftLimit;
 
-    public OverdraftAccount(UUID id, String accountHolder, Money balance, Money overdraftLimit) {
-        super(id, accountHolder, balance);
+    public OverdraftAccount(UUID id, UUID userId, String accountHolder, Money balance, Money overdraftLimit) {
+        super(id, userId, accountHolder, balance);
         this.overdraftLimit = overdraftLimit;
-    }
-
-    public OverdraftAccount(UUID id, String accountHolder, long balanceInMinorUnit, long overdraftLimitInMinorUnits) {
-        super(id, accountHolder, balanceInMinorUnit);
-        this.overdraftLimit = Money.ofMinor(overdraftLimitInMinorUnits, super.getBalance().getCurrency());
     }
 
     @Override

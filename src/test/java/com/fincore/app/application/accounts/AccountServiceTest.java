@@ -1,7 +1,7 @@
 package com.fincore.app.application.accounts;
 
 import com.fincore.app.domain.account.Account;
-import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.account.AccountRepo;
 import com.fincore.app.domain.account.AccountType;
 import com.fincore.app.domain.shared.Money;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +17,12 @@ import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
     private Account stubAccount;
-    private static AccountStore stubAccStore;
+    private static AccountRepo stubAccStore;
     private static AccountService stubService;
 
     @BeforeAll
     static void setUpClass() {
-        stubAccStore = mock(AccountStore.class);
+        stubAccStore = mock(AccountRepo.class);
         stubService = new AccountService(stubAccStore);
     }
 

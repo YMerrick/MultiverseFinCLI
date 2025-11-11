@@ -14,11 +14,11 @@ public class SessionManager {
         this.storage = seshStore;
     }
 
-    public UUID issue(UUID accId) {
-        if (Objects.isNull(accId)) throw new IllegalArgumentException();
+    public UUID issue(UUID userId) {
+        if (Objects.isNull(userId)) throw new IllegalArgumentException();
         UUID sessionId = UUID.randomUUID();
 
-        Session newSession = new Session(accId, sessionId);
+        Session newSession = new Session(userId, sessionId);
         storage.save(sessionId, newSession);
         return newSession.id();
     }

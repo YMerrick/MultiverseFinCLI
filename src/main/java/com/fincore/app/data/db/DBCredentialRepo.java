@@ -1,6 +1,6 @@
 package com.fincore.app.data.db;
 
-import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.CredentialRepo;
 import com.fincore.app.domain.identity.Credentials;
 
 import java.sql.Connection;
@@ -8,11 +8,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class DBCredentialStore implements CredentialStore {
+public class DBCredentialRepo implements CredentialRepo {
     private final String url;
     private final String tableName;
 
-    public DBCredentialStore(String url, String tableName) {
+    public DBCredentialRepo(String url, String tableName) {
         this.url = url;
         this.tableName = tableName;
     }

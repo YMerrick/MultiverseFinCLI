@@ -1,7 +1,7 @@
 package com.fincore.app.data.inmemory;
 
 import com.fincore.app.domain.account.Account;
-import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.account.AccountRepo;
 import com.fincore.app.domain.shared.DuplicateEntityException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class InMemoryAccountStoreTest {
-    private static AccountStore testStore;
+public class InMemoryAccountRepoTest {
+    private static AccountRepo testStore;
     private static Account stubAcc;
     private static UUID stubId;
 
     @BeforeAll
     static void setUp() {
-        testStore = new InMemoryAccountStore();
+        testStore = new InMemoryAccountRepo();
         stubAcc = mock(Account.class);
         stubId = UUID.randomUUID();
         when(stubAcc.getId()).thenReturn(stubId);

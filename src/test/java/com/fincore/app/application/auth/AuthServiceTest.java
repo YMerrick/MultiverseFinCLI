@@ -1,6 +1,6 @@
 package com.fincore.app.application.auth;
 
-import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.CredentialRepo;
 import com.fincore.app.domain.identity.Credentials;
 import com.fincore.app.domain.identity.PasswordHasher;
 import com.fincore.app.domain.shared.AuthException;
@@ -19,7 +19,7 @@ public class AuthServiceTest {
         UUID stubAccId = UUID.randomUUID();
         String stubUsername = "TestUser";
         char[] emptyCharArray = {};
-        CredentialStore stubCredStore = mock(CredentialStore.class);
+        CredentialRepo stubCredStore = mock(CredentialRepo.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         when(stubCredStore.getByUsername(stubUsername))
                 .thenReturn(
@@ -37,7 +37,7 @@ public class AuthServiceTest {
 
     @Test
     public void testNoUserLogin() {
-        CredentialStore stubCredStore = mock(CredentialStore.class);
+        CredentialRepo stubCredStore = mock(CredentialRepo.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         when(stubCredStore.getByUsername(Mockito.any())).thenReturn(Optional.empty());
 
@@ -50,7 +50,7 @@ public class AuthServiceTest {
 
     @Test
     public void testWrongPasswordLogin() {
-        CredentialStore stubCredStore = mock(CredentialStore.class);
+        CredentialRepo stubCredStore = mock(CredentialRepo.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         Credentials stubCredential = mock(Credentials.class);
         when(stubHasher.verify(Mockito.any(), Mockito.any())).thenReturn(false);
@@ -66,7 +66,7 @@ public class AuthServiceTest {
     @Test
     public void testRegister() {
         // Test whether AuthService calls save?
-        CredentialStore stubCredStore = mock(CredentialStore.class);
+        CredentialRepo stubCredStore = mock(CredentialRepo.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         UUID stubId = UUID.randomUUID();
 
@@ -79,7 +79,7 @@ public class AuthServiceTest {
 
     @Test
     public void testRegisterExistingUser() {
-        CredentialStore stubCredStore = mock(CredentialStore.class);
+        CredentialRepo stubCredStore = mock(CredentialRepo.class);
         PasswordHasher stubHasher = mock(PasswordHasher.class);
         Credentials stubCreds = mock(Credentials.class);
         Optional<Credentials> stubOptional = Optional.ofNullable(stubCreds);

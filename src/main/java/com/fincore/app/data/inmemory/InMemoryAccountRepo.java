@@ -1,7 +1,7 @@
 package com.fincore.app.data.inmemory;
 
 import com.fincore.app.domain.account.Account;
-import com.fincore.app.domain.account.AccountStore;
+import com.fincore.app.domain.account.AccountRepo;
 import com.fincore.app.domain.shared.DuplicateEntityException;
 
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class InMemoryAccountStore implements AccountStore {
+public class InMemoryAccountRepo implements AccountRepo {
     private final HashMap<UUID, Account> store = new HashMap<>();
 
     public Optional<Account> getById(UUID id) {

@@ -1,6 +1,6 @@
 package com.fincore.app.data.inmemory;
 
-import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.CredentialRepo;
 import com.fincore.app.domain.identity.Credentials;
 import com.fincore.app.domain.shared.DuplicateEntityException;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
-public class InMemoryCredentialStore implements CredentialStore {
+public class InMemoryCredentialRepo implements CredentialRepo {
     private final HashMap<String, Credentials> store = new HashMap<>();
 
     @Override

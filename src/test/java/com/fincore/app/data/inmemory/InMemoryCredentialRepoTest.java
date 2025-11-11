@@ -1,6 +1,6 @@
 package com.fincore.app.data.inmemory;
 
-import com.fincore.app.domain.identity.CredentialStore;
+import com.fincore.app.domain.identity.CredentialRepo;
 import com.fincore.app.domain.identity.Credentials;
 import com.fincore.app.domain.shared.DuplicateEntityException;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,13 +11,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class InMemoryCredentialStoreTest {
-    private static CredentialStore testStore;
+public class InMemoryCredentialRepoTest {
+    private static CredentialRepo testStore;
     private static Credentials stubCred;
 
     @BeforeAll
     static void setUp() {
-        testStore = new InMemoryCredentialStore();
+        testStore = new InMemoryCredentialRepo();
         stubCred = mock(Credentials.class);
     }
 
