@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class displayBalanceAction implements MenuAction {
+public class DisplayBalanceAction implements MenuAction {
     private SessionManager sessionManager;
     private AccountService accountService;
 
