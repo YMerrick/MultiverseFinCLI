@@ -81,7 +81,8 @@ public class CommandFactory {
         return new CreateAccountAction(
                 inputProvider,
                 accountService,
-                sessionManager
+                sessionManager,
+                userService
         );
     }
 }

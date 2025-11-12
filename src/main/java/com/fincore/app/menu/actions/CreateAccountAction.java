@@ -1,10 +1,12 @@
 package com.fincore.app.menu.actions;
 
 import com.fincore.app.application.accounts.AccountService;
+import com.fincore.app.application.accounts.UserService;
 import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.domain.account.AccountType;
 import com.fincore.app.domain.shared.Money;
+import com.fincore.app.domain.user.User;
 import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuResponse;
 import com.fincore.app.menu.model.MenuResponseBuilder;
@@ -21,6 +23,7 @@ public class CreateAccountAction implements MenuAction {
     private InputProvider inputProvider;
     private AccountService accountService;
     private SessionManager sessionManager;
+    private UserService userService;
 
     @Override
     public MenuResponse run(AuthContext ctx) {
@@ -44,9 +47,14 @@ public class CreateAccountAction implements MenuAction {
         }
 
         UUID userId = sessionManager.validate(ctx.getSession()).orElseThrow().userId();
+        User user = userService.getUser(userId);
 
         // Get full name or don't pass account holder seeing as user id ties them together
-        String accountHolder = "";
+        String accountHolder = String.format(
+                "%s %s",
+                user.firstName(),
+                user.lastName()
+        );
 
         accountService.register(accountHolder, userId, moneyBalance, accountType);
 
