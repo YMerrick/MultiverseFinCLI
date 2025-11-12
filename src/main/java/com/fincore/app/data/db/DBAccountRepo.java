@@ -45,10 +45,10 @@ public class DBAccountRepo implements AccountRepo {
 
     @Override
     public Optional<Account> getById(UUID id) {
-        if (DBUtility.isEntityExists(url, tablename, id.toString()))
+        if (DBUtility.isEntityExists(url, tablename, "id", id.toString()))
             return Optional.empty();
         Account account;
-        ResultSet res;
+        Map<String, Object> res;
         UUID accountId, userId;
 
         String[] headers = {"id", "userId", "accountHolder", "balance", "currencyCode", "type"};
@@ -60,27 +60,27 @@ public class DBAccountRepo implements AccountRepo {
                     "id",
                     id.toString()
             );
-            accountId = UUID.fromString(res.getString(headers[0]));
-            userId = UUID.fromString(res.getString(headers[1]));
-            String accountType = res.getString(headers[5]);
+            accountId = UUID.fromString((String) res.get(headers[0]));
+            userId = UUID.fromString((String) res.get(headers[1]));
+            String accountType = res.get(headers[5]).toString();
 
             account = switch (accountType) {
                 case "CURRENT" -> new CurrentAccount(
                         accountId,
                         userId,
-                        res.getString(headers[2]),
-                        Money.ofMinor(res.getInt(headers[3]), Currency.getInstance(headers[4]))
+                        (String) res.get(headers[2]),
+                        Money.ofMinor((Long) res.get(headers[3]), Currency.getInstance(headers[4]))
                 );
                 case "OVERDRAFT" -> new OverdraftAccount(
                         accountId,
                         userId,
-                        res.getString(headers[2]),
-                        Money.ofMinor(res.getInt(headers[3]), Currency.getInstance(headers[4]))
+                        (String) res.get(headers[2]),
+                        Money.ofMinor((Long) res.get(headers[3]), Currency.getInstance(headers[4]))
                 );
                 case null, default -> null;
             };
 
-        } catch (SQLException | RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
         return Optional.ofNullable(account);

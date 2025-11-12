@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,20 +20,20 @@ public class DBCredentialRepo implements CredentialRepo {
 
     @Override
     public Optional<Credentials> getByUsername(String username) {
-        if (!DBUtility.isEntityExists(url, tablename, username))
+        if (!DBUtility.isEntityExists(url, tablename,"username", username))
             return Optional.empty();
 
-        ResultSet response;
+        Map<String, Object> response;
         Credentials credentials;
         try {
             response = DBUtility.getFirstRow(url, tablename, "username", username);
             credentials = new Credentials(
-                    response.getString("username"),
-                    response.getString("passwordHash"),
-                    UUID.fromString(response.getString("userId"))
+                    (String) response.get("username"),
+                    (String) response.get("passwordHash"),
+                    UUID.fromString((String) response.get("userId"))
             );
 
-        } catch (SQLException | RuntimeException e) {
+        } catch (RuntimeException e) {
             credentials = null;
         }
         return Optional.ofNullable(credentials);
@@ -41,7 +41,7 @@ public class DBCredentialRepo implements CredentialRepo {
 
     @Override
     public void save(Credentials cred) {
-        if (DBUtility.isEntityExists(url, tablename, cred.username()))
+        if (DBUtility.isEntityExists(url, tablename, "username", cred.username()))
             throw new DuplicateEntityException("Credentials already exists");
         try (Connection conn = DriverManager.getConnection(url)) {
             String[] headers = {"userId, username, passwordHash"};

@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class DBUserRepo implements UserRepo {
         if (!isUserExists(userId)) return Optional.empty();
 
         User user;
-        ResultSet res;
+        Map<String, Object> res;
         UUID id;
         String[] headers = new String[] {"userId", "firstName", "lastName"};
 
@@ -35,14 +36,14 @@ public class DBUserRepo implements UserRepo {
                     "userId",
                     userId.toString()
             );
-            id = UUID.fromString(res.getString(headers[0]));
+            id = UUID.fromString((String) res.get(headers[0]));
 
             user = new User(
                     id,
-                    res.getString(headers[1]),
-                    res.getString(headers[2])
+                    (String) res.get(headers[1]),
+                    (String) res.get(headers[2])
             );
-        } catch (RuntimeException | SQLException e) {
+        } catch (RuntimeException e) {
             throw new AuthException(e.getMessage());
         }
 
