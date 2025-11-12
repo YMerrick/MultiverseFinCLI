@@ -24,13 +24,11 @@ public class OverdraftAccountTest {
     @Test
     public void testOverWithdrawal() {
         Money initialBalance = Money.ofMinor(0, "GBP");
-        Money limit = Money.ofMinor(2000, "GBP");
         Account stubAccount = new OverdraftAccount(
                 stubId,
                 stubUserId,
                 "Test",
-                initialBalance,
-                limit
+                initialBalance
         );
         assertThrows(
                 InsufficientFundsException.class,
@@ -45,14 +43,12 @@ public class OverdraftAccountTest {
     public void testDefaultConstructor() {
         String stubHolder = "Test";
         Money stubBalance = mock(Money.class);
-        Money stubLimit = mock(Money.class);
 
         Account testAccount = new OverdraftAccount(
                 stubId,
                 stubUserId,
                 stubHolder,
-                stubBalance,
-                stubLimit
+                stubBalance
         );
 
         assertInstanceOf(
@@ -64,13 +60,11 @@ public class OverdraftAccountTest {
     @Test
     public void testWithdrawShouldPass() {
         Money initialBalance = Money.ofMinor(2000, "GBP");
-        Money limit = Money.ofMinor(0, "GBP");
         Account testAccount = new OverdraftAccount(
                 stubId,
                 stubUserId,
                 "Test",
-                initialBalance,
-                limit
+                initialBalance
         );
         testAccount.withdraw(Money.ofMinor(1000, testAccount.getBalance().getCurrency()));
         assertEquals(1000, testAccount.getBalance().asMinorUnits());

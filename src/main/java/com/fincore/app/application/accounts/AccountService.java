@@ -38,8 +38,7 @@ public class AccountService {
                     UUID.randomUUID(),
                     userId,
                     accHolder,
-                    initialBalance,
-                    Money.ofMinor(2000, initialBalance.getCurrency())
+                    initialBalance
             );
         };
         accountRepo.save(acc);

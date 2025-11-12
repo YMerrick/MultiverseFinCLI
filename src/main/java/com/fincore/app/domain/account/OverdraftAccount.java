@@ -8,9 +8,9 @@ import java.util.UUID;
 public class OverdraftAccount extends Account{
     private final Money overdraftLimit;
 
-    public OverdraftAccount(UUID id, UUID userId, String accountHolder, Money balance, Money overdraftLimit) {
+    public OverdraftAccount(UUID id, UUID userId, String accountHolder, Money balance) {
         super(id, userId, accountHolder, balance);
-        this.overdraftLimit = overdraftLimit;
+        this.overdraftLimit = Money.ofMinor(2000, balance.getCurrency());
     }
 
     @Override
