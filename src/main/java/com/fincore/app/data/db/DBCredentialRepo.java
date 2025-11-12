@@ -1,7 +1,9 @@
 package com.fincore.app.data.db;
 
+import com.fincore.app.data.db.util.DBUtility;
 import com.fincore.app.domain.identity.CredentialRepo;
 import com.fincore.app.domain.identity.Credentials;
+import com.fincore.app.domain.shared.DuplicateEntityException;
 import lombok.AllArgsConstructor;
 
 import java.sql.Connection;
@@ -14,26 +16,24 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DBCredentialRepo implements CredentialRepo {
     private final String url;
-    private final String tableName;
+    private final String tablename;
 
     @Override
     public Optional<Credentials> getByUsername(String username) {
-        String sql = String.format("""
-                SELECT * FROM %s
-                WHERE username = ?""", tableName);
+        if (!DBUtility.isEntityExists(url, tablename, username))
+            return Optional.empty();
+
         ResultSet response;
         Credentials credentials;
-        try (Connection conn = DriverManager.getConnection(url)) {
-            var pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, username);
-            response = pstmt.executeQuery();
+        try {
+            response = DBUtility.getFirstRow(url, tablename, "username", username);
             credentials = new Credentials(
                     response.getString("username"),
                     response.getString("passwordHash"),
                     UUID.fromString(response.getString("userId"))
             );
 
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
             credentials = null;
         }
         return Optional.ofNullable(credentials);
@@ -41,12 +41,15 @@ public class DBCredentialRepo implements CredentialRepo {
 
     @Override
     public void save(Credentials cred) {
+        if (DBUtility.isEntityExists(url, tablename, cred.username()))
+            throw new DuplicateEntityException("Credentials already exists");
         try (Connection conn = DriverManager.getConnection(url)) {
+            String[] headers = {"userId, username, passwordHash"};
             String sql = String.format("""
                     INSERT INTO %s
                     VALUES (?, ?, ?)""",
-                    tableName);
-            var stmt = conn.prepareStatement(sql, new String[]{"userId, username, passwordHash"});
+                    tablename);
+            var stmt = conn.prepareStatement(sql, headers);
             stmt.setString(1, cred.userId().toString());
             stmt.setString(2, cred.username());
             stmt.setString(3, cred.passwordHash());

@@ -1,5 +1,6 @@
 package com.fincore.app.data.db;
 
+import com.fincore.app.data.db.util.DBUtility;
 import com.fincore.app.domain.shared.AuthException;
 import com.fincore.app.domain.shared.DuplicateEntityException;
 import com.fincore.app.domain.user.User;
@@ -26,15 +27,14 @@ public class DBUserRepo implements UserRepo {
         ResultSet res;
         UUID id;
         String[] headers = new String[] {"userId", "firstName", "lastName"};
-        String sql = String.format("SELECT * FROM %s WHERE userId=? LIMIT 1", tablename);
 
-
-        try (
-                Connection conn = DriverManager.getConnection(url)
-                ) {
-            var pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, userId.toString());
-            res = pstmt.executeQuery();
+        try {
+            res = DBUtility.getFirstRow(
+                    url,
+                    tablename,
+                    "userId",
+                    userId.toString()
+            );
             id = UUID.fromString(res.getString(headers[0]));
 
             user = new User(
@@ -42,7 +42,7 @@ public class DBUserRepo implements UserRepo {
                     res.getString(headers[1]),
                     res.getString(headers[2])
             );
-        } catch (SQLException e) {
+        } catch (RuntimeException | SQLException e) {
             throw new AuthException(e.getMessage());
         }
 
