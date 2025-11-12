@@ -12,7 +12,7 @@ public class UserService {
     private UserRepo userRepo;
 
     public void register(UUID userId, String firstName, String lastName) {
-        if (userRepo.getById(userId).isEmpty()) throw new AuthException("User already exists");
+        if (userRepo.getById(userId).isPresent()) throw new AuthException("User already exists");
         User newUser = User.createUser(userId, firstName, lastName);
         userRepo.save(newUser);
     }
