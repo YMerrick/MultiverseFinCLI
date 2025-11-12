@@ -19,7 +19,7 @@ public class AuthService {
 
     public UUID login(String username, char[] password) throws AuthException {
         Optional<Credentials> credOrNull = getCredentials(username);
-        if (credOrNull.isEmpty()) throw new AuthException("User does not exist");
+        if (credOrNull.isEmpty()) throw new AuthException("Credentials do not exist");
         Credentials userCred = credOrNull.get();
 
         if (!hasher.verify(password, userCred.passwordHash())) throw new AuthException("Invalid credentials");
@@ -31,10 +31,10 @@ public class AuthService {
         return credentialRepo.getByUsername(username);
     }
 
-    public void register(String username, char[] password, UUID accId) {
+    public void register(String username, char[] password, UUID userId) {
         if (getCredentials(username).isPresent()) throw new AuthException("Username already exists");
         String hashedPassword = hasher.hash(password);
-        Credentials newCredentials = new Credentials(username, hashedPassword, accId);
+        Credentials newCredentials = new Credentials(username, hashedPassword, userId);
         credentialRepo.save(newCredentials);
     }
 }
