@@ -4,6 +4,7 @@ import com.fincore.app.domain.shared.Money;
 import com.fincore.app.domain.shared.MoneyFormatter;
 import lombok.Getter;
 
+import java.util.Currency;
 import java.util.UUID;
 
 @Getter
