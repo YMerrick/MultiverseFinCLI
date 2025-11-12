@@ -25,24 +25,30 @@ public class RegisterAction implements MenuAction {
         String message = "Registration Successful";
         String username;
         char[] password;
-        UUID accId;
+        UUID userId;
         String[] fullName;
 
-        username = inputProvider.getStringInput("Username: ");
-        password = getPassword();
+        fullName = getFullName();
+        userId = UUID.randomUUID();
 
-        accId = UUID.randomUUID();
         try {
-            registerAuthService(username, password, accId);
-        }  catch (AuthException e) {
+            userService.register(userId, fullName[0], fullName[1]);
+        } catch (AuthException e) {
             return new MenuResponseBuilder()
                     .message(e.getMessage())
                     .build();
         }
 
-        fullName = getFullName();
+        username = inputProvider.getStringInput("Username: ");
+        password = getPassword();
 
-        userService.register(fullName[0], fullName[1]);
+        try {
+            authService.register(username, password, userId);
+        }  catch (AuthException e) {
+            return new MenuResponseBuilder()
+                    .message(e.getMessage())
+                    .build();
+        }
 
         return new MenuResponseBuilder()
                 .message(message)
@@ -55,10 +61,6 @@ public class RegisterAction implements MenuAction {
         } catch (Exception ignored) {
             return inputProvider.getStringInput("\rPassword: ").toCharArray();
         }
-    }
-
-    private void registerAuthService(String username, char[] password, UUID accId) {
-        authService.register(username, password, accId);
     }
 
     private String[] getFullName() {
