@@ -13,22 +13,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class InMemoryUserRepo implements UserRepo {
     private final Map<UUID, User> storeById;
-    private final Map<String, User> storeByName;
 
     public InMemoryUserRepo() {
         this.storeById = new HashMap<>();
-        this.storeByName = new HashMap<>();
     }
 
     @Override
     public Optional<User> getById(UUID userId) {
         return Optional.ofNullable(storeById.get(userId));
-    }
-
-    @Override
-    public Optional<User> getByFullName(String firstName, String lastName) {
-        String fullName = String.format("%s %s", firstName, lastName);
-        return Optional.ofNullable(storeByName.get(fullName));
     }
 
     @Override
