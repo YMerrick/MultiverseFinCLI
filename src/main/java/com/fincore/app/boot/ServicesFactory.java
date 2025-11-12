@@ -5,6 +5,9 @@ import com.fincore.app.application.accounts.UserService;
 import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.AuthService;
 import com.fincore.app.application.auth.SessionManager;
+import com.fincore.app.data.db.DBAccountRepo;
+import com.fincore.app.data.db.DBCredentialRepo;
+import com.fincore.app.data.db.DBUserRepo;
 import com.fincore.app.data.inmemory.InMemoryAccountRepo;
 import com.fincore.app.data.inmemory.InMemoryCredentialRepo;
 import com.fincore.app.data.inmemory.InMemorySessionStore;
@@ -20,11 +23,20 @@ import com.fincore.app.presentation.cli.port.CliMenuRenderer;
 
 public class ServicesFactory {
     public Services create() {
-        AccountRepo accountRepo = new InMemoryAccountRepo();
-        CredentialRepo credentialRepo = new InMemoryCredentialRepo();
+        AccountRepo accountRepo = new DBAccountRepo(
+                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                "accounts"
+        );
+        CredentialRepo credentialRepo = new DBCredentialRepo(
+                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                "credentials"
+        );
         SessionStore sessionStore = new InMemorySessionStore();
         PasswordHasher passwordHasher = new BCryptHasher();
-        UserRepo userRepo = new InMemoryUserRepo();
+        UserRepo userRepo = new DBUserRepo(
+                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                "users"
+        );
 
         // Application layer
         AuthService authService = new AuthService(credentialRepo, passwordHasher);
