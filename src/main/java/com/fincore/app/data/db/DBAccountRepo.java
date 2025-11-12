@@ -87,9 +87,11 @@ public class DBAccountRepo implements AccountRepo {
     }
 
     private AccountType getAccountType(Account account) {
-        return switch (account.getClass().toString()) {
-            case "CurrentAccount.class" -> CURRENT;
-            case "OverdraftAccount.class" -> OVERDRAFT;
+        String[] className = account.getClass().toString().split("\\.");
+        String type = className[className.length - 1];
+        return switch (type) {
+            case "CurrentAccount" -> CURRENT;
+            case "OverdraftAccount" -> OVERDRAFT;
             default -> throw new RuntimeException();
         };
     }
