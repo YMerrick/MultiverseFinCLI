@@ -1,7 +1,9 @@
 package com.fincore.app.data.db.util;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DBUtility {
@@ -51,5 +53,46 @@ public class DBUtility {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<Map<String, Object>> getAllRows(
+            String url,
+            String tablename,
+            String field,
+            String value
+    ) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        Map<String, Object> row;
+
+        ResultSetMetaData metaData;
+        ResultSet rs;
+
+        String sql = String.format(
+                "SELECT * FROM %s WHERE %s = ?",
+                tablename,
+                field
+        );
+
+        try (
+                var conn = DriverManager.getConnection(url)
+                ) {
+
+            var pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, value);
+            rs = pstmt.executeQuery();
+            metaData = rs.getMetaData();
+
+            while (rs.next()) {
+                row = new HashMap<>();
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    row.put(metaData.getColumnName(i), rs.getObject(i));
+                }
+                resultList.add(row);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return resultList;
     }
 }

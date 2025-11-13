@@ -64,26 +64,52 @@ public class DBAccountRepo implements AccountRepo {
             userId = UUID.fromString((String) res.get(headers[1]));
             String accountType = res.get(headers[5]).toString();
 
-            account = switch (accountType) {
-                case "CURRENT" -> new CurrentAccount(
-                        accountId,
-                        userId,
-                        (String) res.get(headers[2]),
-                        Money.ofMinor((Long) res.get(headers[3]), Currency.getInstance(headers[4]))
-                );
-                case "OVERDRAFT" -> new OverdraftAccount(
-                        accountId,
-                        userId,
-                        (String) res.get(headers[2]),
-                        Money.ofMinor((Long) res.get(headers[3]), Currency.getInstance(headers[4]))
-                );
-                case null, default -> null;
-            };
+            account = makeAccount(
+                    accountType,
+                    accountId,
+                    userId,
+                    (String) res.get(headers[2]),
+                    Money.ofMinor(
+                            (long) res.get(headers[3]),
+                            Currency.getInstance((String) res.get(headers[4]))
+                    )
+            );
 
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
         return Optional.ofNullable(account);
+    }
+
+    @Override
+    public List<Account> getAccounts(UUID userId) {
+        List<Account> accountList = new ArrayList<>();
+        List<Map<String, Object>> resultList;
+        String[] headers = {"id", "userId", "accountHolder", "balance", "currencyCode", "type"};
+
+        resultList = DBUtility.getAllRows(
+                url,
+                tablename,
+                headers[1],
+                userId.toString()
+        );
+
+        for (Map<String, Object> item : resultList) {
+
+            accountList.add(
+                    makeAccount(
+                            item.get(headers[5]).toString(),
+                            UUID.fromString(item.get(headers[0]).toString()),
+                            UUID.fromString(item.get(headers[1]).toString()),
+                            item.get(headers[2]).toString(),
+                            Money.ofMinor(
+                                    (int) item.get(headers[3]),
+                                    Currency.getInstance(item.get(headers[4]).toString())
+                            )
+                    )
+            );
+        }
+        return accountList;
     }
 
     private AccountType getAccountType(Account account) {
@@ -100,5 +126,29 @@ public class DBAccountRepo implements AccountRepo {
         return Arrays.stream(headers)
                 .map(ignored -> "?")
                 .collect(Collectors.joining(","));
+    }
+
+    private Account makeAccount(
+            String accountType,
+            UUID accountId,
+            UUID userId,
+            String accountHolder,
+            Money balance
+    ) {
+        return switch (accountType) {
+            case "CURRENT" -> new CurrentAccount(
+                    accountId,
+                    userId,
+                    accountHolder,
+                    balance
+            );
+            case "OVERDRAFT" -> new OverdraftAccount(
+                    accountId,
+                    userId,
+                    accountHolder,
+                    balance
+            );
+            case null, default -> null;
+        };
     }
 }
