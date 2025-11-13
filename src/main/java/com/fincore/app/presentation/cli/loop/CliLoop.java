@@ -19,14 +19,19 @@ public class CliLoop {
             // Gather user choice / input
             choice = io.getIntInput("Please enter your choice: ");
             // pass choice to navigator
+            io.print("\n");
             try {
                 res = nav.select(choice, ctx);
                 nav.interpretDirective(res);
                 // output response messages
-                if (res.message().isPresent()) io.print(res.message().get());
+                if (res.message().isPresent()) {
+                    io.print("\n");
+                    io.print(res.message().get());
+                }
             } catch (IndexOutOfBoundsException e) {
                 io.print("That is an invalid choice");
             }
+            io.print("\n");
         }
     }
 }
