@@ -23,18 +23,20 @@ import com.fincore.app.presentation.cli.port.CliMenuRenderer;
 
 public class ServicesFactory {
     public Services create() {
+        final String DATABASEURL = "jdbc:sqlite:app.db";
+
         AccountRepo accountRepo = new DBAccountRepo(
-                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                DATABASEURL,
                 "accounts"
         );
         CredentialRepo credentialRepo = new DBCredentialRepo(
-                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                DATABASEURL,
                 "credentials"
         );
         SessionStore sessionStore = new InMemorySessionStore();
         PasswordHasher passwordHasher = new BCryptHasher();
         UserRepo userRepo = new DBUserRepo(
-                "jdbc:sqlite:/Users/ymi800/Multiverse/FincoreSQlite/main/app.db",
+                DATABASEURL,
                 "users"
         );
 
