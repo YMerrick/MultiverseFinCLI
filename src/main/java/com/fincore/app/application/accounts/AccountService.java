@@ -19,6 +19,7 @@ public class AccountService {
                 () -> new AccountException("Account does not exist")
         );
         acc.deposit(amount);
+        accountRepo.update(acc);
     }
 
     public void withdraw(UUID accId, Money amount) {
@@ -26,6 +27,7 @@ public class AccountService {
                 () -> new AccountException("Account does not exist")
         );
         acc.withdraw(amount);
+        accountRepo.update(acc);
     }
 
     public Money getBalance(UUID accId) {
