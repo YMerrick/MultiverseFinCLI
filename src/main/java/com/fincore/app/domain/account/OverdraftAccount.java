@@ -2,15 +2,18 @@ package com.fincore.app.domain.account;
 
 import com.fincore.app.domain.shared.InsufficientFundsException;
 import com.fincore.app.domain.shared.Money;
+import com.fincore.app.domain.shared.MoneyFormatter;
 
 import java.util.UUID;
 
 public class OverdraftAccount extends Account{
     private final Money overdraftLimit;
+    private final AccountType type;
 
     public OverdraftAccount(UUID id, UUID userId, String accountHolder, Money balance) {
         super(id, userId, accountHolder, balance);
         this.overdraftLimit = Money.ofMinor(2000, balance.getCurrency());
+        this.type = AccountType.OVERDRAFT;
     }
 
     @Override
@@ -18,5 +21,15 @@ public class OverdraftAccount extends Account{
         boolean isOverLimit = overdraftLimit.plus(this.getBalance()).minus(amount).asMinorUnits() < 0;
         if (isOverLimit) throw new InsufficientFundsException("You will exceed your overdraft");
         super.withdraw(amount);
+    }
+
+    @Override
+    public String repr() {
+        return String.format("""
+                Type: %s
+                Balance: %s
+                ID: %s""",
+                type, MoneyFormatter.format(this.getBalance()), this.getId()
+        );
     }
 }
