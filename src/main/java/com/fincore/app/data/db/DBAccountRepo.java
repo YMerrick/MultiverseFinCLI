@@ -45,7 +45,7 @@ public class DBAccountRepo implements AccountRepo {
 
     @Override
     public Optional<Account> getById(UUID id) {
-        if (DBUtility.isEntityExists(url, tablename, "id", id.toString()))
+        if (!DBUtility.isEntityExists(url, tablename, "id", id.toString()))
             return Optional.empty();
         Account account;
         Map<String, Object> res;
@@ -70,7 +70,7 @@ public class DBAccountRepo implements AccountRepo {
                     userId,
                     (String) res.get(headers[2]),
                     Money.ofMinor(
-                            (long) res.get(headers[3]),
+                            (int) res.get(headers[3]),
                             Currency.getInstance((String) res.get(headers[4]))
                     )
             );
