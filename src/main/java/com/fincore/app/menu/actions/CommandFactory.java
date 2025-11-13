@@ -32,7 +32,7 @@ public class CommandFactory {
     }
 
     public MenuAction createDisplayBalance() {
-        return new displayBalanceAction(
+        return new DisplayBalanceAction(
                 sessionManager,
                 accountService
         );
@@ -83,6 +83,13 @@ public class CommandFactory {
                 accountService,
                 sessionManager,
                 userService
+        );
+    }
+
+    public MenuAction createDisplayAccount() {
+        return new DisplayAccountAction(
+                accountService,
+                sessionManager
         );
     }
 }

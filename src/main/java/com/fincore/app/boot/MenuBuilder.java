@@ -57,7 +57,23 @@ public class MenuBuilder {
                 actionFactory.createAccount()
         );
 
+        MenuItem displayAccounts = new MenuItem(
+                "Display Accounts",
+                actionFactory.createDisplayAccount()
+        );
+
         MenuGroup accountMenuGroup = new MenuGroup("Account");
+        MenuGroup transactionMenu = new MenuGroup("Transactions");
+
+        MenuItem goToTransMenu = new MenuItem(
+                "Transactions",
+                actionFactory.createTraversal(
+                        GOTO_MENU,
+                        transactionMenu,
+                        null
+                )
+        );
+
         MenuItem goToAccMenu = new MenuItem(
                 "Accounts",
                 actionFactory.createTraversal(
@@ -67,16 +83,20 @@ public class MenuBuilder {
                 )
         );
 
+        transactionMenu.addMenuItem(back);
+        transactionMenu.addMenuItem(deposit);
+        transactionMenu.addMenuItem(withdraw);
+        transactionMenu.addMenuItem(displayBalance);
+
         accountMenuGroup.addMenuItem(back);
-        accountMenuGroup.addMenuItem(deposit);
-        accountMenuGroup.addMenuItem(withdraw);
-        accountMenuGroup.addMenuItem(displayBalance);
+        accountMenuGroup.addMenuItem(displayAccounts);
         accountMenuGroup.addMenuItem(makeAccount);
 
 
         MenuGroup mainMenuGroup = new MenuGroup("Main Menu");
         mainMenuGroup.addMenuItem(logout);
         mainMenuGroup.addMenuItem(goToAccMenu);
+        mainMenuGroup.addMenuItem(goToTransMenu);
 
         MenuGroup authMenuGroup = new MenuGroup("User");
 
