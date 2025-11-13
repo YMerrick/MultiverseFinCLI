@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -25,6 +26,10 @@ public class WithdrawAction implements MenuAction {
     public MenuResponse run(AuthContext ctx) {
         String message = "Withdrawal Successful";
         UUID accountId = sessionManager.validate(ctx.getSession()).orElseThrow().accId();
+        if (Objects.isNull(accountId))
+            return new MenuResponseBuilder()
+                    .message("Account has not been selected")
+                    .build();
         Currency currency = accountService.getBalance(accountId).getCurrency();
         double amount = inputProvider.getDoubleInput("Please enter the amount to withdraw: ");
         Money moneyAmount = Money.ofMajor(BigDecimal.valueOf(amount), currency);
