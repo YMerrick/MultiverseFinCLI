@@ -20,6 +20,11 @@ public class InMemoryAccountRepo implements AccountRepo {
         return storeByUser.get(userId);
     }
 
+    @Override
+    public void update(Account account) {
+        return;
+    }
+
     public Optional<Account> getById(String id) {
         UUID convertToUuid = UUID.fromString(id);
         return getById(convertToUuid);

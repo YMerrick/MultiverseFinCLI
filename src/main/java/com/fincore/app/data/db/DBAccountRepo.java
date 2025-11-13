@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.fincore.app.domain.account.AccountType.*;
 
@@ -110,6 +111,39 @@ public class DBAccountRepo implements AccountRepo {
             );
         }
         return accountList;
+    }
+
+    @Override
+    public void update(Account account) {
+        String[] headers = {"id", "userId", "accountHolder", "balance", "currencyCode", "type"};
+        String fields = IntStream.range(1, headers.length)
+                .mapToObj(i -> headers[i]+"=?").collect(Collectors.joining(","));
+
+        String sql = String.format("""
+                UPDATE %s
+                SET %s
+                WHERE %s=?""",
+                tablename,
+                fields,
+                headers[0]
+        );
+
+        try (
+                var conn = DriverManager.getConnection(url)
+                ) {
+            Money balance = account.getBalance();
+            var pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, account.getUserId().toString());
+            pstmt.setString(2, account.getAccountHolder());
+            pstmt.setLong(3, balance.asMinorUnits());
+            pstmt.setString(4, balance.getCurrency().getCurrencyCode());
+            pstmt.setString(5, getAccountType(account).toString());
+            pstmt.setString(6, account.getId().toString());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private AccountType getAccountType(Account account) {

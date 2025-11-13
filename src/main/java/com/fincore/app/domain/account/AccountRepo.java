@@ -8,4 +8,5 @@ public interface AccountRepo {
     void save(Account account);
     Optional<Account> getById(UUID id);
     List<Account> getAccounts(UUID userId);
+    void update(Account account);
 }
