@@ -5,6 +5,7 @@ import com.fincore.app.application.auth.AuthContext;
 import com.fincore.app.application.auth.SessionManager;
 import com.fincore.app.domain.account.Account;
 import com.fincore.app.domain.shared.AccountException;
+import com.fincore.app.domain.shared.SessionException;
 import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuResponse;
 import com.fincore.app.menu.model.MenuResponseBuilder;
@@ -21,9 +22,20 @@ public class DisplayAccountAction implements MenuAction {
 
     @Override
     public MenuResponse run(AuthContext ctx) {
-        UUID userId = sessionManager.validate(ctx.getSession()).orElseThrow().userId();
+        UUID userId;
         List<Account> accountList;
         String message;
+
+        try {
+            userId = sessionManager.validate(ctx.getSession())
+                    .orElseThrow(
+                            () -> new SessionException("Session does not exist")
+            ).userId();
+        } catch (SessionException e) {
+            return new MenuResponseBuilder()
+                    .message(e.getMessage())
+                    .build();
+        }
 
         try {
             accountList = accountService.getAccounts(userId);
