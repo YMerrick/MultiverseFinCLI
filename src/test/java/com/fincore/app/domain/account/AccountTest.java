@@ -49,13 +49,13 @@ public class AccountTest {
     }
 
     @Test
-    public void testToString() {
+    public void testRepr() {
         String expected = String.format("""
                 Account Holder: Test
                 Balance: £0.00
                 UUID: %s""", stubId);
 
-        assertEquals(expected, stubAccount.toString());
+        assertEquals(expected, stubAccount.repr());
     }
 
     @Test

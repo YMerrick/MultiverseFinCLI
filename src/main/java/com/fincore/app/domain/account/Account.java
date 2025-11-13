@@ -4,7 +4,6 @@ import com.fincore.app.domain.shared.Money;
 import com.fincore.app.domain.shared.MoneyFormatter;
 import lombok.Getter;
 
-import java.util.Currency;
 import java.util.UUID;
 
 @Getter
@@ -31,7 +30,7 @@ public class Account {
         balance = balance.minus(amount);
     }
 
-    public String toString() {
+    public String repr() {
         return String.format("""
                 Account Holder: %s
                 Balance: %s
