@@ -23,42 +23,52 @@ public class CommandFactory {
     private AccountService accountService;
     private UserService userService;
 
-    public MenuAction createDeposit() {
-        return new DepositAction(
-                sessionManager,
-                accountService,
-                inputProvider
-        );
-    }
-
-    public MenuAction createDisplayBalance() {
-        return new DisplayBalanceAction(
-                sessionManager,
-                accountService
-        );
-    }
-
-    public MenuAction createRegister() {
-        return new RegisterAction(
-                authService,
-                userService,
-                inputProvider,
-                passwordReader
-        );
-    }
-
-    public MenuAction createLogin(MenuGroup submenu) {
-        return new LoginAction(
-                inputProvider,
-                passwordReader,
-                submenu,
-                authService,
-                sessionManager
-        );
-    }
-
-    public MenuAction createLogout() {
-        return new LogoutAction(sessionManager);
+    public MenuAction createAction(ActionType type, MenuGroup submenu) {
+        return switch(type) {
+            case LOGIN -> new LoginAction(
+                    inputProvider,
+                    passwordReader,
+                    submenu,
+                    authService,
+                    sessionManager
+            );
+            case LOGOUT -> new LogoutAction(sessionManager);
+            case DEPOSIT -> new DepositAction(
+                    sessionManager,
+                    accountService,
+                    inputProvider
+            );
+            case WITHDRAW -> new WithdrawAction(
+                    sessionManager,
+                    accountService,
+                    inputProvider
+            );
+            case SELECT_ACC -> new SelectAccountAction(
+                    accountService,
+                    sessionManager,
+                    inputProvider
+            );
+            case DISPLAY_ACC -> new DisplayAccountAction(
+                    accountService,
+                    sessionManager
+            );
+            case DISPLAY_BAL -> new DisplayBalanceAction(
+                    sessionManager,
+                    accountService
+            );
+            case CREATE_ACCOUNT -> new CreateAccountAction(
+                    inputProvider,
+                    accountService,
+                    sessionManager,
+                    userService
+            );
+            case REGISTER_USER -> new RegisterAction(
+                    authService,
+                    userService,
+                    inputProvider,
+                    passwordReader
+            );
+        };
     }
 
     public MenuAction createTraversal(MenuDirective directive, MenuGroup submenu, String message) {
@@ -66,30 +76,6 @@ public class CommandFactory {
                 directive,
                 submenu,
                 message
-        );
-    }
-
-    public MenuAction createWithdraw() {
-        return new WithdrawAction(
-                sessionManager,
-                accountService,
-                inputProvider
-        );
-    }
-
-    public MenuAction createAccount() {
-        return new CreateAccountAction(
-                inputProvider,
-                accountService,
-                sessionManager,
-                userService
-        );
-    }
-
-    public MenuAction createDisplayAccount() {
-        return new DisplayAccountAction(
-                accountService,
-                sessionManager
         );
     }
 }

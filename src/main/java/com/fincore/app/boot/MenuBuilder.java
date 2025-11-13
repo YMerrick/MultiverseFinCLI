@@ -5,6 +5,7 @@ import com.fincore.app.menu.model.MenuAction;
 import com.fincore.app.menu.model.MenuGroup;
 import com.fincore.app.menu.model.MenuItem;
 
+import static com.fincore.app.menu.actions.ActionType.*;
 import static com.fincore.app.menu.model.MenuDirective.*;
 
 public class MenuBuilder {
@@ -29,37 +30,42 @@ public class MenuBuilder {
 
         MenuItem logout = new MenuItem(
                 "Logout",
-                actionFactory.createLogout()
+                actionFactory.createAction(LOGOUT, null)
         );
 
         MenuItem register = new MenuItem(
                 "Register",
-                actionFactory.createRegister()
+                actionFactory.createAction(REGISTER_USER, null)
         );
 
         MenuItem deposit = new MenuItem(
                 "Deposit",
-                actionFactory.createDeposit()
+                actionFactory.createAction(DEPOSIT, null)
         );
 
         MenuItem withdraw = new MenuItem(
                 "Withdraw",
-                actionFactory.createWithdraw()
+                actionFactory.createAction(WITHDRAW, null)
         );
 
         MenuItem displayBalance = new MenuItem(
                 "Display Balance",
-                actionFactory.createDisplayBalance()
+                actionFactory.createAction(DISPLAY_BAL, null)
         );
 
         MenuItem makeAccount = new MenuItem(
                 "Create Account",
-                actionFactory.createAccount()
+                actionFactory.createAction(CREATE_ACCOUNT, null)
         );
 
         MenuItem displayAccounts = new MenuItem(
                 "Display Accounts",
-                actionFactory.createDisplayAccount()
+                actionFactory.createAction(DISPLAY_ACC, null)
+        );
+
+        MenuItem selectAccount = new MenuItem(
+                "Select Account",
+                actionFactory.createAction(SELECT_ACC, null)
         );
 
         MenuGroup accountMenuGroup = new MenuGroup("Account");
@@ -91,6 +97,7 @@ public class MenuBuilder {
         accountMenuGroup.addMenuItem(back);
         accountMenuGroup.addMenuItem(displayAccounts);
         accountMenuGroup.addMenuItem(makeAccount);
+        accountMenuGroup.addMenuItem(selectAccount);
 
 
         MenuGroup mainMenuGroup = new MenuGroup("Main Menu");
@@ -100,11 +107,12 @@ public class MenuBuilder {
 
         MenuGroup authMenuGroup = new MenuGroup("User");
 
-        MenuAction loginAction = actionFactory.createLogin(mainMenuGroup);
-
         MenuItem login = new MenuItem(
                 "Login",
-                loginAction
+                actionFactory.createAction(
+                        LOGIN,
+                        mainMenuGroup
+                )
         );
 
         authMenuGroup.addMenuItem(exit);
